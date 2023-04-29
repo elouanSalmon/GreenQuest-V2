@@ -1,136 +1,146 @@
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, FormControl, InputLabel, MenuItem, Select, Button } from '@mui/material';
 import { db, auth } from '../../services/firebase';
 
+
 function CarbonFootprintCalculator() {
   const [formData, setFormData] = useState({
-    flyingHabits: '',
-    carUsage: '',
-    carFuel: '',
-    shoppingFrequency: '',
-    homeSize: '',
-    homeOccupants: '',
-    renewableElectricity: '',
-    diet: '',
+    flyingHabits: "",
+    carUsage: "",
+    shoppingFrequency: "",
+    homeSize: "",
+    homeOccupants: "",
+    renewableElectricity: "",
+    diet: "",
+    fuelType: "",
   });
-  const [existingData, setExistingData] = useState(null);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const userId = auth.currentUser.uid;
-      const docRef = doc(db, "carbon-footprint", userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setExistingData(docSnap.data());
-        setFormData(docSnap.data());
-      }
-    };
-    fetchData();
-  }, []);
+  const calculateCarbonFootprint = (formData) => {
+    // Emissions factors (example values, adjust according to actual data)
+    const FLYING_EMISSIONS_FACTOR = 0.1; // kg CO2e per mile
+    const CAR_EMISSIONS_FACTOR = 0.2; // kg CO2e per mile
+    const SHOPPING_EMISSIONS_FACTOR = 100; // kg CO2e per shopping category
+    const HOME_EMISSIONS_FACTOR = 50; // kg CO2e per home size category
+    const ENERGY_EMISSIONS_FACTOR = 10; // kg CO2e per occupant
+    const RENEWABLE_ENERGY_REDUCTION = 0.3; // Proportion of reduction for renewable electricity
+    const DIET_EMISSIONS_FACTOR = 200; // kg CO2e per diet category
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const calculateCarbonFootprint = () => {
     const footprint = {
       flying: 0,
       car: 0,
       shopping: 0,
       home: 0,
       energy: 0,
+      diet: 0,
     };
 
     // Flying habits
     if (formData.flyingHabits === "rarely") {
-      footprint.flying = 0.5;
+      footprint.flying = 1000 * FLYING_EMISSIONS_FACTOR;
     } else if (formData.flyingHabits === "occasionally") {
-      footprint.flying = 1;
+      footprint.flying = 3000 * FLYING_EMISSIONS_FACTOR;
     } else if (formData.flyingHabits === "regularly") {
-      footprint.flying = 2;
+      footprint.flying = 5000 * FLYING_EMISSIONS_FACTOR;
     }
 
     // Car usage
     if (formData.carUsage === "noDrive") {
       footprint.car = 0;
     } else if (formData.carUsage === "upTo5000") {
-      footprint.car = 1;
+      footprint.car = 2500 * CAR_EMISSIONS_FACTOR;
     } else if (formData.carUsage === "5000to10000") {
-      footprint.car = 2;
+      footprint.car = 7500 * CAR_EMISSIONS_FACTOR;
     } else if (formData.carUsage === "10000to15000") {
-      footprint.car = 3;
+      footprint.car = 12500 * CAR_EMISSIONS_FACTOR;
     } else if (formData.carUsage === "moreThan15000") {
-      footprint.car = 4;
+      footprint.car = 20000 * CAR_EMISSIONS_FACTOR;
     }
 
     // Shopping frequency
     if (formData.shoppingFrequency === "rarely") {
-      footprint.shopping = 0.5;
+      footprint.shopping = 1 * SHOPPING_EMISSIONS_FACTOR;
     } else if (formData.shoppingFrequency === "average") {
-      footprint.shopping = 1;
+      footprint.shopping = 2 * SHOPPING_EMISSIONS_FACTOR;
     } else if (formData.shoppingFrequency === "shopper") {
-      footprint.shopping = 1.5;
+      footprint.shopping = 3 * SHOPPING_EMISSIONS_FACTOR;
     } else if (formData.shoppingFrequency === "luxuryShopper") {
-      footprint.shopping = 2;
-    }
-
-    // Home size
-    if (formData.homeSize === "studio") {
-      footprint.home = 0.5;
-    } else if (formData.homeSize === "oneBedroom") {
-      footprint.home = 1;
-    } else if (formData.homeSize === "twoBedroom") {
-      footprint.home = 1.5;
-    } else if (formData.homeSize === "threeBedroom") {
-      footprint.home = 2;
-    }
-
-    // Home occupants
-    if (formData.homeOccupants === "justMe") {
-      footprint.energy = 1;
-    } else if (
-
-formData.homeOccupants === "twoPeople") {
-footprint.energy = 0.75;
-} else if (formData.homeOccupants === "threePeople") {
-footprint.energy = 0.6;
-} else if (formData.homeOccupants === "fourToSixPeople") {
-footprint.energy = 0.5;
-} else if (formData.homeOccupants === "sevenOrMorePeople") {
-footprint.energy = 0.4;
+      footprint.shopping =
+  4 * SHOPPING_EMISSIONS_FACTOR;
 }
+
+// Home size
+if (formData.homeSize === "studio") {
+  footprint.home = 1 * HOME_EMISSIONS_FACTOR;
+} else if (formData.homeSize === "oneBedroom") {
+  footprint.home = 2 * HOME_EMISSIONS_FACTOR;
+} else if (formData.homeSize === "twoBedroom") {
+  footprint.home = 3 * HOME_EMISSIONS_FACTOR;
+} else if (formData.homeSize === "threeBedroom") {
+  footprint.home = 4 * HOME_EMISSIONS_FACTOR;
+}
+
+// Home occupants
+if (formData.homeOccupants === "justMe") {
+  footprint.energy = 1 * ENERGY_EMISSIONS_FACTOR;
+} else if (formData.homeOccupants === "twoPeople") {
+  footprint.energy = 2 * ENERGY_EMISSIONS_FACTOR;
+} else if (formData.homeOccupants === "threePeople") {
+  footprint.energy = 3 * ENERGY_EMISSIONS_FACTOR;
+} else if (formData.homeOccupants === "fourToSixPeople") {
+  footprint.energy = 5 * ENERGY_EMISSIONS_FACTOR;
+} else if (formData.homeOccupants === "sevenOrMorePeople") {
+  footprint.energy = 8 * ENERGY_EMISSIONS_FACTOR;
+}
+
 // Renewable electricity
 if (formData.renewableElectricity === "yes") {
-  footprint.energy *= 0.3;
+  footprint.energy *= 1 - RENEWABLE_ENERGY_REDUCTION;
+}
+
+// Diet
+if (formData.diet === "vegan") {
+  footprint.diet = 1 * DIET_EMISSIONS_FACTOR;
+} else if (formData.diet === "vegetarian") {
+  footprint.diet = 2 * DIET_EMISSIONS_FACTOR;
+} else if (formData.diet === "pescetarian") {
+  footprint.diet = 3 * DIET_EMISSIONS_FACTOR;
+} else if (formData.diet === "eatLessMeat") {
+  footprint.diet = 4 * DIET_EMISSIONS_FACTOR;
+} else if (formData.diet === "eatEverything") {
+  footprint.diet = 5 * DIET_EMISSIONS_FACTOR;
 }
 
 return footprint;
+};
 
-    };
+const handleChange = (event) => {
+const { name, value } = event.target;
+setFormData({
+...formData,
+[name]: value
+});
+};
 
 const handleSubmit = async (event) => {
 event.preventDefault();
-const userId = auth.currentUser.uid;
-const carbonFootprint = calculateCarbonFootprint();
-const data = {
-...formData,
-...carbonFootprint,
-userId: userId,
-};
-const docRef = doc(db, "carbon-footprint", userId);
-try {
-await setDoc(docRef, data, { merge: true });
-console.log("Document written/updated for user ID: ", userId);
-} catch (e) {
-console.error("Error adding/updating document: ", e);
-}
-navigate('/dashboard');
+const footprint = calculateCarbonFootprint(formData);
+
+  // Save the footprint to the database
+const footprintCollection = collection(db, "carbon-footprint");
+const newFootprintDoc = doc(footprintCollection);
+await setDoc(newFootprintDoc, {
+  ...footprint,
+  userId: auth.currentUser.uid,
+});
+
+// Redirect the user to the dashboard page
+const navigate = useNavigate(); // add this line
+navigate("/dashboard");
 };
 
+  
 return (
 <Box my={4}>
 <Typography variant="h5" component="h2" gutterBottom>
