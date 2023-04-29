@@ -1,23 +1,51 @@
-import React, { useState } from 'react';
-import { Typography, TextField, Button, Box } from '@mui/material';
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, TextField, Button } from '@mui/material';
+import { db, auth } from '../../services/firebase';
 
-function CarbonFootprintCalculator({ onSubmit }) {
+function CarbonFootprintCalculator() {
   const [formData, setFormData] = useState({
     transportation: '',
     housing: '',
     food: '',
   });
+  const [existingData, setExistingData] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userId = auth.currentUser.uid;
+      const docRef = doc(db, "carbon-footprint", userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setExistingData(docSnap.data());
+        setFormData(docSnap.data());
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Implement the actual calculation logic and API integration here
-    console.log('Form data submitted:', formData);
-    onSubmit(formData);
+    const userId = auth.currentUser.uid;
+    const data = {
+      ...formData,
+      userId: userId,
+    };
+    const docRef = doc(db, "carbon-footprint", userId);
+    try {
+      await setDoc(docRef, data, { merge: true });
+      console.log("Document written/updated for user ID: ", userId);
+    } catch (e) {
+      console.error("Error adding/updating document: ", e);
+    }
+    navigate('/dashboard');
   };
 
   return (

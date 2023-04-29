@@ -6,6 +6,7 @@ import Profile from '../../pages/Profile/Profile';
 import About from '../../pages/About/About';
 import Login from '../../pages/Login/Login';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import Dashboard from '../../pages/Dashboard/Dashboard';
 import './App.css';
 
 function App() {
@@ -18,18 +19,9 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
-  );
-}
-
-function NotFound() {
-  return (
-    <div>
-      <h1>404 Not Found</h1>
-      <p>The page you're looking for doesn't exist.</p>
     </div>
   );
 }
