@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Box } from '@mui/material';
 
-function CarbonFootprintCalculator() {
+function CarbonFootprintCalculator({ onSubmit }) {
   const [formData, setFormData] = useState({
     transportation: '',
     housing: '',
@@ -17,6 +17,7 @@ function CarbonFootprintCalculator() {
     event.preventDefault();
     // Implement the actual calculation logic and API integration here
     console.log('Form data submitted:', formData);
+    onSubmit(formData);
   };
 
   return (

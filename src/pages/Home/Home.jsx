@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import CarbonFootprintCalculator from '../../components/CarbonFootprintCalculator/CarbonFootprintCalculator';
 import ReductionTips from '../../components/ReductionTips/ReductionTips';
 import Subscription from '../../components/Subscription/Subscription';
+import Dashboard from '../../components/Dashboard/Dashboard';
 
 function Home() {
+  const [formData, setFormData] = useState(null);
+
+  const handleFormSubmit = (data) => {
+    setFormData(data);
+  };
+
   return (
     <Container>
       <Box my={4}>
@@ -14,9 +21,15 @@ function Home() {
         <Typography variant="body1" paragraph>
           Use our Carbon Footprint Calculator to assess your carbon footprint, discover Reduction Tips to lower your impact, and subscribe to offset your emissions through our Subscription service.
         </Typography>
-        <CarbonFootprintCalculator />
-        <ReductionTips />
-        <Subscription />
+        {formData ? (
+          <Dashboard data={formData} />
+        ) : (
+          <>
+            <CarbonFootprintCalculator onSubmit={handleFormSubmit} />
+            <ReductionTips />
+            <Subscription />
+          </>
+        )}
       </Box>
     </Container>
   );

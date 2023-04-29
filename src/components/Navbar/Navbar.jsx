@@ -21,7 +21,7 @@ function Navbar() {
   return (
     <AppBar position="static">
       <StyledToolbar>
-        <Typography variant="h6">My Carbon Footprint App</Typography>
+        <Typography variant="h6">GreenQuest</Typography>
         <StyledNavLinks>
           <StyledLink to="/">
             <Button color="inherit">Home</Button>

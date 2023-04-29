@@ -5,28 +5,78 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import App from './components/App/App';
 import './index.css';
+import ReactDOM from 'react-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
-// Material-UI theme customization
-const theme = createTheme({
-  palette: {
+const ThemeWrapper = () => {
+  const [themeMode, setThemeMode] = React.useState('light');
+
+  const lightTheme = {
+    mode: 'light',
     primary: {
-      main: '#FFB6C1', // Baby Pink
+      main: '#2a9d8f',
     },
     secondary: {
-      main: '#282828', // Very Dark Grey
+      main: '#264653',
     },
-  },
-});
+    error: {
+      main: '#e63946',
+    },
+    warning: {
+      main: '#e9c46a',
+    },
+    info: {
+      main: '#457b9d',
+    },
+    success: {
+      main: '#52b788',
+    },
+  };
 
-const root = document.getElementById('root');
+  const darkTheme = {
+    mode: 'dark',
+    primary: {
+      main: '#2a9d8f',
+    },
+    secondary: {
+      main: '#264653',
+    },
+    error: {
+      main: '#e63946',
+    },
+    warning: {
+      main: '#e9c46a',
+    },
+    info: {
+      main: '#457b9d',
+    },
+    success: {
+      main: '#52b788',
+    },
+  };
 
-createRoot(root).render(
-  <React.StrictMode>
+  const theme = createTheme({
+    palette: themeMode === 'light' ? lightTheme : darkTheme,
+  });
+
+  const toggleTheme = () => {
+    setThemeMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <App />
+        <AuthProvider>
+          <ErrorBoundary>
+            <App toggleTheme={toggleTheme} />
+          </ErrorBoundary>
+        </AuthProvider>
       </Router>
     </ThemeProvider>
-  </React.StrictMode>
-);
+  );
+};
+
+const root = document.getElementById('root');
+createRoot(root).render(<ThemeWrapper />);
