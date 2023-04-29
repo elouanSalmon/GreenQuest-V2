@@ -26,6 +26,9 @@ function Navbar() {
           <StyledLink to="/">
             <Button color="inherit">Home</Button>
           </StyledLink>
+           <StyledLink to="/Dashboard">
+            <Button color="inherit">Dashboard</Button>
+          </StyledLink>
           <StyledLink to="/profile">
             <Button color="inherit">Profile</Button>
           </StyledLink>

@@ -8,10 +8,12 @@ function CarbonFootprintCalculator() {
   const [formData, setFormData] = useState({
     flyingHabits: '',
     carUsage: '',
+    carFuel: '',
     shoppingFrequency: '',
     homeSize: '',
     homeOccupants: '',
     renewableElectricity: '',
+    diet: '',
   });
   const [existingData, setExistingData] = useState(null);
   const navigate = useNavigate();
@@ -150,6 +152,7 @@ Carbon Footprint Calculator
 <MenuItem value="custom">Enter custom amount</MenuItem>
 </Select>
 </FormControl>
+  
 <FormControl fullWidth variant="outlined" margin="normal">
 <InputLabel id="car-usage-label">Car Usage</InputLabel>
 <Select
@@ -165,6 +168,38 @@ Carbon Footprint Calculator
 <MenuItem value="10000to15000">10 000 - 15 000 km</MenuItem>
 <MenuItem value="moreThan15000">More than 15 000 km</MenuItem>
 </Select>
+</FormControl>
+  <FormControl fullWidth variant="outlined" margin="normal">
+  <InputLabel id="car-fuel-label">What kind of fuel does your car use?</InputLabel>
+  <Select
+    labelId="car-fuel-label"
+    label="What kind of fuel does your car use?"
+    name="carFuel"
+    value={formData.carFuel}
+    onChange={handleChange}
+  >
+    <MenuItem value="electricGreen">Electric (green energy)</MenuItem>
+    <MenuItem value="electric">Electric</MenuItem>
+    <MenuItem value="naturalGas">Natural gas</MenuItem>
+    <MenuItem value="gasolineDieselHybrid">Gasoline, diesel, or hybrid</MenuItem>
+    <MenuItem value="dontKnow">I don't know</MenuItem>
+  </Select>
+</FormControl>
+  <FormControl fullWidth variant="outlined" margin="normal">
+  <InputLabel id="diet-label">Which best describes your diet?</InputLabel>
+  <Select
+    labelId="diet-label"
+    label="Which best describes your diet?"
+    name="diet"
+    value={formData.diet}
+    onChange={handleChange}
+  >
+    <MenuItem value="vegan">Vegan</MenuItem>
+    <MenuItem value="vegetarian">Vegetarian</MenuItem>
+    <MenuItem value="pescetarian">Pescetarian</MenuItem>
+    <MenuItem value="eatLessMeat">I try to eat less meat</MenuItem>
+    <MenuItem value="eatEverything">I eat everything</MenuItem>
+  </Select>
 </FormControl>
 <FormControl fullWidth variant="outlined" margin="normal">
 <InputLabel id="shopping-frequency-label">Shopping Frequency</InputLabel>
