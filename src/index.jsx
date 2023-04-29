@@ -58,6 +58,30 @@ const ThemeWrapper = () => {
 
   const theme = createTheme({
     palette: themeMode === 'light' ? lightTheme : darkTheme,
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: '50px',
+          },
+        },
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            borderRadius: '20px',
+          },
+        },
+      },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            borderRadius: '20px',
+            margin: '20px',
+          },
+        },
+      },
+    },
   });
 
   const toggleTheme = () => {
