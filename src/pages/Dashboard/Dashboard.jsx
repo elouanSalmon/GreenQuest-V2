@@ -1,3 +1,32 @@
+// Dashboard.js
+
+// Add this import at the top of Dashboard.js
+import { Cell } from 'recharts';
+
+const COLORS = [
+  '#0088FE',
+  '#00C49F',
+  '#FFBB28',
+  '#FF8042',
+  '#8884d8',
+  '#8dd1e1',
+  '#a4de6c',
+  '#d0ed57',
+  '#ffc658',
+  '#d84a37',
+  '#66b3ff',
+  '#99ff99',
+  '#ffcc66',
+  '#c45850',
+'#e8c3b9',
+'#c2d6d6',
+'#6699cc',
+'#8c1aff',
+'#e066ff',
+'#5cd65c',
+'#ff8c1a',
+];
+
 import React, { useState, useEffect } from 'react';
 import {
   BarChart,
@@ -24,28 +53,40 @@ function Dashboard() {
     fetchData();
   }, []);
 
-  console.log('Data:', data);
   const chartData = [
     {
-      category: 'Transportation',
-      value: data.reduce(
-        (acc, curr) => acc + parseFloat(curr.transportation),
-        0
-      ),
+      category: 'Flying',
+      value: data.reduce((acc, curr) => acc + curr.flying, 0),
     },
     {
-      category: 'Housing',
-      value: data.reduce((acc, curr) => acc + parseFloat(curr.housing), 0),
+      category: 'Car',
+      value: data.reduce((acc, curr) => acc + curr.car, 0),
     },
     {
-      category: 'Food',
-      value: data.reduce((acc, curr) => acc + parseFloat(curr.food), 0),
+      category: 'Shopping',
+      value: data.reduce((acc, curr) => acc + curr.shopping, 0),
+    },
+    {
+      category: 'Home',
+      value: data.reduce((acc, curr) => acc + curr.home, 0),
+    },
+    {
+      category: 'Energy',
+      value: data.reduce((acc, curr) => acc + curr.energy, 0),
     },
   ];
 
+  const totalCarbonFootprint = chartData.reduce((acc, curr) => acc + curr.value, 0);
+
   return (
     <div>
-      <h1>Carbon Footprint Dashboard</h1>
+      <h1>Carbon Footprint Dashboard 🌍</h1>
+      <h2>
+        Total Carbon Emission Score: {totalCarbonFootprint.toFixed(2)}{' '}
+        <span role="img" aria-label="footprints">
+          👣
+        </span>
+      </h2>
       <BarChart
         width={600}
         height={300}
@@ -57,7 +98,11 @@ function Dashboard() {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="value" fill="#8884d8" />
+        <Bar dataKey="value" fill="#8884d8">
+          {chartData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
+          ))}
+        </Bar>
       </BarChart>
     </div>
   );
