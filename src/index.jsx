@@ -15,10 +15,10 @@ const ThemeWrapper = () => {
   const lightTheme = {
     mode: 'light',
     primary: {
-      main: '#2a9d8f',
+      main: '#2bd977',
     },
     secondary: {
-      main: '#264653',
+      main: '#04324d',
     },
     error: {
       main: '#e63946',
@@ -40,7 +40,7 @@ const ThemeWrapper = () => {
       main: '#2a9d8f',
     },
     secondary: {
-      main: '#264653',
+      main: '#04324d',
     },
     error: {
       main: '#e63946',

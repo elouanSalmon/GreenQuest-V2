@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const [carbonFootprint, setCarbonFootprint] = useState(null);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -41,12 +41,12 @@ const navigate = useNavigate();
     { title: 'Spending', value: carbonFootprint?.shoppingFrequencyEmissions, emoji: '💸' },
   ];
 
-  const themeColor = '#2a9d8f';
+  const themeColor = '#2bd977';
+  const colors = ['#2bd977', '#42e38a', '#58ed9c', '#6ef7ae', '#85ffc1'];
 
-const handleOffsettingClick = () => {
-  navigate('/offsetting');
-};
-
+  const handleOffsettingClick = () => {
+    navigate('/offsetting');
+  };
 
   return (
     <Box my={4}>
@@ -66,70 +66,76 @@ const handleOffsettingClick = () => {
               <Typography variant="subtitle1" align="center" gutterBottom>
                 Tons CO2e
               </Typography>
-              <Button variant="contained" color="primary" align="center" onClick={handleOffsettingClick} sx={{ mt: 2 }} >
-                Start offsetting
-              </Button>
-              <Box my={4}>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={barData} layout="vertical">
-                    <XAxis type="number" hide />
-                    <YAxis type="category" dataKey="name" />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="value" name="Tons
-of CO2e" fill={themeColor} />
-                  </BarChart>
-                </ResponsiveContainer>
+              <Box textAlign="center">
+                <Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
+                  Start offsetting
+                </Button>
               </Box>
-            </CardContent>
-          </Card>
-          <Box my={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" align="center" gutterBottom>
-                  Understand your footprint
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <PieChart>
-                        <Pie data={sections} dataKey="value" nameKey="title" cx="50%" cy="50%" outerRadius={100} label>
-                          {sections.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={themeColor} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    {sections.map((section, index) => (
-                      <Accordion key={index}>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                          <Typography>
-                            {section.emoji} {section.title}: {section.value.toFixed(2)} tons
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Typography>
-                            Additional information about {section.title} emissions.
-                          </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    ))}
-                    <Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
-                      Start offsetting
-                    </Button>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Box>
-        </>
-      )}
-    </Box>
-  );
+              <Box my={4}>
+                <ResponsiveContainer width="100%" height={
+300}>
+<BarChart data={barData} layout="vertical">
+<XAxis type="number" hide />
+<YAxis type="category" dataKey="name" />
+<Tooltip />
+<Legend />
+<Bar dataKey="value" name="Tons
+of CO2e" fill={themeColor} />
+</BarChart>
+</ResponsiveContainer>
+</Box>
+</CardContent>
+</Card>
+<Box my={4}>
+<Card>
+<CardContent>
+<Typography variant="h6" align="center" gutterBottom>
+Understand your footprint
+</Typography>
+<Grid container spacing={2}>
+<Grid item xs={12} sm={6} md={6}>
+<ResponsiveContainer width="100%" height={300}>
+<PieChart>
+<Pie data={sections} dataKey="value" nameKey="title" cx="50%" cy="50%" outerRadius={100} label>
+  {sections.map((entry, index) => (
+    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+  ))}
+</Pie>
+
+<Tooltip />
+<Legend />
+</PieChart>
+</ResponsiveContainer>
+</Grid>
+<Grid item xs={12} sm={6} md={6}>
+{sections.map((section, index) => (
+<Accordion key={index}>
+<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+<Typography>
+{section.emoji} {section.title}: {section.value.toFixed(2)} tons
+</Typography>
+</AccordionSummary>
+<AccordionDetails>
+<Typography>
+Additional information about {section.title} emissions.
+</Typography>
+</AccordionDetails>
+</Accordion>
+))}
+<Box textAlign="center">
+<Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
+Start offsetting
+</Button>
+</Box>
+</Grid>
+</Grid>
+</CardContent>
+</Card>
+</Box>
+</>
+)}
+</Box>
+);
 }
 
 export default Dashboard;

@@ -1,0 +1,50 @@
+.offset-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.project-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.option-card {
+  position: relative;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 250px;
+  height: 200px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-card.selected {
+  border-color: YOUR_PRIMARY_COLOR;
+  box-shadow: 0 0 10px YOUR_PRIMARY_COLOR;
+}
+
+.option-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.option-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+}
+
+.option-info button {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  border-radius: 50%;
+  background-color: YOUR
