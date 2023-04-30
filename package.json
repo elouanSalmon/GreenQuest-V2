@@ -22,6 +22,7 @@
     "chart.js": "^4.3.0",
     "firebase": "^9.21.0",
     "react-emoji-render": "^2.0.1",
+    "react-hook-form": "^7.43.9",
     "react-refresh": "^0.14.0",
     "react-router-dom": "^6.11.0",
     "recharts": "^2.5.0"

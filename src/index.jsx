@@ -1,13 +1,14 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import App from './components/App/App';
 import './index.css';
-import ReactDOM from 'react-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+
 
 const ThemeWrapper = () => {
   const [themeMode, setThemeMode] = React.useState('light');

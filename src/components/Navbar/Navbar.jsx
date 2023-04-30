@@ -76,50 +76,50 @@ function Navbar() {
                   onClose={handleMenuClose}
                 >
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/">Home</StyledLink>
+                    <StyledLink to="/" onClick={handleMenuClose}>Home</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/dashboard">Dashboard</StyledLink>
+                    <StyledLink to="/dashboard" onClick={handleMenuClose}>Dashboard</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/offset">Offset</StyledLink>
+                    <StyledLink to="/offset" onClick={handleMenuClose}>Offset</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/quest">Quests</StyledLink>
+                    <StyledLink to="/quest" onClick={handleMenuClose}>Quests</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/profile">Profile</StyledLink>
+                    <StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/about">About</StyledLink>
+                    <StyledLink to="/about" onClick={handleMenuClose}>About</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </Hidden>
               <Hidden mdDown>
                 <IconButton color="primary" onClick={handleMenuClick}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/profile">Profile</StyledLink>
-                  </MenuItem>
-                  <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/about">About</StyledLink>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
-              </Hidden>
-            </StyledNavLinks>
-          </StyledToolbar>
-        </StyledAppBar>
-      )}
-    </>
-  );
+<MoreVertIcon />
+</IconButton>
+<Menu
+               anchorEl={anchorEl}
+               open={Boolean(anchorEl)}
+               onClose={handleMenuClose}
+             >
+<MenuItem onClick={handleMenuClose}>
+<StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
+</MenuItem>
+<MenuItem onClick={handleMenuClose}>
+<StyledLink to="/about" onClick={handleMenuClose}>About</StyledLink>
+</MenuItem>
+<MenuItem onClick={handleLogout}>Logout</MenuItem>
+</Menu>
+</Hidden>
+</StyledNavLinks>
+</StyledToolbar>
+</StyledAppBar>
+)}
+</>
+);
 }
 
 export default Navbar;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import CarbonFootprintForm from '../../components/CarbonFootprintForm/CarbonFootprintForm';
 import ReductionTips from '../../components/ReductionTips/ReductionTips';
-import Subscription from '../../components/Subscription/Subscription';
 import Dashboard from '../../pages/Dashboard/Dashboard';
 
 function Home() {
@@ -26,8 +25,6 @@ function Home() {
         ) : (
           <>
             <CarbonFootprintForm onSubmit={handleFormSubmit} />
-            <ReductionTips />
-            <Subscription />
           </>
         )}
       </Box>

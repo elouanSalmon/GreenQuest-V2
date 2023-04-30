@@ -4,7 +4,7 @@ import { calculateCarbonFootprint } from '../CarbonFootprintCalculation/CarbonFo
 import { db, auth } from '../../services/firebase';
 import { doc, getDoc } from "firebase/firestore";
 
-const OffsetPlan = ({ selectedProjects }) => {
+const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
   const [selectedPlan, setSelectedPlan] = useState('100');
   const [customValue, setCustomValue] = useState('');
   const [totalEmissions, setTotalEmissions] = useState(0);
@@ -42,6 +42,10 @@ const OffsetPlan = ({ selectedProjects }) => {
     setIsAnnual(!isAnnual);
   };
 
+  const handleSelect = () => {
+    onSelectPlan();
+  };
+
   return (
     <Box>
       <Typography variant="h3" align="center" mb={2}>
@@ -58,37 +62,37 @@ const OffsetPlan = ({ selectedProjects }) => {
               value={`${plan.percentage}`}
               control={<Radio />}
               label={`${plan.label} ${totalEmissions * plan.percentage / 100} tonnes CO2e per year - €${(
-                plan.monthlyPrice / (isAnnual ? 1 : 12)
-              ).toFixed(2)} / ${isAnnual ? 'year' : 'month'}`}
-            />
-          ))}
-          <FormControlLabel
-            value="custom"
-            control={<Radio />}
-            label={
-              <>
-                Custom
-                <TextField
-                  value={customValue}
-                  onChange={handleCustomValueChange}
-                  placeholder="Select a custom value"
-                  type="number"
-                  inputProps={{ min: 0 }}
-                  sx={{ ml: 1 }}
-                />
-                %
-                {customValue && (
-                  <Typography sx={{ ml: 1 }}>
-                    €{((totalEmissions * customValue / 10) / (isAnnual ? 1 : 12)).toFixed(2)} / {isAnnual ? 'year' : 'month'}
-                  </Typography>
-                )}
-              </>
-            }
-          />
-        </RadioGroup>
-      </FormControl>
-      <Box mt={4}>
-        <Typography variant="h6" mb={2}>
+plan.monthlyPrice / (isAnnual ? 1 : 12)
+).toFixed(2)} / ${isAnnual ? 'year' : 'month'}`}
+/>
+))}
+<FormControlLabel
+value="custom"
+control={<Radio />}
+label={
+<>
+Custom
+<TextField
+value={customValue}
+onChange={handleCustomValueChange}
+placeholder="Select a custom value"
+type="number"
+inputProps={{ min: 0 }}
+sx={{ ml: 1 }}
+/>
+%
+{customValue && (
+<Typography sx={{ ml: 1 }}>
+€{((totalEmissions * customValue / 10) / (isAnnual ? 1 : 12)).toFixed(2)} / {isAnnual ? 'year' : 'month'}
+</Typography>
+)}
+</>
+}
+/>
+</RadioGroup>
+</FormControl>
+<Box mt={4}>
+<Typography variant="h6" mb={2}>
 Pay annually
 </Typography>
 <Typography>
@@ -106,7 +110,7 @@ inputProps={{ 'aria-label': 'Pay annually toggle' }}
 </Typography>
 </Box>
 <Box mt={4} display="flex" justifyContent="center">
-<Button variant="contained" color="primary">
+<Button variant="contained" color="primary" onClick={handleSelect}>
 Select
 </Button>
 </Box>
