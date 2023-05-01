@@ -200,4 +200,3 @@ function CarbonFootprintCalculator() {
 }
 
 export default CarbonFootprintCalculator;
-

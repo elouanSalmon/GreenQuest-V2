@@ -7,7 +7,8 @@ import About from '../../pages/About/About';
 import Login from '../../pages/Login/Login';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import Dashboard from '../../pages/Dashboard/Dashboard';
-import Offset from '../../pages/Offset/Offset'; // Update this import
+import Offset from '../../pages/Offset/Offset';
+import Quests from '../../pages/Quests/Quests';
 import './App.css';
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/offset" element={<Offset />} /> {/* Update this route */}
+            <Route path="/offset" element={<Offset />} />
+            <Route path="/quests" element={<Quests />} /> {/* Add the Quests route */}
           </Route>
         </Routes>
       </div>

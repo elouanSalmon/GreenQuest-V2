@@ -62,7 +62,7 @@ function Navbar() {
                 <StyledLink to="/offset">
                   <Button color="inherit">Offset</Button>
                 </StyledLink>
-                <StyledLink to="/quest">
+                <StyledLink to="/quests">
                   <Button color="inherit"> Quests</Button>
                 </StyledLink>
               </Hidden>
@@ -85,7 +85,7 @@ function Navbar() {
                     <StyledLink to="/offset" onClick={handleMenuClose}>Offset</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/quest" onClick={handleMenuClose}>Quests</StyledLink>
+                    <StyledLink to="/quests" onClick={handleMenuClose}>Quests</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
                     <StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
@@ -98,28 +98,28 @@ function Navbar() {
               </Hidden>
               <Hidden mdDown>
                 <IconButton color="primary" onClick={handleMenuClick}>
-<MoreVertIcon />
-</IconButton>
-<Menu
-               anchorEl={anchorEl}
-               open={Boolean(anchorEl)}
-               onClose={handleMenuClose}
-             >
-<MenuItem onClick={handleMenuClose}>
-<StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
-</MenuItem>
-<MenuItem onClick={handleMenuClose}>
-<StyledLink to="/about" onClick={handleMenuClose}>About</StyledLink>
-</MenuItem>
-<MenuItem onClick={handleLogout}>Logout</MenuItem>
-</Menu>
-</Hidden>
-</StyledNavLinks>
-</StyledToolbar>
-</StyledAppBar>
-)}
-</>
-);
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/about" onClick={handleMenuClose}>About</StyledLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </Hidden>
+            </StyledNavLinks>
+          </StyledToolbar>
+        </StyledAppBar>
+      )}
+    </>
+  );
 }
 
 export default Navbar;
