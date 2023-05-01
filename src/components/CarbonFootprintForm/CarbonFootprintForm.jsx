@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, FormControl, InputLabel, MenuItem, Select, Button } from '@mui/material';
 import { db, auth } from '../../services/firebase';
+import { calculateCarbonFootprint } from '../../components/CarbonFootprintCalculation/CarbonFootprintCalculation';
 
 function CarbonFootprintCalculator() {
   const [formData, setFormData] = useState({
@@ -38,9 +39,11 @@ function CarbonFootprintCalculator() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const calculatedFootprint = calculateCarbonFootprint(formData);
     const userId = auth.currentUser.uid;
     const data = {
       ...formData,
+      ...calculatedFootprint,
       userId: userId,
     };
     const docRef = doc(db, "carbon-footprint", userId);
@@ -52,6 +55,7 @@ function CarbonFootprintCalculator() {
     }
     navigate('/dashboard');
   };
+
 
   return (
     <Box my={4}>

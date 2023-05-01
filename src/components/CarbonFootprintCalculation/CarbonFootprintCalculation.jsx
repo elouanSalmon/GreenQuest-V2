@@ -53,23 +53,27 @@ export function calculateCarbonFootprint(formData) {
     },
   };
 
-  const baselineValue = 4000;
+  const {
+    flyingHabits,
+    carUsage,
+    shoppingFrequency,
+    homeSize,
+    homeOccupants,
+    renewableElectricity,
+    diet,
+    fuelType,
+  } = formData;
 
-  const flyingHabitsEmissions =
-    carbonImpactValues.flyingHabits[formData.flyingHabits];
-  const carUsageEmissions = carbonImpactValues.carUsage[formData.carUsage];
-  const shoppingFrequencyEmissions =
-    carbonImpactValues.shoppingFrequency[formData.shoppingFrequency];
-  const homeSizeEmissions = carbonImpactValues.homeSize[formData.homeSize];
-  const homeOccupantsEmissions =
-    carbonImpactValues.homeOccupants[formData.homeOccupants];
-  const renewableElectricityEmissions =
-    carbonImpactValues.renewableElectricity[formData.renewableElectricity];
-  const dietEmissions = carbonImpactValues.diet[formData.diet];
-  const fuelTypeEmissions = carbonImpactValues.fuelType[formData.fuelType];
+  const flyingHabitsEmissions = carbonImpactValues.flyingHabits[flyingHabits];
+  const carUsageEmissions = carbonImpactValues.carUsage[carUsage];
+  const shoppingFrequencyEmissions = carbonImpactValues.shoppingFrequency[shoppingFrequency];
+  const homeSizeEmissions = carbonImpactValues.homeSize[homeSize];
+  const homeOccupantsEmissions = carbonImpactValues.homeOccupants[homeOccupants];
+  const renewableElectricityEmissions = carbonImpactValues.renewableElectricity[renewableElectricity];
+  const dietEmissions = carbonImpactValues.diet[diet];
+  const fuelTypeEmissions = carbonImpactValues.fuelType[fuelType];
 
   const totalEmissions =
-    baselineValue +
     flyingHabitsEmissions +
     carUsageEmissions +
     shoppingFrequencyEmissions +
@@ -80,14 +84,14 @@ export function calculateCarbonFootprint(formData) {
     fuelTypeEmissions;
 
   return {
-    totalEmissions: totalEmissions / 1000,
-    flyingHabitsEmissions: flyingHabitsEmissions / 1000,
-    carUsageEmissions: carUsageEmissions / 1000,
-    shoppingFrequencyEmissions: shoppingFrequencyEmissions / 1000,
-    homeSizeEmissions: homeSizeEmissions / 1000,
-    homeOccupantsEmissions: homeOccupantsEmissions / 1000,
-    renewableElectricityEmissions: renewableElectricityEmissions / 1000,
-    dietEmissions: dietEmissions / 1000,
-    fuelTypeEmissions: fuelTypeEmissions / 1000,
+    flyingHabitsEmissions,
+    carUsageEmissions,
+    shoppingFrequencyEmissions,
+    homeSizeEmissions,
+    homeOccupantsEmissions,
+    renewableElectricityEmissions,
+    dietEmissions,
+    fuelTypeEmissions,
+    totalEmissions,
   };
 }
