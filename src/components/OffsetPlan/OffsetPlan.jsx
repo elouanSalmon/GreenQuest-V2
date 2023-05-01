@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Radio, RadioGroup, FormControlLabel, FormControl, TextField, Switch } from '@mui/material';
-import { calculateCarbonFootprint } from '../CarbonFootprintCalculation/CarbonFootprintCalculation';
 import { db, auth } from '../../services/firebase';
 import { doc, getDoc } from "firebase/firestore";
 
@@ -17,8 +16,7 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const formData = docSnap.data();
-        const emissions = calculateCarbonFootprint(formData);
-        setTotalEmissions(emissions.totalEmissions);
+        setTotalEmissions(formData.totalEmissions);
       }
     };
     fetchData();

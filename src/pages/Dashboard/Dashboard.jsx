@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Card, CardContent, Grid, Accordion, AccordionSummary, AccordionDetails, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+} from '@mui/material';
 import { db, auth } from '../../services/firebase';
 import { doc, getDoc } from "firebase/firestore";
-import { calculateCarbonFootprint } from '../../components/CarbonFootprintCalculation/CarbonFootprintCalculation';
 import { BarChart, Bar, Tooltip, XAxis, YAxis, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 
-
 function Dashboard() {
   const [carbonFootprint, setCarbonFootprint] = useState(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,9 +26,7 @@ function Dashboard() {
       const docRef = doc(db, "carbon-footprint", userId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        const formData = docSnap.data();
-        const calculatedFootprint = calculateCarbonFootprint(formData);
-        setCarbonFootprint(calculatedFootprint);
+        setCarbonFootprint(docSnap.data());
       }
     };
     fetchData();
@@ -39,6 +44,7 @@ function Dashboard() {
     { title: 'Housing', value: carbonFootprint?.homeSizeEmissions, emoji: '🏠' },
     { title: 'Diet', value: carbonFootprint?.dietEmissions, emoji: '🍽️' },
     { title: 'Spending', value: carbonFootprint?.shoppingFrequencyEmissions, emoji: '💸' },
+    { title: 'Citizenship', value: carbonFootprint?.frCitizenshipEmissions, emoji: '🇫🇷' },
   ];
 
   const themeColor = '#2bd977';
@@ -72,70 +78,69 @@ function Dashboard() {
                 </Button>
               </Box>
               <Box my={4}>
-                <ResponsiveContainer width="100%" height={
-                  300}>
+                <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={barData} layout="vertical">
                     <XAxis type="number" hide />
                     <YAxis type="category" dataKey="name" />
+                   
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" name="Tons of CO2e" fill={themeColor} />
+              </BarChart>
+            </ResponsiveContainer>
+          </Box>
+        </CardContent>
+      </Card>
+      <Box my={4}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" align="center" gutterBottom>
+              Understand your footprint
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={6}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie data={sections} dataKey="value" nameKey="title" cx="50%" cy="50%" outerRadius={100} label>
+                      {sections.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                      ))}
+                    </Pie>
+
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="value" name="Tons
-of CO2e" fill={themeColor} />
-                  </BarChart>
+                  </PieChart>
                 </ResponsiveContainer>
-              </Box>
-            </CardContent>
-          </Card>
-          <Box my={4}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" align="center" gutterBottom>
-                  Understand your footprint
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <PieChart>
-                        <Pie data={sections} dataKey="value" nameKey="title" cx="50%" cy="50%" outerRadius={100} label>
-                          {sections.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                          ))}
-                        </Pie>
-
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    {sections.map((section, index) => (
-                      <Accordion key={index}>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                          <Typography>
-                            {section.emoji} {section.title}: {section.value.toFixed(2)} tons
-                          </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Typography>
-                            Additional information about {section.title} emissions.
-                          </Typography>
-                        </AccordionDetails>
-                      </Accordion>
-                    ))}
-                    <Box textAlign="center">
-                      <Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
-                        Start offsetting
-                      </Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          </Box>
-        </>
-      )}
-    </Box>
-  );
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                {sections.map((section, index) => (
+                  <Accordion key={index}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography>
+                        {section.emoji} {section.title}: {section.value.toFixed(2)} tons
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        Additional information about {section.title} emissions.
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+                <Box textAlign="center">
+                  <Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
+                    Start offsetting
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Box>
+    </>
+  )}
+</Box>
+);
 }
 
 export default Dashboard;

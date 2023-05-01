@@ -51,6 +51,7 @@ export function calculateCarbonFootprint(formData) {
       gasolineDieselHybrid: 200,
       unknown: 0,
     },
+    frCitizenshipEmissions: 4000,
   };
 
   const {
@@ -73,25 +74,32 @@ export function calculateCarbonFootprint(formData) {
   const dietEmissions = carbonImpactValues.diet[diet];
   const fuelTypeEmissions = carbonImpactValues.fuelType[fuelType];
 
+  const baselineValue = 0;
+  const frCitizenshipEmissions = carbonImpactValues.frCitizenshipEmissions;
+
   const totalEmissions =
-    flyingHabitsEmissions +
-    carUsageEmissions +
-    shoppingFrequencyEmissions +
-    homeSizeEmissions +
-    homeOccupantsEmissions +
-    renewableElectricityEmissions +
-    dietEmissions +
-    fuelTypeEmissions;
+    (baselineValue +
+      frCitizenshipEmissions +
+      flyingHabitsEmissions +
+      carUsageEmissions +
+      shoppingFrequencyEmissions +
+      homeSizeEmissions +
+      homeOccupantsEmissions +
+      renewableElectricityEmissions +
+      dietEmissions +
+      fuelTypeEmissions) / 1000;
+
 
   return {
-    flyingHabitsEmissions,
-    carUsageEmissions,
-    shoppingFrequencyEmissions,
-    homeSizeEmissions,
-    homeOccupantsEmissions,
-    renewableElectricityEmissions,
-    dietEmissions,
-    fuelTypeEmissions,
+    flyingHabitsEmissions: flyingHabitsEmissions / 1000,
+    carUsageEmissions: carUsageEmissions / 1000,
+    shoppingFrequencyEmissions: shoppingFrequencyEmissions / 1000,
+    homeSizeEmissions: homeSizeEmissions / 1000,
+    homeOccupantsEmissions: homeOccupantsEmissions / 1000,
+    renewableElectricityEmissions: renewableElectricityEmissions / 1000,
+    dietEmissions: dietEmissions / 1000,
+    fuelTypeEmissions: fuelTypeEmissions / 1000,
     totalEmissions,
+    frCitizenshipEmissions: frCitizenshipEmissions / 1000,
   };
 }
