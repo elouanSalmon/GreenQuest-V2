@@ -11,10 +11,11 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box } from '@mui/system';
 
-const QuestCard = ({ quest, userCarbonFootprint }) => {
+const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
   console.log('Rendering QuestCard:', quest);
-  const currentEmissions = userCarbonFootprint[`${quest.category}Emissions`];
-  const targetEmissions = quest.target_carbon_consumption;
+  const currentEmissions = userCarbonFootprint?.[`${quest.category}Emissions`] || 0;
+
+  const targetEmissions = parseFloat(quest?.target_carbon_consumption) || 0;
 
   const getSmileyIcon = () => {
     if (currentEmissions > targetEmissions) {
@@ -37,12 +38,14 @@ const QuestCard = ({ quest, userCarbonFootprint }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        sx={{ height: 140 }}
-        image={quest.imageUrl}
-        title={quest.title}
-      />
+        <Card sx={{ maxWidth: 345 }}>
+      {quest.imageUrl && (
+        <CardMedia
+          sx={{ height: 140 }}
+          image={quest.imageUrl}
+          title={quest.title}
+        />
+      )}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {quest.title}
@@ -68,7 +71,7 @@ const QuestCard = ({ quest, userCarbonFootprint }) => {
       </CardContent>
       <CardActions>
         <Button size="small">Start</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={() => handleOpen(quest)}>Learn More</Button>
       </CardActions>
     </Card>
   );
