@@ -1,79 +1,56 @@
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Box } from '@mui/system';
+import React, { useEffect, useState } from 'react';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { db, auth } from '../../services/firebase';
+import QuestCard from '../../components/QuestCard/QuestCard';
 
 const Quests = () => {
-  const quests = [
-    {
-      title: 'Quest 1',
-      currentEmissions: 1000,
-      potentialReduction: 500,
-      imageUrl: 'https://via.placeholder.com/150',
-      averageEmissions: 1500,
-    },
-    // Add more quests here
-  ];
+  const [quests, setQuests] = useState([]);
+  const [userCarbonFootprint, setUserCarbonFootprint] = useState(null);
 
-  const getSmileyIcon = (currentEmissions, averageEmissions) => {
-    if (currentEmissions > averageEmissions) {
-      return <SentimentVeryDissatisfiedIcon color="error" />;
-    } else if (currentEmissions === averageEmissions) {
-      return <SentimentDissatisfiedIcon color="warning" />;
-    } else {
-      return <SentimentVerySatisfiedIcon color="success" />;
-    }
-  };
+  useEffect(() => {
+    const fetchQuests = async () => {
+      const questCollection = collection(db, 'quests');
+      const questSnapshot = await getDocs(questCollection);
+      const questList = questSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      console.log('Fetched quests:', questList); 
+      setQuests(questList);
+    };
 
-  const getReductionArrow = (potentialReduction) => {
-    const largeReductionThreshold = 300; // You can set your own threshold value
+    const fetchUserCarbonFootprint = async () => {
+      const userId = auth.currentUser.uid;
+      const docRef = doc(db, "carbon-footprint", userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setUserCarbonFootprint(docSnap.data());
+      }
+    };
 
-    if (potentialReduction > largeReductionThreshold) {
-      return <ArrowDownwardIcon color="success" />;
-    } else {
-      return <ArrowDownwardIcon color="warning" />;
-    }
-  };
+    fetchQuests();
+    fetchUserCarbonFootprint();
+  }, []);
 
-  return (
-    <div>
-      {quests.map((quest, index) => (
-        <Card key={index} sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image={quest.imageUrl}
-            title={quest.title}
+  if (!userCarbonFootprint) return <div>Loading...</div>;
+
+return (
+  <div>
+    {console.log('Rendering quests')}
+    {quests.map((quest) => {
+      if (quest.category && userCarbonFootprint.hasOwnProperty(`${quest.category}Emissions`)) {
+        console.log('Quest with valid category:', quest);
+        return (
+          <QuestCard
+            key={quest.id}
+            quest={quest}
+            userCarbonFootprint={userCarbonFootprint}
           />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {quest.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" component="span">
-              Current Emissions: {(quest.currentEmissions / 1000).toFixed(1)} t CO2e/year
-            </Typography>
-            <Box component="span" ml={1}>
-              {getSmileyIcon(quest.currentEmissions, quest.averageEmissions)}
-            </Box>
-            <Typography variant="body2" color="text.secondary">
-              Potential Reduction: {(quest.potentialReduction / 1000).toFixed(1)} t CO2e/year {getReductionArrow(quest.potentialReduction)}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Start</Button>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </Card>
-      ))}
-    </div>
-  );
+        );
+      } else {
+        console.log('Quest with invalid category or missing emissions:', quest, userCarbonFootprint); // Add this line
+        return null;
+      }
+    })}
+  </div>
+);
 };
 
 export default Quests;

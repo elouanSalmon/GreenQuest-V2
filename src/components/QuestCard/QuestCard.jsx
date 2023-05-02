@@ -1,4 +1,3 @@
-// src/components/QuestCard/QuestCard.jsx
 import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,16 +8,31 @@ import Typography from '@mui/material/Typography';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box } from '@mui/system';
 
-const QuestCard = ({ quest }) => {
-  const getSmileyIcon = (currentEmissions, averageEmissions) => {
-    if (currentEmissions > averageEmissions) {
+const QuestCard = ({ quest, userCarbonFootprint }) => {
+  console.log('Rendering QuestCard:', quest);
+  const currentEmissions = userCarbonFootprint[`${quest.category}Emissions`];
+  const targetEmissions = quest.target_carbon_consumption;
+
+  const getSmileyIcon = () => {
+    if (currentEmissions > targetEmissions) {
       return <SentimentVeryDissatisfiedIcon color="error" />;
-    } else if (currentEmissions === averageEmissions) {
+    } else if (currentEmissions === targetEmissions) {
       return <SentimentDissatisfiedIcon color="warning" />;
     } else {
       return <SentimentVerySatisfiedIcon color="success" />;
+    }
+  };
+
+  const getReductionArrow = () => {
+    const largeReductionThreshold = 0.3; // Set your own threshold value (in t CO2e)
+
+    if (currentEmissions - targetEmissions > largeReductionThreshold) {
+      return <ArrowDownwardIcon color="success" />;
+    } else {
+      return <ArrowDownwardIcon color="warning" />;
     }
   };
 
@@ -34,16 +48,22 @@ const QuestCard = ({ quest }) => {
           {quest.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Current Emissions: {(quest.currentEmissions / 1000).toFixed(1)} t CO2e/year
+          Current Emissions: {currentEmissions.toFixed(1)} t CO2e/year
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Potential Reduction: {(quest.potentialReduction / 1000).toFixed(1)} t CO2e/year
+          Target Emissions: {targetEmissions.toFixed(1)} t CO2e/year
         </Typography>
         <Box display="flex" alignItems="center">
           <Typography variant="body2" color="text.secondary">
-            Emissions compared to average:
+            Emissions compared to target:
           </Typography>
-          {getSmileyIcon(quest.currentEmissions, quest.averageEmissions)}
+          {getSmileyIcon()}
+        </Box>
+        <Box display="flex" alignItems="center">
+          <Typography variant="body2" color="text.secondary">
+            Reduction potential:
+          </Typography>
+          {getReductionArrow()}
         </Box>
       </CardContent>
       <CardActions>
@@ -55,3 +75,4 @@ const QuestCard = ({ quest }) => {
 };
 
 export default QuestCard;
+
