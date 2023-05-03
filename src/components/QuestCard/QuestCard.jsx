@@ -51,16 +51,16 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
           {quest.title}
         </Typography>
         <Box display="flex" alignItems="center">
+          {getSmileyIcon()}
           <Typography variant="body2" color="text.secondary">
             Current Emissions: {currentEmissions.toFixed(1)} t CO2e/year
           </Typography>
-          {getSmileyIcon()}
         </Box>
         <Box display="flex" alignItems="center">
+          {getReductionArrow()}
           <Typography variant="body2" color="text.secondary">
             Target Emissions: {targetEmissions.toFixed(1)} t CO2e/year
           </Typography>
-          {getReductionArrow()}
         </Box>
       </CardContent>
       <CardActions>
