@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../services/firebase';
 import QuestCard from '../../components/QuestCard/QuestCard';
+import QuestModal from '../../components/QuestModal/QuestModal';
 import './Quests.css';
 
 const Quests = () => {
@@ -62,14 +63,15 @@ const Quests = () => {
       })}
       <div
         className={`sliding-page ${isPageVisible ? 'visible' : ''}`}
-        onClick={handleClose}
+        onClick={(e) => e.stopPropagation()}
       >
-        {selectedQuest && (
-          <>
-            <h2>{selectedQuest.title}</h2>
-            <p>{selectedQuest.description}</p>
-          </>
-        )}
+        <QuestModal
+          open={isPageVisible}
+          handleClose={handleClose}
+          selectedQuest={selectedQuest}
+          currentEmissions={userCarbonFootprint?.[`${selectedQuest?.category}Emissions`] || 0}
+          targetEmissions={parseFloat(selectedQuest?.target_carbon_consumption) || 0}
+        />
       </div>
     </div>
   );

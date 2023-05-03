@@ -11,34 +11,32 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Box } from '@mui/system';
 
-const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
-  console.log('Rendering QuestCard:', quest);
-  const currentEmissions = userCarbonFootprint?.[`${quest.category}Emissions`] || 0;
+export const getSmileyIcon = (currentEmissions, targetEmissions) => {
+  if (currentEmissions > targetEmissions) {
+    return <SentimentVeryDissatisfiedIcon color="error" />;
+  } else if (currentEmissions === targetEmissions) {
+    return <SentimentDissatisfiedIcon color="warning" />;
+  } else {
+    return <SentimentVerySatisfiedIcon color="success" />;
+  }
+};
 
+export const getReductionArrow = (currentEmissions, targetEmissions) => {
+  const largeReductionThreshold = 0.3; // Set your own threshold value (in t CO2e)
+
+  if (currentEmissions - targetEmissions > largeReductionThreshold) {
+    return <ArrowDownwardIcon color="success" />;
+  } else {
+    return <ArrowDownwardIcon color="warning" />;
+  }
+};
+
+const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
+  const currentEmissions = userCarbonFootprint?.[`${quest.category}Emissions`] || 0;
   const targetEmissions = parseFloat(quest?.target_carbon_consumption) || 0;
 
-  const getSmileyIcon = () => {
-    if (currentEmissions > targetEmissions) {
-      return <SentimentVeryDissatisfiedIcon color="error" />;
-    } else if (currentEmissions === targetEmissions) {
-      return <SentimentDissatisfiedIcon color="warning" />;
-    } else {
-      return <SentimentVerySatisfiedIcon color="success" />;
-    }
-  };
-
-  const getReductionArrow = () => {
-    const largeReductionThreshold = 0.3; // Set your own threshold value (in t CO2e)
-
-    if (currentEmissions - targetEmissions > largeReductionThreshold) {
-      return <ArrowDownwardIcon color="success" />;
-    } else {
-      return <ArrowDownwardIcon color="warning" />;
-    }
-  };
-
   return (
-        <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }}>
       {quest.image && (
         <CardMedia
           sx={{ height: 140 }}
@@ -51,13 +49,13 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
           {quest.title}
         </Typography>
         <Box display="flex" alignItems="center">
-          {getSmileyIcon()}
+          {getSmileyIcon(currentEmissions, targetEmissions)}
           <Typography variant="body2" color="text.secondary">
             Current Emissions: {currentEmissions.toFixed(1)} t CO2e/year
           </Typography>
         </Box>
         <Box display="flex" alignItems="center">
-          {getReductionArrow()}
+          {getReductionArrow(currentEmissions, targetEmissions)}
           <Typography variant="body2" color="text.secondary">
             Target Emissions: {targetEmissions.toFixed(1)} t CO2e/year
           </Typography>
