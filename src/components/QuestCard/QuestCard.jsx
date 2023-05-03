@@ -39,10 +39,10 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
 
   return (
         <Card sx={{ maxWidth: 345 }}>
-      {quest.imageUrl && (
+      {quest.image && (
         <CardMedia
           sx={{ height: 140 }}
-          image={quest.imageUrl}
+          image={`src/assets/images/quests/${quest.image}`}
           title={quest.title}
         />
       )}
@@ -50,21 +50,15 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
         <Typography gutterBottom variant="h5" component="div">
           {quest.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Current Emissions: {currentEmissions.toFixed(1)} t CO2e/year
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Target Emissions: {targetEmissions.toFixed(1)} t CO2e/year
-        </Typography>
         <Box display="flex" alignItems="center">
           <Typography variant="body2" color="text.secondary">
-            Emissions compared to target:
+            Current Emissions: {currentEmissions.toFixed(1)} t CO2e/year
           </Typography>
           {getSmileyIcon()}
         </Box>
         <Box display="flex" alignItems="center">
           <Typography variant="body2" color="text.secondary">
-            Reduction potential:
+            Target Emissions: {targetEmissions.toFixed(1)} t CO2e/year
           </Typography>
           {getReductionArrow()}
         </Box>
@@ -78,4 +72,3 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
 };
 
 export default QuestCard;
-

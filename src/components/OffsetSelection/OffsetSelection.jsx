@@ -14,12 +14,12 @@ import InfoIcon from '@mui/icons-material/Info';
 import { styled } from '@mui/system';
 import { auth, firestore } from '../../services/firebase';
 import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
-import treePlanting from '../../assets/images/tree_planting.jpg';
-import solarPower from '../../assets/images/solar_power.jpg';
-import directAirCapture from '../../assets/images/direct_air_capture.jpg';
-import hydroPower from '../../assets/images/hydro_power.jpg';
-import cleanCookStoves from '../../assets/images/clean_cook_stoves.jpg';
-import deforestationPrevention from '../../assets/images/deforestation_prevention.jpg';
+import treePlanting from '../../assets/images/OffsetSelection/tree_planting.jpg';
+import solarPower from '../../assets/images/OffsetSelection/solar_power.jpg';
+import directAirCapture from '../../assets/images/OffsetSelection/direct_air_capture.jpg';
+import hydroPower from '../../assets/images/OffsetSelection/hydro_power.jpg';
+import cleanCookStoves from '../../assets/images/OffsetSelection/clean_cook_stoves.jpg';
+import deforestationPrevention from '../../assets/images/OffsetSelection/deforestation_prevention.jpg';
 
 
 const projects = [
