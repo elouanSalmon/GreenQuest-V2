@@ -11,11 +11,29 @@ const Quests = () => {
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [selectedQuest, setSelectedQuest] = useState(null);
 
+  const calculateCarbonReductionPotential = (currentEmissions, targetEmissions) => {
+    return currentEmissions - targetEmissions;
+  };
+
   useEffect(() => {
     const fetchQuests = async () => {
       const questCollection = collection(db, 'quests');
       const questSnapshot = await getDocs(questCollection);
       const questList = questSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+
+      questList.sort((a, b) => {
+        const aReductionPotential = calculateCarbonReductionPotential(
+          userCarbonFootprint?.[`${a.category}Emissions`] || 0,
+          parseFloat(a?.target_carbon_consumption) || 0
+        );
+        const bReductionPotential = calculateCarbonReductionPotential(
+          userCarbonFootprint?.[`${b.category}Emissions`] || 0,
+          parseFloat(b?.target_carbon_consumption) || 0
+        );
+
+        return bReductionPotential - aReductionPotential;
+      });
+
       setQuests(questList);
     };
 
@@ -32,7 +50,7 @@ const Quests = () => {
 
     fetchQuests();
     fetchUserCarbonFootprint();
-  }, []);
+  }, [userCarbonFootprint]);
 
   const handleOpen = (quest) => {
     setSelectedQuest(quest);

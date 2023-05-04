@@ -65,6 +65,9 @@ function Navbar() {
                 <StyledLink to="/quests">
                   <Button color="inherit"> Quests</Button>
                 </StyledLink>
+                                                    <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/create-quest" onClick={handleMenuClose}>CREATE QUEST</StyledLink>
+                  </MenuItem>
               </Hidden>
               <Hidden lgUp>
                 <IconButton color="primary" onClick={handleMenuClick}>
@@ -77,6 +80,9 @@ function Navbar() {
                 >
                   <MenuItem onClick={handleMenuClose}>
                     <StyledLink to="/" onClick={handleMenuClose}>Home</StyledLink>
+                  </MenuItem>
+                                    <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/create-quest" onClick={handleMenuClose}>CREATE QUEST</StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
                     <StyledLink to="/dashboard" onClick={handleMenuClose}>Dashboard</StyledLink>

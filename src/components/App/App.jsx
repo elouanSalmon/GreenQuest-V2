@@ -9,6 +9,7 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import Dashboard from '../../pages/Dashboard/Dashboard';
 import Offset from '../../pages/Offset/Offset';
 import Quests from '../../pages/Quests/Quests';
+import CreateQuest from '../../pages/CreateQuest/CreateQuest';
 import './App.css';
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/offset" element={<Offset />} />
-            <Route path="/quests" element={<Quests />} /> {/* Add the Quests route */}
+            <Route path="/quests" element={<Quests />} />
+            <Route path="/create-quest" element={<CreateQuest />} />
           </Route>
         </Routes>
       </div>
