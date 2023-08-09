@@ -91,7 +91,7 @@ sx={{ ml: 1 }}
 </FormControl>
 <Box mt={4}>
 <Typography variant="h6" mb={2}>
-Pay annually
+Select your plan:
 </Typography>
 <Typography>
 Paying annually allocates funds efficiently and in advance to our climate projects. If you can afford to pay annually, we'd appreciate the support.
