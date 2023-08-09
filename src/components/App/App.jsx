@@ -1,16 +1,17 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Navbar from '../Navbar/Navbar';
-import Home from '../../pages/Home/Home';
-import Profile from '../../pages/Profile/Profile';
-import About from '../../pages/About/About';
-import Login from '../../pages/Login/Login';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import Dashboard from '../../pages/Dashboard/Dashboard';
-import Offset from '../../pages/Offset/Offset';
-import Quests from '../../pages/Quests/Quests';
-import CreateQuest from '../../pages/CreateQuest/CreateQuest';
-import './App.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+import Home from "../../pages/Home/Home";
+import Profile from "../../pages/Profile/Profile";
+import About from "../../pages/About/About";
+import Login from "../../pages/Login/Login";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Dashboard from "../../pages/Dashboard/Dashboard";
+import Offset from "../../pages/Offset/Offset";
+import Quests from "../../pages/Quests/Quests";
+import CreateQuest from "../../pages/CreateQuest/CreateQuest";
+import PaymentSuccess from "../../pages/PaymentSuccess/PaymentSuccess";
+import "./App.css";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/offset" element={<Offset />} />
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
+            <Route path="/payment-successful" element={<PaymentSuccess />} />
           </Route>
         </Routes>
       </div>

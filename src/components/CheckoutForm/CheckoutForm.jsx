@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Box, TextField, Button, Typography } from '@mui/material';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import React, { useState } from "react";
+import { Box, TextField, Button, Typography } from "@mui/material";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const CheckoutForm = ({ handlePaymentSuccess }) => {
   const [error, setError] = useState(null);
@@ -11,17 +11,17 @@ const CheckoutForm = ({ handlePaymentSuccess }) => {
   const cardElementOptions = {
     style: {
       base: {
-        color: '#32325d',
-        fontFamily: 'Roboto, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#aab7c4',
+        color: "#32325d",
+        fontFamily: "Roboto, sans-serif",
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#aab7c4",
         },
       },
       invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a',
+        color: "#fa755a",
+        iconColor: "#fa755a",
       },
     },
   };
@@ -38,7 +38,7 @@ const CheckoutForm = ({ handlePaymentSuccess }) => {
     const cardElement = elements.getElement(CardElement);
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
+      type: "card",
       card: cardElement,
     });
 
@@ -65,8 +65,13 @@ const CheckoutForm = ({ handlePaymentSuccess }) => {
             </Typography>
           )}
         </Box>
-        <Button type="submit" variant="contained" color="primary" disabled={!stripe || processing}>
-          {processing ? 'Processing...' : 'Pay'}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={!stripe || processing}
+        >
+          {processing ? "Processing..." : "Pay"}
         </Button>
       </form>
     </Box>

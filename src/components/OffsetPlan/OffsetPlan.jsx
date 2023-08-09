@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Button, Radio, RadioGroup, FormControlLabel, FormControl, TextField, Switch } from '@mui/material';
-import { db, auth } from '../../services/firebase';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  TextField,
+  Switch,
+} from "@mui/material";
+import { db, auth } from "../../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
-  const [selectedPlan, setSelectedPlan] = useState('100');
-  const [customValue, setCustomValue] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState("100");
+  const [customValue, setCustomValue] = useState("");
   const [totalEmissions, setTotalEmissions] = useState(0);
   const [isAnnual, setIsAnnual] = useState(false);
 
@@ -23,9 +33,21 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
   }, []);
 
   const plans = [
-    { percentage: 100, label: '100% of my footprint', monthlyPrice: totalEmissions * 10 },
-    { percentage: 120, label: '120% of my footprint', monthlyPrice: totalEmissions * 12 },
-    { percentage: 200, label: '200% of my footprint', monthlyPrice: totalEmissions * 20 },
+    {
+      percentage: 100,
+      label: "100% of my footprint",
+      monthlyPrice: totalEmissions * 10,
+    },
+    {
+      percentage: 120,
+      label: "120% of my footprint",
+      monthlyPrice: totalEmissions * 12,
+    },
+    {
+      percentage: 200,
+      label: "200% of my footprint",
+      monthlyPrice: totalEmissions * 20,
+    },
   ];
 
   const handlePlanChange = (event) => {
@@ -41,7 +63,13 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
   };
 
   const handleSelect = () => {
-    onSelectPlan();
+    const selectedPlanObj =
+      plans.find((plan) => plan.percentage.toString() === selectedPlan) || {};
+    const cost =
+      (selectedPlan === "custom"
+        ? (totalEmissions * customValue) / 100
+        : selectedPlanObj.monthlyPrice) / (isAnnual ? 1 : 12);
+    onSelectPlan(cost); // Passez le coût comme argument
   };
 
   return (
@@ -59,62 +87,72 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
               key={index}
               value={`${plan.percentage}`}
               control={<Radio />}
-              label={`${plan.label} ${totalEmissions * plan.percentage / 100} tonnes CO2e per year - €${(
-plan.monthlyPrice / (isAnnual ? 1 : 12)
-).toFixed(2)} / ${isAnnual ? 'year' : 'month'}`}
-/>
-))}
-<FormControlLabel
-value="custom"
-control={<Radio />}
-label={
-<>
-Custom
-<TextField
-value={customValue}
-onChange={handleCustomValueChange}
-placeholder="Select a custom value"
-type="number"
-inputProps={{ min: 0 }}
-sx={{ ml: 1 }}
-/>
-%
-{customValue && (
-<Typography sx={{ ml: 1 }}>
-€{((totalEmissions * customValue / 10) / (isAnnual ? 1 : 12)).toFixed(2)} / {isAnnual ? 'year' : 'month'}
-</Typography>
-)}
-</>
-}
-/>
-</RadioGroup>
-</FormControl>
-<Box mt={4}>
-<Typography variant="h6" mb={2}>
-Select your plan:
-</Typography>
-<Typography>
-Paying annually allocates funds efficiently and in advance to our climate projects. If you can afford to pay annually, we'd appreciate the support.
-</Typography>
-<Box mt={1} display="flex" alignItems="center">
-<Switch
-checked={isAnnual}
-onChange={handleToggle}
-color="primary"
-inputProps={{ 'aria-label': 'Pay annually toggle' }}
-/>
-<Typography>
-{isAnnual ? 'Paying annually' : 'Paying monthly'}
-</Typography>
-</Box>
-<Box mt={4} display="flex" justifyContent="center">
-<Button variant="contained" color="primary" onClick={handleSelect}>
-Select
-</Button>
-</Box>
-</Box>
-</Box>
-);
+              label={`${plan.label} ${
+                (totalEmissions * plan.percentage) / 100
+              } tonnes CO2e per year - €${(
+                plan.monthlyPrice / (isAnnual ? 1 : 12)
+              ).toFixed(2)} / ${isAnnual ? "year" : "month"}`}
+            />
+          ))}
+          <FormControlLabel
+            value="custom"
+            control={<Radio />}
+            label={
+              <>
+                Custom
+                <TextField
+                  value={customValue}
+                  onChange={handleCustomValueChange}
+                  placeholder="Select a custom value"
+                  type="number"
+                  inputProps={{ min: 0 }}
+                  sx={{ ml: 1 }}
+                />
+                %
+                {customValue && (
+                  <Typography sx={{ ml: 1 }}>
+                    €
+                    {(
+                      (totalEmissions * customValue) /
+                      10 /
+                      (isAnnual ? 1 : 12)
+                    ).toFixed(2)}{" "}
+                    / {isAnnual ? "year" : "month"}
+                  </Typography>
+                )}
+              </>
+            }
+          />
+        </RadioGroup>
+      </FormControl>
+      <Box mt={4}>
+        <Typography variant="h6" mb={2}>
+          Select your plan:
+        </Typography>
+        <Typography>
+          Paying annually allocates funds efficiently and in advance to our
+          climate projects. If you can afford to pay annually, we'd appreciate
+          the support.
+        </Typography>
+        <Box mt={1} display="flex" alignItems="center">
+          <Switch
+            checked={isAnnual}
+            onChange={handleToggle}
+            color="primary"
+            inputProps={{ "aria-label": "Pay annually toggle" }}
+          />
+          <Typography>
+            {isAnnual ? "Paying annually" : "Paying monthly"}
+          </Typography>
+        </Box>
+        <Box mt={4} display="flex" justifyContent="center">
+          <Button variant="contained" color="primary" onClick={handleSelect}>
+            Select
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  );
 };
 
 export default OffsetPlan;

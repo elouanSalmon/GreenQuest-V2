@@ -1,32 +1,43 @@
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, FormControl, InputLabel, MenuItem, Select, Button } from '@mui/material';
-import { db, auth } from '../../services/firebase';
-import { calculateCarbonFootprint } from '../../components/CarbonFootprintCalculation/CarbonFootprintCalculation';
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Button,
+} from "@mui/material";
+import { db, auth } from "../../services/firebase";
+import { calculateCarbonFootprint } from "../../components/CarbonFootprintCalculation/CarbonFootprintCalculation";
 
 function CarbonFootprintCalculator() {
   const [formData, setFormData] = useState({
-    flyingHabits: '',
-    carUsage: '',
-    shoppingFrequency: '',
-    homeSize: '',
-    homeOccupants: '',
-    renewableElectricity: '',
-    diet: '',
-    fuelType: '',
+    flyingHabits: "",
+    carUsage: "",
+    shoppingFrequency: "",
+    homeSize: "",
+    homeOccupants: "",
+    renewableElectricity: "",
+    diet: "",
+    fuelType: "",
   });
   const [existingData, setExistingData] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      const userId = auth.currentUser.uid;
-      const docRef = doc(db, "carbon-footprint", userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setExistingData(docSnap.data());
-        setFormData(docSnap.data());
+      if (auth.currentUser) {
+        // Adding null check here
+        const userId = auth.currentUser.uid;
+        const docRef = doc(db, "carbon-footprint", userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setExistingData(docSnap.data());
+          setFormData(docSnap.data());
+        }
       }
     };
     fetchData();
@@ -53,9 +64,8 @@ function CarbonFootprintCalculator() {
     } catch (e) {
       console.error("Error adding/updating document: ", e);
     }
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
-
 
   return (
     <Box my={4}>
@@ -64,7 +74,10 @@ function CarbonFootprintCalculator() {
       </Typography>
       <form onSubmit={handleSubmit}>
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="flying-habits-label">How would you describe your flying habits in a typical, average year?</InputLabel>
+          <InputLabel id="flying-habits-label">
+            How would you describe your flying habits in a typical, average
+            year?
+          </InputLabel>
           <Select
             labelId="flying-habits-label"
             label="How would you describe your flying habits in a typical, average year?"
@@ -80,7 +93,9 @@ function CarbonFootprintCalculator() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="car-usage-label">How much do you get around by car annually?</InputLabel>
+          <InputLabel id="car-usage-label">
+            How much do you get around by car annually?
+          </InputLabel>
           <Select
             labelId="car-usage-label"
             label="How much do you get around by car annually?"
@@ -97,7 +112,9 @@ function CarbonFootprintCalculator() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="shopping-frequency-label">How much do you shop?</InputLabel>
+          <InputLabel id="shopping-frequency-label">
+            How much do you shop?
+          </InputLabel>
           <Select
             labelId="shopping-frequency-label"
             label="How much do you shop?"
@@ -129,7 +146,9 @@ function CarbonFootprintCalculator() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="home-occupants-label">How many people live in your home?</InputLabel>
+          <InputLabel id="home-occupants-label">
+            How many people live in your home?
+          </InputLabel>
           <Select
             labelId="home-occupants-label"
             label="How many people live in your home?"
@@ -146,7 +165,9 @@ function CarbonFootprintCalculator() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="renewable-electricity-label">Do you have renewable electricity at home?</InputLabel>
+          <InputLabel id="renewable-electricity-label">
+            Do you have renewable electricity at home?
+          </InputLabel>
           <Select
             labelId="renewable-electricity-label"
             label="Do you have renewable electricity at home?"
@@ -161,7 +182,9 @@ function CarbonFootprintCalculator() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="diet-label">Which best describes your diet?</InputLabel>
+          <InputLabel id="diet-label">
+            Which best describes your diet?
+          </InputLabel>
           <Select
             labelId="diet-label"
             label="Which best describes your diet?"
@@ -177,9 +200,10 @@ function CarbonFootprintCalculator() {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth variant="outlined"
-        margin="normal">
-          <InputLabel id="fuel-type-label">What kind of fuel does your car use?</InputLabel>
+        <FormControl fullWidth variant="outlined" margin="normal">
+          <InputLabel id="fuel-type-label">
+            What kind of fuel does your car use?
+          </InputLabel>
           <Select
             labelId="fuel-type-label"
             label="What kind of fuel does your car use?"
@@ -190,12 +214,20 @@ function CarbonFootprintCalculator() {
             <MenuItem value="electricGreen">Electric (green energy)</MenuItem>
             <MenuItem value="electric">Electric</MenuItem>
             <MenuItem value="naturalGas">Natural gas</MenuItem>
-            <MenuItem value="gasolineDieselHybrid">Gasoline, diesel, or hybrid</MenuItem>
+            <MenuItem value="gasolineDieselHybrid">
+              Gasoline, diesel, or hybrid
+            </MenuItem>
             <MenuItem value="unknown">I don't know</MenuItem>
           </Select>
         </FormControl>
 
-        <Button type="submit" variant="contained" color="primary" size="large" style={{ marginTop: 16 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large"
+          style={{ marginTop: 16 }}
+        >
           Calculate Carbon Footprint
         </Button>
       </form>
