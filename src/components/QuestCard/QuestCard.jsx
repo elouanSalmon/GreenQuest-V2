@@ -1,15 +1,15 @@
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { Box } from '@mui/system';
+import React, { useMemo } from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Box } from "@mui/system";
 
 export const getSmileyIcon = (currentEmissions, targetEmissions) => {
   if (currentEmissions > targetEmissions) {
@@ -32,8 +32,14 @@ export const getReductionArrow = (currentEmissions, targetEmissions) => {
 };
 
 const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
-  const currentEmissions = userCarbonFootprint?.[`${quest.category}Emissions`] || 0;
-  const targetEmissions = parseFloat(quest?.target_carbon_consumption) || 0;
+  const currentEmissions = useMemo(
+    () => userCarbonFootprint?.[`${quest.category}Emissions`] || 0,
+    [userCarbonFootprint, quest.category]
+  );
+  const targetEmissions = useMemo(
+    () => parseFloat(quest?.target_carbon_consumption) || 0,
+    [quest]
+  );
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -63,7 +69,9 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
       </CardContent>
       <CardActions>
         <Button size="small">Start</Button>
-        <Button size="small" onClick={() => handleOpen(quest)}>Learn More</Button>
+        <Button size="small" onClick={() => handleOpen(quest)}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

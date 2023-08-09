@@ -1,27 +1,17 @@
-import React from 'react';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { makeStyles, } from '@material-ui/core/styles';
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: theme.spacing(4),
-    backgroundColor: theme.palette.background.default,
-  },
-}));
-interface BarProps {
-  value: number;
-};
-const ScaledBar: React.SFC<BarProps> = ({
-  value,
-}) => {
-  const classes = useStyles();
+import React from "react";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+const ScaledBar = ({ value }) => {
   return (
     <LinearProgress
       variant="determinate"
       value={value}
-      classes={{
-        root: classes.root,
+      sx={{
+        height: 4, // Adapt to your theme
+        backgroundColor: (theme) => theme.palette.background.default,
       }}
     />
   );
 };
+
 export default ScaledBar;
