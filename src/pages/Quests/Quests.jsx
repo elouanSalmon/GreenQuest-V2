@@ -4,6 +4,7 @@ import { db, auth } from "../../services/firebase";
 import QuestCard from "../../components/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
 import "./Quests.css";
+import Grid from "@mui/material/Grid";
 
 const Quests = () => {
   const [quests, setQuests] = useState([]);
@@ -76,23 +77,26 @@ const Quests = () => {
 
   return (
     <div>
-      {sortedQuests.map((quest) => {
-        if (
-          quest.category &&
-          userCarbonFootprint.hasOwnProperty(`${quest.category}Emissions`)
-        ) {
-          return (
-            <QuestCard
-              key={quest.id}
-              quest={quest}
-              userCarbonFootprint={userCarbonFootprint}
-              handleOpen={handleOpen}
-            />
-          );
-        } else {
-          return null;
-        }
-      })}
+      <Grid container spacing={3}>
+        {sortedQuests.map((quest) => {
+          if (
+            quest.category &&
+            userCarbonFootprint.hasOwnProperty(`${quest.category}Emissions`)
+          ) {
+            return (
+              <Grid item xs={12} sm={6} md={4} key={quest.id}>
+                <QuestCard
+                  quest={quest}
+                  userCarbonFootprint={userCarbonFootprint}
+                  handleOpen={handleOpen}
+                />
+              </Grid>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </Grid>
       <div
         className={`sliding-page ${isPageVisible ? "visible" : ""}`}
         onClick={(e) => e.stopPropagation()}
