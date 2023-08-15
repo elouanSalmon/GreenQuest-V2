@@ -119,13 +119,22 @@ const QuestForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const categoryKey =
+        categoryToCarbonImpactKey[questData.category] ||
+        categoryToCarbonImpactKey[questData.subCategory];
+
+      const targetCarbonValues = carbonImpactValues[categoryKey];
+
+      if (
+        !targetCarbonValues ||
+        !targetCarbonValues.includes(questData.target_carbon_consumption)
+      ) {
+        alert("Invalid category or sub-category provided.");
+        return;
+      }
+
       const modifiedQuestData = {
         ...questData,
-        target_carbon_consumption:
-          carbonImpactValues[
-            categoryToCarbonImpactKey[questData.category] ||
-              categoryToCarbonImpactKey[questData.subCategory]
-          ][questData.target_carbon_consumption],
       };
 
       const questCollection = collection(db, "quests");
