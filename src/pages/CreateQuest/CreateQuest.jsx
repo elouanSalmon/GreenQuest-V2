@@ -15,6 +15,7 @@ const QuestForm = () => {
     title: "",
     description: "",
     category: "",
+    subCategory: "",
     target_carbon_consumption: "",
     image: "",
   });
@@ -27,16 +28,114 @@ const QuestForm = () => {
     }));
   };
 
+  const categories = [
+    "housingEmissions",
+    "mobilityEmissions",
+    "flyingHabitsEmissions",
+    "shoppingFrequencyEmissions",
+    "dietEmissions",
+    "frCitizenshipEmissions",
+  ];
+
+  const subCategories = {
+    housingEmissions: [
+      "homeSizeEmissions",
+      "homeOccupantsEmissions",
+      "renewableElectricityEmissions",
+    ],
+    mobilityEmissions: ["carUsageEmissions", "fuelTypeEmissions"],
+  };
+
+  const categoryToCarbonImpactKey = {
+    housingEmissions: null,
+    mobilityEmissions: null,
+    flyingHabitsEmissions: "flyingHabits",
+    shoppingFrequencyEmissions: "shoppingFrequency",
+    dietEmissions: "diet",
+    frCitizenshipEmissions: null,
+    homeSizeEmissions: "homeSize",
+    homeOccupantsEmissions: "homeOccupants",
+    renewableElectricityEmissions: "renewableElectricity",
+    carUsageEmissions: "carUsage",
+    fuelTypeEmissions: "fuelType",
+  };
+
+  const carbonImpactValues = {
+    flyingHabits: ["rarely", "occasionally", "regularly", "custom"],
+    carUsage: [
+      "noDrive",
+      "upTo5000",
+      "5000to10000",
+      "10000to15000",
+      "moreThan15000",
+    ],
+    shoppingFrequency: ["rarely", "average", "shopper", "luxury"],
+    homeSize: ["studio", "oneBedroom", "twoBedroom", "threeBedroom"],
+    homeOccupants: [
+      "justMe",
+      "twoPeople",
+      "threePeople",
+      "fourToSix",
+      "sevenOrMore",
+    ],
+    renewableElectricity: ["yes", "notYet", "notSure"],
+    diet: [
+      "vegan",
+      "vegetarian",
+      "pescetarian",
+      "eatLessMeat",
+      "eatEverything",
+    ],
+    fuelType: [
+      "electricGreen",
+      "electric",
+      "naturalGas",
+      "gasolineDieselHybrid",
+      "unknown",
+    ],
+  };
+
+  const getTargetOptionsForCategory = (category, subCategory) => {
+    const key =
+      categoryToCarbonImpactKey[category] ||
+      categoryToCarbonImpactKey[subCategory];
+    if (carbonImpactValues[key]) {
+      return carbonImpactValues[key].map((option) => ({
+        value: option,
+        label: option
+          .split(/(?=[A-Z])/)
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      }));
+    }
+    return [];
+  };
+
+  const targetOptions = getTargetOptionsForCategory(
+    questData.category,
+    questData.subCategory
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const modifiedQuestData = {
+        ...questData,
+        target_carbon_consumption:
+          carbonImpactValues[
+            categoryToCarbonImpactKey[questData.category] ||
+              categoryToCarbonImpactKey[questData.subCategory]
+          ][questData.target_carbon_consumption],
+      };
+
       const questCollection = collection(db, "quests");
-      await addDoc(questCollection, questData);
+      await addDoc(questCollection, modifiedQuestData);
       alert("Quest created successfully");
       setQuestData({
         title: "",
         description: "",
         category: "",
+        subCategory: "",
         target_carbon_consumption: "",
         image: "",
       });
@@ -44,18 +143,6 @@ const QuestForm = () => {
       console.error("Error creating quest:", error);
     }
   };
-
-  const categories = [
-    { id: "carUsage", name: "carUsage" },
-    { id: "diet", name: "diet" },
-    { id: "flyingHabits", name: "flyingHabits" },
-    { id: "frCitizenship", name: "frCitizenship" },
-    { id: "fuelType", name: "fuelType" },
-    { id: "homeOccupants", name: "homeOccupants" },
-    { id: "homeSize", name: "homeSize" },
-    { id: "renewableElectricity", name: "renewableElectricity" },
-    { id: "shoppingFrequency", name: "shoppingFrequency" },
-  ];
 
   return (
     <Box component="form" onSubmit={handleSubmit} padding={3}>
@@ -86,19 +173,50 @@ const QuestForm = () => {
         required
       >
         {categories.map((category) => (
-          <MenuItem key={category.id} value={category.id}>
-            {category.name}
+          <MenuItem key={category} value={category}>
+            {category}
           </MenuItem>
         ))}
       </Select>
-      <TextField
-        label="Target Carbon Consumption"
+
+      {subCategories[questData.category] && (
+        <>
+          <InputLabel id="sub-category-label">Sub-Category</InputLabel>
+          <Select
+            labelId="sub-category-label"
+            name="subCategory"
+            value={questData.subCategory}
+            onChange={handleChange}
+            fullWidth
+            required
+          >
+            {subCategories[questData.category].map((sub) => (
+              <MenuItem key={sub} value={sub}>
+                {sub}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      )}
+
+      <InputLabel id="target-carbon-consumption-label">
+        Target Carbon Consumption
+      </InputLabel>
+      <Select
+        labelId="target-carbon-consumption-label"
         name="target_carbon_consumption"
         value={questData.target_carbon_consumption}
         onChange={handleChange}
         fullWidth
         required
-      />
+      >
+        {targetOptions.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </Select>
+
       <TextField
         label="Image"
         name="image"
@@ -107,6 +225,7 @@ const QuestForm = () => {
         fullWidth
         required
       />
+
       <Button type="submit" color="primary" variant="contained">
         Create Quest
       </Button>
