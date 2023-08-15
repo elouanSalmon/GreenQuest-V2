@@ -112,6 +112,27 @@ function CarbonFootprintCalculator() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
+          <InputLabel id="fuel-type-label">
+            What kind of fuel does your car use?
+          </InputLabel>
+          <Select
+            labelId="fuel-type-label"
+            label="What kind of fuel does your car use?"
+            name="fuelType"
+            value={formData.fuelType}
+            onChange={handleChange}
+          >
+            <MenuItem value="electricGreen">Electric (green energy)</MenuItem>
+            <MenuItem value="electric">Electric</MenuItem>
+            <MenuItem value="naturalGas">Natural gas</MenuItem>
+            <MenuItem value="gasolineDieselHybrid">
+              Gasoline, diesel, or hybrid
+            </MenuItem>
+            <MenuItem value="unknown">I don't know</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth variant="outlined" margin="normal">
           <InputLabel id="shopping-frequency-label">
             How much do you shop?
           </InputLabel>
@@ -199,28 +220,6 @@ function CarbonFootprintCalculator() {
             <MenuItem value="eatEverything">I eat everything</MenuItem>
           </Select>
         </FormControl>
-
-        <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="fuel-type-label">
-            What kind of fuel does your car use?
-          </InputLabel>
-          <Select
-            labelId="fuel-type-label"
-            label="What kind of fuel does your car use?"
-            name="fuelType"
-            value={formData.fuelType}
-            onChange={handleChange}
-          >
-            <MenuItem value="electricGreen">Electric (green energy)</MenuItem>
-            <MenuItem value="electric">Electric</MenuItem>
-            <MenuItem value="naturalGas">Natural gas</MenuItem>
-            <MenuItem value="gasolineDieselHybrid">
-              Gasoline, diesel, or hybrid
-            </MenuItem>
-            <MenuItem value="unknown">I don't know</MenuItem>
-          </Select>
-        </FormControl>
-
         <Button
           type="submit"
           variant="contained"

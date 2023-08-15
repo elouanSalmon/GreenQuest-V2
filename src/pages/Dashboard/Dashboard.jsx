@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -9,12 +9,23 @@ import {
   AccordionSummary,
   AccordionDetails,
   Button,
-} from '@mui/material';
-import { db, auth } from '../../services/firebase';
+} from "@mui/material";
+import { db, auth } from "../../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { BarChart, Bar, Tooltip, XAxis, YAxis, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useNavigate } from 'react-router-dom';
+import {
+  BarChart,
+  Bar,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [carbonFootprint, setCarbonFootprint] = useState(null);
@@ -33,25 +44,41 @@ function Dashboard() {
   }, []);
 
   const barData = [
-    { name: 'You', value: carbonFootprint?.totalEmissions },
-    { name: 'Avg France', value: 8.24 },
-    { name: 'Avg World', value: 4.50 },
+    { name: "You", value: carbonFootprint?.totalEmissions },
+    { name: "Avg France", value: 8.24 },
+    { name: "Avg World", value: 4.5 },
   ];
 
   const sections = [
-    { title: 'Flying', value: carbonFootprint?.flyingHabitsEmissions, emoji: '✈️' },
-    { title: 'Mobility', value: carbonFootprint?.carUsageEmissions, emoji: '🚗' },
-    { title: 'Housing', value: carbonFootprint?.homeSizeEmissions, emoji: '🏠' },
-    { title: 'Diet', value: carbonFootprint?.dietEmissions, emoji: '🍽️' },
-    { title: 'Spending', value: carbonFootprint?.shoppingFrequencyEmissions, emoji: '💸' },
-    { title: 'Citizenship', value: carbonFootprint?.frCitizenshipEmissions, emoji: '🇫🇷' },
+    {
+      title: "Flying",
+      value: carbonFootprint?.flyingHabitsEmissions,
+      emoji: "✈️",
+    },
+    {
+      title: "Mobility",
+      value: carbonFootprint?.mobilityEmissions,
+      emoji: "🚗",
+    }, // Updated the value to 'mobilityEmissions'
+    { title: "Housing", value: carbonFootprint?.housingEmissions, emoji: "🏠" }, // Updated the value to 'housingEmissions'
+    { title: "Diet", value: carbonFootprint?.dietEmissions, emoji: "🍽️" },
+    {
+      title: "Spending",
+      value: carbonFootprint?.shoppingFrequencyEmissions,
+      emoji: "💸",
+    },
+    {
+      title: "Citizenship",
+      value: carbonFootprint?.frCitizenshipEmissions,
+      emoji: "🇫🇷",
+    },
   ];
 
-  const themeColor = '#2bd977';
-  const colors = ['#2bd977', '#42e38a', '#58ed9c', '#6ef7ae', '#85ffc1'];
+  const themeColor = "#2bd977";
+  const colors = ["#2bd977", "#42e38a", "#58ed9c", "#6ef7ae", "#85ffc1"];
 
   const handleOffsettingClick = () => {
-    navigate('/offsetting');
+    navigate("/offsetting");
   };
 
   return (
@@ -73,7 +100,12 @@ function Dashboard() {
                 Tons CO2e
               </Typography>
               <Box textAlign="center">
-                <Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleOffsettingClick}
+                  sx={{ mt: 2 }}
+                >
                   Start offsetting
                 </Button>
               </Box>
@@ -82,65 +114,85 @@ function Dashboard() {
                   <BarChart data={barData} layout="vertical">
                     <XAxis type="number" hide />
                     <YAxis type="category" dataKey="name" />
-                   
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="value" name="Tons of CO2e" fill={themeColor} />
-              </BarChart>
-            </ResponsiveContainer>
-          </Box>
-        </CardContent>
-      </Card>
-      <Box my={4}>
-        <Card>
-          <CardContent>
-            <Typography variant="h6" align="center" gutterBottom>
-              Understand your footprint
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie data={sections} dataKey="value" nameKey="title" cx="50%" cy="50%" outerRadius={100} label>
-                      {sections.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                      ))}
-                    </Pie>
-
                     <Tooltip />
                     <Legend />
-                  </PieChart>
+                    <Bar
+                      dataKey="value"
+                      name="Tons of CO2e"
+                      fill={themeColor}
+                    />
+                  </BarChart>
                 </ResponsiveContainer>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6}>
-                {sections.map((section, index) => (
-                  <Accordion key={index}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography>
-                        {section.emoji} {section.title}: {section.value.toFixed(2)} tons
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                        Additional information about {section.title} emissions.
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
-                <Box textAlign="center">
-                  <Button variant="contained" color="primary" onClick={handleOffsettingClick} sx={{ mt: 2 }}>
-                    Start offsetting
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      </Box>
-    </>
-  )}
-</Box>
-);
+              </Box>
+            </CardContent>
+          </Card>
+          <Box my={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" align="center" gutterBottom>
+                  Understand your footprint
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie
+                          data={sections}
+                          dataKey="value"
+                          nameKey="title"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={100}
+                          label
+                        >
+                          {sections.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={colors[index % colors.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6}>
+                    {sections.map((section, index) => (
+                      <Accordion key={index}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                          <Typography>
+                            {section.emoji} {section.title}:{" "}
+                            {section.value.toFixed(2)} tons
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Additional information about {section.title}{" "}
+                            emissions.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    ))}
+                    <Box textAlign="center">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleOffsettingClick}
+                        sx={{ mt: 2 }}
+                      >
+                        Start offsetting
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Box>
+        </>
+      )}
+    </Box>
+  );
 }
 
 export default Dashboard;
