@@ -30,10 +30,13 @@ export const getReductionArrow = (currentEmissions, targetEmissions) => {
   }
 };
 
-const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
+const QuestCard = ({
+  quest,
+  userCarbonFootprint,
+  handleOpen,
+  targetEmissions,
+}) => {
   const currentEmissions = userCarbonFootprint[quest.category] || 0;
-  const targetEmissions = parseFloat(quest.target_carbon_consumption) || 0;
-
   return (
     <Card sx={{ maxWidth: 345 }}>
       {quest.image && (
@@ -50,13 +53,15 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
         <Box display="flex" alignItems="center">
           {getSmileyIcon(currentEmissions, targetEmissions)}
           <Typography variant="body2" color="text.secondary">
-            Current Emissions: {currentEmissions.toFixed(1)} t CO2e/year
+            Current Emissions:{" "}
+            {currentEmissions ? currentEmissions.toFixed(1) : 0} t CO2e/year
           </Typography>
         </Box>
         <Box display="flex" alignItems="center">
           {getReductionArrow(currentEmissions, targetEmissions)}
           <Typography variant="body2" color="text.secondary">
-            Target Emissions: {targetEmissions.toFixed(1)} t CO2e/year
+            Target Emissions: {targetEmissions ? targetEmissions.toFixed(1) : 0}{" "}
+            t CO2e/year
           </Typography>
         </Box>
       </CardContent>

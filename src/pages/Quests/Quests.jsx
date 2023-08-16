@@ -4,6 +4,7 @@ import { db, auth } from "../../services/firebase";
 import QuestCard from "../../components/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
 import Grid from "@mui/material/Grid";
+import { calculateCarbonFootprint } from "../../components/CarbonFootprintCalculation/CarbonFootprintCalculation";
 
 const Quests = () => {
   const [quests, setQuests] = useState([]);
@@ -51,23 +52,36 @@ const Quests = () => {
 
   if (userCarbonFootprint === null) return <div>Loading...</div>;
 
+  const getTargetEmissions = (quest) => {
+    if (!quest) return 0;
+
+    if (quest.subCategory) {
+      return 0;
+    } else {
+      const objective = userCarbonFootprint[`${quest.category}Objective`];
+      if (objective && CarbonFootprintCalculation[quest.category]) {
+        return CarbonFootprintCalculation[quest.category][objective];
+      } else {
+        return 0;
+      }
+    }
+  };
+
   return (
     <div>
       <Grid container spacing={3}>
         {quests.map((quest) => {
-          if (quest.category) {
-            return (
-              <Grid item xs={12} sm={6} md={4} key={quest.id}>
-                <QuestCard
-                  quest={quest}
-                  userCarbonFootprint={userCarbonFootprint}
-                  handleOpen={handleOpen}
-                />
-              </Grid>
-            );
-          } else {
-            return null;
-          }
+          const targetEmissions = getTargetEmissions(quest);
+          return (
+            <Grid item xs={12} sm={6} md={4} key={quest.id}>
+              <QuestCard
+                quest={quest}
+                userCarbonFootprint={userCarbonFootprint}
+                targetEmissions={targetEmissions}
+                handleOpen={handleOpen}
+              />
+            </Grid>
+          );
         })}
       </Grid>
       <div
@@ -79,10 +93,10 @@ const Quests = () => {
           handleClose={handleClose}
           selectedQuest={selectedQuest}
           currentEmissions={
-            userCarbonFootprint?.[`${selectedQuest?.category}Emissions`] || 0
+            userCarbonFootprint?.[`${selectedQuest?.category}Emissions`] || 7
           }
           targetEmissions={
-            parseFloat(selectedQuest?.target_carbon_consumption) || 0
+            selectedQuest ? getTargetEmissions(selectedQuest) : 8
           }
         />
       </div>
