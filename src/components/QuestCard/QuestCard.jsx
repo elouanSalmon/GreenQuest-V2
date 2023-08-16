@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -31,26 +31,21 @@ export const getReductionArrow = (currentEmissions, targetEmissions) => {
 };
 
 const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
-  const currentEmissions =
-    userCarbonFootprint?.[`${quest?.category}Emissions`] || 0;
-  const targetEmissions =
-    quest?.subCategory &&
-    userCarbonFootprint?.[`${quest?.subCategory}Emissions`] !== undefined
-      ? userCarbonFootprint?.[`${quest?.subCategory}Emissions`]
-      : parseFloat(quest?.target_carbon_consumption) || 0;
+  const currentEmissions = userCarbonFootprint[quest.category] || 0;
+  const targetEmissions = parseFloat(quest.target_carbon_consumption) || 0;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      {quest?.image && (
+      {quest.image && (
         <CardMedia
           sx={{ height: 140 }}
           image={`/src/assets/images/quests/${quest.image}`}
-          title={quest?.title}
+          title={quest.title}
         />
       )}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {quest?.title}
+          {quest.title}
         </Typography>
         <Box display="flex" alignItems="center">
           {getSmileyIcon(currentEmissions, targetEmissions)}
