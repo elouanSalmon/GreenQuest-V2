@@ -4,7 +4,7 @@ import { db, auth } from "../../services/firebase";
 import QuestCard from "../../components/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
 import Grid from "@mui/material/Grid";
-import { calculateCarbonFootprint } from "../../components/CarbonFootprintCalculation/CarbonFootprintCalculation";
+import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
 
 const Quests = () => {
   const [quests, setQuests] = useState([]);
@@ -56,14 +56,12 @@ const Quests = () => {
     if (!quest) return 0;
 
     if (quest.subCategory) {
-      return 0;
+      return 777;
     } else {
-      const objective = userCarbonFootprint[`${quest.category}Objective`];
-      if (objective && CarbonFootprintCalculation[quest.category]) {
-        return CarbonFootprintCalculation[quest.category][objective];
-      } else {
-        return 0;
-      }
+      return getTargetEmissionsValue(
+        quest.category,
+        quest.target_carbon_consumption
+      );
     }
   };
 
@@ -93,10 +91,10 @@ const Quests = () => {
           handleClose={handleClose}
           selectedQuest={selectedQuest}
           currentEmissions={
-            userCarbonFootprint?.[`${selectedQuest?.category}Emissions`] || 7
+            userCarbonFootprint?.[`${selectedQuest?.category}Emissions`] || 0
           }
           targetEmissions={
-            selectedQuest ? getTargetEmissions(selectedQuest) : 8
+            selectedQuest ? getTargetEmissions(selectedQuest) : 0
           }
         />
       </div>
