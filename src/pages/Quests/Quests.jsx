@@ -1,31 +1,25 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../services/firebase";
 import QuestCard from "../../components/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
-import "./Quests.css";
 import Grid from "@mui/material/Grid";
 
 const Quests = () => {
   const [quests, setQuests] = useState([]);
-  const [userCarbonFootprint, setUserCarbonFootprint] = useState({});
+  const [userCarbonFootprint, setUserCarbonFootprint] = useState(null);
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [selectedQuest, setSelectedQuest] = useState(null);
-
-  const calculateCarbonReductionPotential = (
-    currentEmissions,
-    targetEmissions
-  ) => {
-    return currentEmissions - targetEmissions;
-  };
 
   useEffect(() => {
     const fetchQuests = async () => {
       const questCollection = collection(db, "quests");
       const questSnapshot = await getDocs(questCollection);
-      setQuests(
-        questSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-      );
+      const fetchedQuests = questSnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setQuests(fetchedQuests);
     };
 
     fetchQuests();
@@ -46,24 +40,6 @@ const Quests = () => {
     fetchUserCarbonFootprint();
   }, []);
 
-  const sortedQuests = useMemo(() => {
-    const questList = [...quests]; // Clone the array
-    questList.sort((a, b) => {
-      const aReductionPotential = calculateCarbonReductionPotential(
-        userCarbonFootprint?.[`${a.category}Emissions`] || 0,
-        parseFloat(a?.target_carbon_consumption) || 0
-      );
-      const bReductionPotential = calculateCarbonReductionPotential(
-        userCarbonFootprint?.[`${b.category}Emissions`] || 0,
-        parseFloat(b?.target_carbon_consumption) || 0
-      );
-
-      return bReductionPotential - aReductionPotential;
-    });
-
-    return questList;
-  }, [quests, userCarbonFootprint]);
-
   const handleOpen = (quest) => {
     setSelectedQuest(quest);
     setIsPageVisible(true);
@@ -73,16 +49,13 @@ const Quests = () => {
     setIsPageVisible(false);
   };
 
-  if (!userCarbonFootprint) return <div>Loading...</div>;
+  if (userCarbonFootprint === null) return <div>Loading...</div>;
 
   return (
     <div>
       <Grid container spacing={3}>
-        {sortedQuests.map((quest) => {
-          if (
-            quest.category &&
-            userCarbonFootprint.hasOwnProperty(`${quest.category}Emissions`)
-          ) {
+        {quests.map((quest) => {
+          if (quest.category) {
             return (
               <Grid item xs={12} sm={6} md={4} key={quest.id}>
                 <QuestCard

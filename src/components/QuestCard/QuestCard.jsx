@@ -22,8 +22,7 @@ export const getSmileyIcon = (currentEmissions, targetEmissions) => {
 };
 
 export const getReductionArrow = (currentEmissions, targetEmissions) => {
-  const largeReductionThreshold = 0.3; // Set your own threshold value (in t CO2e)
-
+  const largeReductionThreshold = 0.3;
   if (currentEmissions - targetEmissions > largeReductionThreshold) {
     return <ArrowDownwardIcon color="success" />;
   } else {
@@ -32,27 +31,26 @@ export const getReductionArrow = (currentEmissions, targetEmissions) => {
 };
 
 const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
-  const currentEmissions = useMemo(
-    () => userCarbonFootprint?.[`${quest.category}Emissions`] || 0,
-    [userCarbonFootprint, quest.category]
-  );
-  const targetEmissions = useMemo(
-    () => parseFloat(quest?.target_carbon_consumption) || 0,
-    [quest]
-  );
+  const currentEmissions =
+    userCarbonFootprint?.[`${quest?.category}Emissions`] || 0;
+  const targetEmissions =
+    quest?.subCategory &&
+    userCarbonFootprint?.[`${quest?.subCategory}Emissions`] !== undefined
+      ? userCarbonFootprint?.[`${quest?.subCategory}Emissions`]
+      : parseFloat(quest?.target_carbon_consumption) || 0;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      {quest.image && (
+      {quest?.image && (
         <CardMedia
           sx={{ height: 140 }}
-          image={`src/assets/images/quests/${quest.image}`}
-          title={quest.title}
+          image={`/src/assets/images/quests/${quest.image}`}
+          title={quest?.title}
         />
       )}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {quest.title}
+          {quest?.title}
         </Typography>
         <Box display="flex" alignItems="center">
           {getSmileyIcon(currentEmissions, targetEmissions)}
@@ -68,8 +66,7 @@ const QuestCard = ({ quest, userCarbonFootprint, handleOpen }) => {
         </Box>
       </CardContent>
       <CardActions>
-        <Button size="small">Start</Button>
-        <Button size="small" onClick={() => handleOpen(quest)}>
+        <Button size="small" color="primary" onClick={() => handleOpen(quest)}>
           Learn More
         </Button>
       </CardActions>
