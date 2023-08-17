@@ -92,12 +92,10 @@ export const getTargetEmissionsValue = (
         return (homeSize * renewableElectricity) / homeOccupants / 1000;
 
       case "mobilityEmissions":
-        const carUsage = modifiedFootprint.carUsageEmissions || 0;
-        const fuelType = modifiedFootprint.fuelTypeEmissions || 0;
-        return carUsage * fuelType;
+        const carUsage = modifiedFootprint.carUsageEmissions || 0; // récupère la valeur de 'carUsageEmissions' du footprint modifié
+        const fuelType = modifiedFootprint.fuelTypeEmissions || 0; // récupère la valeur de 'fuelTypeEmissions' du footprint modifié
 
-      default:
-        return targetValueForObjective / 1000;
+        return (carUsage * fuelType) / 1000;
     }
   } else {
     return targetValueForObjective / 1000;
