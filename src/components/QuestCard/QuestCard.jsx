@@ -33,8 +33,9 @@ export const getReductionArrow = (currentEmissions, targetEmissions) => {
 const QuestCard = ({
   quest,
   userCarbonFootprint,
-  handleOpen,
   targetEmissions,
+  handleOpen,
+  handleComplete,
 }) => {
   const currentEmissions = userCarbonFootprint[quest.category] || 0;
   return (
@@ -66,6 +67,7 @@ const QuestCard = ({
         </Box>
       </CardContent>
       <CardActions>
+        <Button onClick={() => handleComplete(quest)}>Complete</Button>
         <Button size="small" color="primary" onClick={() => handleOpen(quest)}>
           Learn More
         </Button>

@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+
 import { db, auth } from "../../services/firebase";
 import QuestCard from "../../components/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
 import Grid from "@mui/material/Grid";
 import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
+import handleQuestCompletion from "../../components/QuestCompletionHandler/QuestCompletionHandler";
 
 const Quests = () => {
   const [quests, setQuests] = useState([]);
@@ -50,6 +58,14 @@ const Quests = () => {
     setIsPageVisible(false);
   };
 
+  const handleComplete = async (quest) => {
+    await handleQuestCompletion(
+      quest,
+      userCarbonFootprint,
+      setUserCarbonFootprint
+    );
+  };
+
   if (userCarbonFootprint === null) return <div>Loading...</div>;
 
   const getTargetEmissions = (quest) => {
@@ -75,6 +91,7 @@ const Quests = () => {
                 userCarbonFootprint={userCarbonFootprint}
                 targetEmissions={targetEmissions}
                 handleOpen={handleOpen}
+                handleComplete={handleComplete}
               />
             </Grid>
           );
