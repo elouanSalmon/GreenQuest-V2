@@ -4,7 +4,7 @@ export function calculateCarbonFootprint(formData) {
       rarely: 0,
       occasionally: 3000,
       regularly: 9000,
-      custom: parseFloat(formData.customFlyingAmount) || 0,
+      custom: 0,
     },
     carUsage: {
       noDrive: 0,

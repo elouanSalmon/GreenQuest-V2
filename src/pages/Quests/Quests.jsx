@@ -55,14 +55,12 @@ const Quests = () => {
   const getTargetEmissions = (quest) => {
     if (!quest) return 0;
 
-    if (quest.subCategory) {
-      return 777;
-    } else {
-      return getTargetEmissionsValue(
-        quest.category,
-        quest.target_carbon_consumption
-      );
-    }
+    return getTargetEmissionsValue(
+      quest.category,
+      quest.subCategory,
+      quest.target_carbon_consumption,
+      userCarbonFootprint
+    );
   };
 
   return (
