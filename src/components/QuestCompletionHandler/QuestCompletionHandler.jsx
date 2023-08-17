@@ -34,7 +34,7 @@ export const handleQuestCompletion = async (
       quest.target_carbon_consumption,
       userCarbonFootprint
     );
-    updates[`${quest.subCategory}`] = updatedSubEmissions;
+    updates[`${quest.subCategory}`] = updatedSubEmissions * 1000;
   }
 
   await updateDoc(docRef, updates);
