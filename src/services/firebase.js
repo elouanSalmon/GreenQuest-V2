@@ -4,6 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { loadStripe } from "@stripe/stripe-js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -44,8 +45,8 @@ export const registerWithEmail = async (
     const user = userCredential.user;
 
     // Utilisez firestore pour les opérations Firestore
-    const userRef = firestore.collection("users").doc(user.uid);
-    await userRef.set({
+    const userRef = doc(firestore, "users", user.uid);
+    await setDoc(userRef, {
       firstName: firstName,
       lastName: lastName,
       email: email,
