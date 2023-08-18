@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { registerWithEmail } from "../../services/firebase";
+import { Link } from "react-router-dom";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ function SignUp() {
           Rejoignez GreenQuest
         </Typography>
         <Typography variant="h6" component="h2" gutterBottom>
-          Inscrivez-vous et commencez votre aventure écologique.
+          Commencez votre aventure écologique.
         </Typography>
         <Typography variant="h6" component="h3" gutterBottom>
           Création de compte
@@ -82,6 +83,9 @@ function SignUp() {
             Sign Up
           </Button>
         </form>
+        <Box mt={2}>
+          <Link to="/login">Already have an account? Log in</Link>
+        </Box>
       </Box>
     </Container>
   );

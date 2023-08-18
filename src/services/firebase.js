@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { loadStripe } from "@stripe/stripe-js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // import { getAnalytics } from "firebase/analytics";
 
