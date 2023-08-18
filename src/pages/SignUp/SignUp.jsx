@@ -81,6 +81,11 @@ function SignUp() {
             control={<Checkbox value="allowExtraEmails" color="primary" />}
             label="I want to receive inspiration, marketing promotions and updates via email."
           />
+          <FormControlLabel
+            control={<Checkbox value="rgpdConsent" color="primary" />}
+            label="J'accepte les termes et conditions d'utilisation."
+          />
+
           <Button type="submit" variant="contained" color="primary">
             Sign Up
           </Button>
