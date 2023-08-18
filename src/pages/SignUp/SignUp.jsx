@@ -16,11 +16,13 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await registerWithEmail(email, password);
+      await registerWithEmail(email, password, firstName, lastName);
       navigate("/");
     } catch (error) {
       console.error("Error signing up with email and password:", error);
