@@ -1,4 +1,5 @@
-const { onRequest } = require("firebase-functions/v2/https");
+// Commented out due to non-usage:
+// const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 
 const functions = require("firebase-functions");
@@ -10,9 +11,8 @@ const db = admin.firestore();
 
 const stripe = new Stripe(functions.config().stripe.secret);
 
-// Fonction pour convertir les émissions totales en euros ou en dollars
 const calculateAmount = (totalEmissions) => {
-  return totalEmissions; // 1 tonne de carbone = 1 euro ou 1 dollar
+  return totalEmissions;
 };
 
 exports.scheduledPayment = functions.pubsub
@@ -25,7 +25,7 @@ exports.scheduledPayment = functions.pubsub
       .where("renewalDate", "==", today)
       .get();
 
-    for (let userDoc of usersToRenew.docs) {
+    for (const userDoc of usersToRenew.docs) {
       const user = userDoc.data();
 
       const emissionsDoc = await db
@@ -43,12 +43,11 @@ exports.scheduledPayment = functions.pubsub
       }
 
       try {
-        // Créez un paiement unique pour le client
         const paymentIntent = await stripe.paymentIntents.create({
-          amount: amount * 100, // Stripe utilise des centimes, donc multipliez par 100
-          currency: "eur", // ou 'usd' selon votre préférence
+          amount: amount * 100,
+          currency: "eur",
           customer: customerId,
-          description: `Paiement pour ${totalEmissions} tonnes d'émissions de carbone`,
+          description: `Paiement pour ${totalEmissions} tonnes`,
         });
 
         if (paymentIntent.status !== "succeeded") {
@@ -57,7 +56,8 @@ exports.scheduledPayment = functions.pubsub
         }
       } catch (error) {
         logger.error(
-          `Error processing payment for user ${userDoc.id}: ${error.message}`
+          `Error processing payment for user ${userDoc.id}: `,
+          error.message
         );
         continue;
       }

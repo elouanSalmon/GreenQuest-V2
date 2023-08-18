@@ -22,13 +22,17 @@ export const createStripeCustomer = async (email) => {
 
 // Create a subscription for the customer
 export const createSubscription = async (customerId, priceId) => {
-  const stripe = await getStripeInstance();
-  const subscription = await stripe.subscriptions.create({
-    customer: customerId,
-    items: [{ price: priceId }],
-    expand: ["latest_invoice.payment_intent"],
-  });
-  return subscription;
+  try {
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{ price: priceId }],
+      expand: ["latest_invoice.payment_intent"],
+    });
+    return subscription;
+  } catch (error) {
+    console.error("Error creating subscription:", error);
+    throw error;
+  }
 };
 
 // Update the subscription amount (this assumes you have different price IDs for different amounts)

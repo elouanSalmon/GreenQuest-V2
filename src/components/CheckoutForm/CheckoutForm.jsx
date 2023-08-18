@@ -58,10 +58,7 @@ const CheckoutForm = ({ handlePaymentSuccess }) => {
 
       // Remplacez la logique de création du client Stripe par un appel à la fonction Firebase
       try {
-        const createCustomerFunction = call(app, "createStripeCustomer");
-        const result = await createCustomerFunction({ email });
-        const customerId = result.customerId;
-
+        const { customerId } = await createStripeCustomer({ email });
         // Create a subscription for the customer (you'll need a price ID from Stripe)
         const subscription = await createSubscription(
           customerId,
