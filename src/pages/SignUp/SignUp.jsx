@@ -23,8 +23,20 @@ function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (currentUser) {
+      // Si l'utilisateur est déjà connecté, redirigez-le vers la page d'accueil
+      navigate("/");
+      return;
+    }
     try {
-      await registerWithEmail(email, password, firstName, lastName);
+      await registerWithEmail(
+        email,
+        password,
+        firstName,
+        lastName,
+        allowExtraEmails,
+        rgpdConsent
+      );
       navigate("/");
     } catch (error) {
       console.error("Error signing up with email and password:", error);
