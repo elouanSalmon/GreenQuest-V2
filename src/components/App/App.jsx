@@ -12,6 +12,7 @@ import Quests from "../../pages/Quests/Quests";
 import CreateQuest from "../../pages/CreateQuest/CreateQuest";
 import PaymentSuccess from "../../pages/PaymentSuccess/PaymentSuccess";
 import "./App.css";
+import SignUp from "../../pages/SignUp/SignUp";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<PrivateRoute />}>
             <Route index element={<Home />} />
             <Route path="/profile" element={<Profile />} />

@@ -26,6 +26,19 @@ export const auth = getAuth();
 export const googleProvider = new GoogleAuthProvider();
 export const firestore = getFirestore(app);
 
+export const registerWithEmail = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Export Firestore instance
 export const db = getFirestore(app);
 

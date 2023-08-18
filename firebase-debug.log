@@ -1,0 +1,139 @@
+[debug] [2023-08-18T13:38:49.886Z] ----------------------------------------------------------------------
+[debug] [2023-08-18T13:38:49.889Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init emulators
+[debug] [2023-08-18T13:38:49.889Z] CLI Version:   12.4.8
+[debug] [2023-08-18T13:38:49.889Z] Platform:      win32
+[debug] [2023-08-18T13:38:49.890Z] Node Version:  v18.13.0
+[debug] [2023-08-18T13:38:49.890Z] Time:          Fri Aug 18 2023 15:38:49 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2023-08-18T13:38:49.891Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-18T13:38:49.977Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-18T13:38:49.978Z] > authorizing via signed-in user (elouan.salmon@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\GreenQuest-V2
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-08-18T13:39:01.640Z] Using project from CLI flag: greenquest-0
+[debug] [2023-08-18T13:39:01.644Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 [none]
+[debug] [2023-08-18T13:39:01.928Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 200
+[debug] [2023-08-18T13:39:01.928Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 {"projectId":"greenquest-0","projectNumber":"1045310162804","displayName":"GreenQuest","name":"projects/greenquest-0","resources":{"hostingSite":"greenquest-0","realtimeDatabaseInstance":"greenquest-0-default-rtdb","storageBucket":"greenquest-0.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_4d16004a-1187-435e-ad6f-63435d3f8be7"}
+[info] i  Using project greenquest-0 (GreenQuest) 
+[info] 
+=== Emulators Setup
+[debug] [2023-08-18T13:39:29.668Z] ----------------------------------------------------------------------
+[debug] [2023-08-18T13:39:29.670Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init emulators
+[debug] [2023-08-18T13:39:29.670Z] CLI Version:   12.4.8
+[debug] [2023-08-18T13:39:29.671Z] Platform:      win32
+[debug] [2023-08-18T13:39:29.671Z] Node Version:  v18.13.0
+[debug] [2023-08-18T13:39:29.672Z] Time:          Fri Aug 18 2023 15:39:29 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2023-08-18T13:39:29.672Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-18T13:39:29.745Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-18T13:39:29.745Z] > authorizing via signed-in user (elouan.salmon@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\GreenQuest-V2
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-08-18T13:39:34.221Z] Using project from CLI flag: greenquest-0
+[debug] [2023-08-18T13:39:34.224Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 [none]
+[debug] [2023-08-18T13:39:34.528Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 200
+[debug] [2023-08-18T13:39:34.528Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 {"projectId":"greenquest-0","projectNumber":"1045310162804","displayName":"GreenQuest","name":"projects/greenquest-0","resources":{"hostingSite":"greenquest-0","realtimeDatabaseInstance":"greenquest-0-default-rtdb","storageBucket":"greenquest-0.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_4d16004a-1187-435e-ad6f-63435d3f8be7"}
+[info] i  Using project greenquest-0 (GreenQuest) 
+[info] 
+=== Emulators Setup
+[info] i  firestore: downloading cloud-firestore-emulator-v1.18.1.jar... {"metadata":{"emulator":{"name":"firestore"},"message":"downloading cloud-firestore-emulator-v1.18.1.jar..."}}
+[debug] [2023-08-18T13:41:03.083Z] Error: EPERM: operation not permitted, mkdir 'C:\Users\eloua\.cache\firebase\emulators'
+    at Object.mkdirSync (node:fs:1395:3)
+    at module.exports.makeDirSync (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\fs-extra\lib\mkdirs\make-dir.js:23:13)
+    at downloadEmulator (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\download.js:17:8)
+    at downloadIfNecessary (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\downloadableEmulators.js:360:43)
+    at doSetup (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\emulators.js:94:71)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async init (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:41:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-08-18T13:41:15.786Z] ----------------------------------------------------------------------
+[debug] [2023-08-18T13:41:15.788Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init emulators
+[debug] [2023-08-18T13:41:15.788Z] CLI Version:   12.4.8
+[debug] [2023-08-18T13:41:15.789Z] Platform:      win32
+[debug] [2023-08-18T13:41:15.789Z] Node Version:  v18.13.0
+[debug] [2023-08-18T13:41:15.790Z] Time:          Fri Aug 18 2023 15:41:15 GMT+0200 (heure d’été d’Europe centrale)
+[debug] [2023-08-18T13:41:15.790Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-18T13:41:15.864Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-18T13:41:15.864Z] > authorizing via signed-in user (elouan.salmon@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\GreenQuest-V2
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-08-18T13:41:17.849Z] Using project from CLI flag: greenquest-0
+[debug] [2023-08-18T13:41:17.852Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 [none]
+[debug] [2023-08-18T13:41:18.127Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 200
+[debug] [2023-08-18T13:41:18.128Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/greenquest-0 {"projectId":"greenquest-0","projectNumber":"1045310162804","displayName":"GreenQuest","name":"projects/greenquest-0","resources":{"hostingSite":"greenquest-0","realtimeDatabaseInstance":"greenquest-0-default-rtdb","storageBucket":"greenquest-0.appspot.com","locationId":"europe-west"},"state":"ACTIVE","etag":"1_4d16004a-1187-435e-ad6f-63435d3f8be7"}
+[info] i  Using project greenquest-0 (GreenQuest) 
+[info] 
+=== Emulators Setup
+[info] i  firestore: downloading cloud-firestore-emulator-v1.18.1.jar... {"metadata":{"emulator":{"name":"firestore"},"message":"downloading cloud-firestore-emulator-v1.18.1.jar..."}}
+[debug] [2023-08-18T13:41:47.411Z] Error: EPERM: operation not permitted, mkdir 'C:\Users\eloua\.cache\firebase\emulators'
+    at Object.mkdirSync (node:fs:1395:3)
+    at module.exports.makeDirSync (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\fs-extra\lib\mkdirs\make-dir.js:23:13)
+    at downloadEmulator (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\download.js:17:8)
+    at downloadIfNecessary (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\emulator\downloadableEmulators.js:360:43)
+    at doSetup (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\emulators.js:94:71)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async init (C:\Users\eloua\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:41:9)
+[error] 
+[error] Error: An unexpected error has occurred.
