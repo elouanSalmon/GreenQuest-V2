@@ -39,7 +39,7 @@ function SignUp() {
         allowExtraEmails,
         rgpdConsent
       );
-      navigate("./");
+      navigate("/"); // <-- Change made here
     } catch (error) {
       console.error("Error signing up with email and password:", error);
     }
@@ -66,6 +66,8 @@ function SignUp() {
             id="firstName"
             label="First Name"
             autoFocus
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
           <TextField
             required
@@ -74,7 +76,10 @@ function SignUp() {
             label="Last Name"
             name="lastName"
             autoComplete="family-name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
+
           <TextField
             label="Email"
             type="email"
