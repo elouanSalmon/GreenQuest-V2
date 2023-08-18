@@ -1,21 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, IconButton, Hidden } from '@mui/material';
-import { styled } from '@mui/system';
-import { auth } from '../../services/firebase';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  IconButton,
+  Hidden,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import { auth } from "../../services/firebase";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
+  display: "flex",
+  justifyContent: "space-between",
 }));
 
-const StyledNavLinks = styled('nav')({
-  display: 'flex',
+const StyledNavLinks = styled("nav")({
+  display: "flex",
 });
 
 const StyledLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
+  textDecoration: "none",
   color: theme.palette.primary.main,
 }));
 
@@ -28,7 +37,7 @@ function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
+    auth.onAuthStateChanged((user) => {
       setIsAuthenticated(user !== null);
     });
   }, []);
@@ -50,7 +59,9 @@ function Navbar() {
       {isAuthenticated && (
         <StyledAppBar position="static">
           <StyledToolbar>
-            <Typography variant="h6" color="primary">GreenQuest</Typography>
+            <Typography variant="h6" color="primary">
+              GreenQuest
+            </Typography>
             <StyledNavLinks>
               <Hidden mdDown>
                 <StyledLink to="/">
@@ -59,16 +70,18 @@ function Navbar() {
                 <StyledLink to="/dashboard">
                   <Button color="inherit">Dashboard</Button>
                 </StyledLink>
-                <StyledLink to="/offset">
-                  <Button color="inherit">Offset</Button>
-                </StyledLink>
                 <StyledLink to="/quests">
                   <Button color="inherit"> Quests</Button>
                 </StyledLink>
-                                                    <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/create-quest" onClick={handleMenuClose}>CREATE QUEST</StyledLink>
-                  </MenuItem>
+                <MenuItem onClick={handleMenuClose}>
+                  <StyledLink to="/create-quest" onClick={handleMenuClose}>
+                    CREATE QUEST
+                  </StyledLink>
+                </MenuItem>
               </Hidden>
+              <StyledLink to="/offset">
+                <Button variant="contained">Offset Now</Button>
+              </StyledLink>
               <Hidden lgUp>
                 <IconButton color="primary" onClick={handleMenuClick}>
                   <MoreVertIcon />
@@ -79,25 +92,39 @@ function Navbar() {
                   onClose={handleMenuClose}
                 >
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/" onClick={handleMenuClose}>Home</StyledLink>
-                  </MenuItem>
-                                    <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/create-quest" onClick={handleMenuClose}>CREATE QUEST</StyledLink>
-                  </MenuItem>
-                  <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/dashboard" onClick={handleMenuClose}>Dashboard</StyledLink>
+                    <StyledLink to="/" onClick={handleMenuClose}>
+                      Home
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/offset" onClick={handleMenuClose}>Offset</StyledLink>
+                    <StyledLink to="/create-quest" onClick={handleMenuClose}>
+                      CREATE QUEST
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/quests" onClick={handleMenuClose}>Quests</StyledLink>
+                    <StyledLink to="/dashboard" onClick={handleMenuClose}>
+                      Dashboard
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
+                    <StyledLink to="/offset" onClick={handleMenuClose}>
+                      Offset
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/about" onClick={handleMenuClose}>About</StyledLink>
+                    <StyledLink to="/quests" onClick={handleMenuClose}>
+                      Quests
+                    </StyledLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/profile" onClick={handleMenuClose}>
+                      Profile
+                    </StyledLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/about" onClick={handleMenuClose}>
+                      About
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
@@ -112,10 +139,14 @@ function Navbar() {
                   onClose={handleMenuClose}
                 >
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/profile" onClick={handleMenuClose}>Profile</StyledLink>
+                    <StyledLink to="/profile" onClick={handleMenuClose}>
+                      Profile
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/about" onClick={handleMenuClose}>About</StyledLink>
+                    <StyledLink to="/about" onClick={handleMenuClose}>
+                      About
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
