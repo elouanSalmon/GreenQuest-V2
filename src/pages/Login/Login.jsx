@@ -6,11 +6,14 @@ import {
   Button,
   Box,
   Divider,
+  IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../services/firebase";
 import { Link } from "react-router-dom";
+import GoogleIcon from "@mui/icons-material/Google";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -29,7 +32,22 @@ function Login() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      const user = userCredential.user;
+
+      // Vérifiez si l'utilisateur existe déjà dans Firestore
+      const userRef = doc(firestore, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+      if (!userDoc.exists()) {
+        // Si l'utilisateur n'existe pas, créez un nouvel enregistrement pour lui
+        await setDoc(userRef, {
+          firstName: user.displayName.split(" ")[0], // Extrait le prénom à partir du nom complet
+          lastName: user.displayName.split(" ").slice(1).join(" "), // Extrait le nom de famille à partir du nom complet
+          email: user.email,
+          // Ajoutez d'autres champs si nécessaire
+        });
+      }
+
       navigate("/");
     } catch (error) {
       console.error("Error signing in with Google:", error);
@@ -73,7 +91,17 @@ function Login() {
         </form>
         <Divider variant="middle" sx={{ my: 2 }} />
         <Box mt={2}>
-          <Button onClick={handleGoogleSignIn}>Se connecter avec Google</Button>
+          <IconButton
+            onClick={handleGoogleSignIn}
+            style={{
+              backgroundColor: "white",
+              color: "#4285F4",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
+            }}
+            elevation={1}
+          >
+            <GoogleIcon />
+          </IconButton>
         </Box>
         <Box mt={2}>
           <Link to="/signup">Pas encore de compte? Inscrivez-vous</Link>
