@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { Elements } from "@stripe/react-stripe-js";
-import { getStripe } from "../../services/stripe";
+import { getStripeInstance } from "../../services/stripe";
 import CheckoutForm from "../CheckoutForm/CheckoutForm";
 import { auth, db } from "../../services/firebase"; // Import auth and db
 import { doc, setDoc } from "firebase/firestore"; // Import Firestore methods
@@ -12,7 +12,7 @@ const Payment = ({ cost }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getStripe().then((stripe) => {
+    getStripeInstance().then((stripe) => {
       setStripe(stripe);
     });
   }, []);

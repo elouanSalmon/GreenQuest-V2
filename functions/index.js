@@ -1,12 +1,3 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
 const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 
@@ -17,13 +8,18 @@ const Stripe = require("stripe");
 admin.initializeApp();
 const db = admin.firestore();
 
-const stripe = new Stripe("YOUR_STRIPE_SECRET_KEY");
+const stripe = new Stripe(functions.config().stripe.secret);
+
+// Fonction pour convertir les émissions totales en euros ou en dollars
+const calculateAmount = (totalEmissions) => {
+  return totalEmissions; // 1 tonne de carbone = 1 euro ou 1 dollar
+};
 
 exports.scheduledPayment = functions.pubsub
   .schedule("every day 00:00")
   .timeZone("Europe/Paris")
   .onRun(async (context) => {
-    const today = new Date();
+    const today = new Date().toISOString().split("T")[0];
     const usersToRenew = await db
       .collection("users")
       .where("renewalDate", "==", today)
@@ -32,33 +28,72 @@ exports.scheduledPayment = functions.pubsub
     for (let userDoc of usersToRenew.docs) {
       const user = userDoc.data();
 
-      // Récupérez totalEmissions pour l'utilisateur
       const emissionsDoc = await db
         .collection("carbon-footprint")
         .doc(userDoc.id)
         .get();
       const totalEmissions = emissionsDoc.data().totalEmissions;
 
-      // Calculez le montant basé sur totalEmissions
-      // (Assumant une fonction calculateAmount pour cette étape)
       const amount = calculateAmount(totalEmissions);
 
-      // TODO: Utilisez l'API Stripe pour déclencher le paiement en utilisant l'ID client de Stripe stocké pour cet utilisateur
-      // (e.g., stripe.invoices.create(...) ou d'autres méthodes pertinentes)
+      const customerId = user.stripeCustomerId;
+      if (!customerId) {
+        logger.warn(`No Stripe customer ID found for user ${userDoc.id}`);
+        continue;
+      }
 
-      // Mettez à jour la date de renouvellement pour le mois prochain
+      try {
+        // Créez un paiement unique pour le client
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: amount * 100, // Stripe utilise des centimes, donc multipliez par 100
+          currency: "eur", // ou 'usd' selon votre préférence
+          customer: customerId,
+          description: `Paiement pour ${totalEmissions} tonnes d'émissions de carbone`,
+        });
+
+        if (paymentIntent.status !== "succeeded") {
+          logger.error(`Failed to process payment for user ${userDoc.id}`);
+          continue;
+        }
+      } catch (error) {
+        logger.error(
+          `Error processing payment for user ${userDoc.id}: ${error.message}`
+        );
+        continue;
+      }
+
       const renewalDate = new Date();
       renewalDate.setMonth(renewalDate.getMonth() + 1);
       await userDoc.ref.update({ renewalDate });
     }
 
-    return null;
+    return { status: "success", processedUsers: usersToRenew.docs.length };
   });
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+exports.createStripeCustomer = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      "unauthenticated",
+      "The function must be called while authenticated."
+    );
+  }
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+  const email = data.email;
+  if (!email) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Email is required."
+    );
+  }
+
+  try {
+    const customer = await stripe.customers.create({ email });
+    await db
+      .collection("users")
+      .doc(context.auth.uid)
+      .set({ stripeCustomerId: customer.id }, { merge: true });
+    return { customerId: customer.id };
+  } catch (error) {
+    throw new functions.https.HttpsError("unknown", error.message);
+  }
+});

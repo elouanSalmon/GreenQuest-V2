@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  createStripeCustomer,
+  createSubscription,
+} from "../../services/stripe";
+import { auth, saveStripeCustomerId } from "../../services/firebase";
 
 const CheckoutForm = ({ handlePaymentSuccess }) => {
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const [email, setEmail] = useState(auth.currentUser?.email || "");
 
   const cardElementOptions = {
     style: {
@@ -49,12 +55,37 @@ const CheckoutForm = ({ handlePaymentSuccess }) => {
       setError(null);
       await handlePaymentSuccess(paymentMethod);
       setProcessing(false);
+
+      // Remplacez la logique de création du client Stripe par un appel à la fonction Firebase
+      try {
+        const createCustomerFunction = call(app, "createStripeCustomer");
+        const result = await createCustomerFunction({ email });
+        const customerId = result.customerId;
+
+        // Create a subscription for the customer (you'll need a price ID from Stripe)
+        const subscription = await createSubscription(
+          customerId,
+          "your_price_id"
+        );
+        // Handle the subscription result as needed
+      } catch (error) {
+        console.error("Error creating Stripe customer:", error);
+      }
     }
   };
 
   return (
     <Box>
       <form onSubmit={handleSubmit}>
+        <Box mb={3}>
+          <TextField
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            required
+          />
+        </Box>
         <Box mb={3}>
           <CardElement options={cardElementOptions} />
         </Box>

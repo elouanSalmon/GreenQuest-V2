@@ -2,6 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { loadStripe } from "@stripe/stripe-js";
+
 // import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
@@ -30,5 +32,15 @@ export const db = getFirestore(app);
 // Export Storage instance
 export const storage = getStorage(app);
 
-//accessing secret key Stripe
-const stripe = new Stripe(functions.config().stripe.secret);
+// Save Stripe customer ID to Firestore
+export const saveStripeCustomerId = async (userId, customerId) => {
+  const userRef = db.collection("users").doc(userId);
+  await userRef.set({ stripeCustomerId: customerId }, { merge: true });
+};
+
+// Retrieve Stripe customer ID from Firestore
+export const getStripeCustomerId = async (userId) => {
+  const userRef = db.collection("users").doc(userId);
+  const userDoc = await userRef.get();
+  return userDoc.exists ? userDoc.data().stripeCustomerId : null;
+};
