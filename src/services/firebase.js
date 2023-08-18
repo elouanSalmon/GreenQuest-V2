@@ -31,7 +31,9 @@ export const registerWithEmail = async (
   email,
   password,
   firstName,
-  lastName
+  lastName,
+  allowExtraEmails,
+  rgpdConsent
 ) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -47,6 +49,8 @@ export const registerWithEmail = async (
       firstName: firstName,
       lastName: lastName,
       email: email,
+      allowExtraEmails: allowExtraEmails,
+      rgpdConsent: rgpdConsent,
     });
 
     return user;

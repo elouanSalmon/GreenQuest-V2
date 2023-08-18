@@ -18,6 +18,8 @@ function SignUp() {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [allowExtraEmails, setAllowExtraEmails] = useState(false);
+  const [rgpdConsent, setRgpdConsent] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,11 +80,23 @@ function SignUp() {
             fullWidth
           />
           <FormControlLabel
-            control={<Checkbox value="allowExtraEmails" color="primary" />}
+            control={
+              <Checkbox
+                checked={allowExtraEmails}
+                onChange={(e) => setAllowExtraEmails(e.target.checked)}
+                color="primary"
+              />
+            }
             label="I want to receive inspiration, marketing promotions and updates via email."
           />
           <FormControlLabel
-            control={<Checkbox value="rgpdConsent" color="primary" />}
+            control={
+              <Checkbox
+                checked={rgpdConsent}
+                onChange={(e) => setRgpdConsent(e.target.checked)}
+                color="primary"
+              />
+            }
             label="J'accepte les termes et conditions d'utilisation."
           />
 
