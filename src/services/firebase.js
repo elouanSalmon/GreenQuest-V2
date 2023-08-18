@@ -41,7 +41,7 @@ export const registerWithEmail = async (
     );
     const user = userCredential.user;
 
-    // Stocker les informations supplémentaires dans Firestore
+    // Utilisez firestore pour les opérations Firestore
     const userRef = firestore.collection("users").doc(user.uid);
     await userRef.set({
       firstName: firstName,
@@ -54,7 +54,6 @@ export const registerWithEmail = async (
     throw error;
   }
 };
-
 // Export Firestore instance
 export const db = getFirestore(app);
 
@@ -63,13 +62,13 @@ export const storage = getStorage(app);
 
 // Save Stripe customer ID to Firestore
 export const saveStripeCustomerId = async (userId, customerId) => {
-  const userRef = db.collection("users").doc(userId);
+  const userRef = firestore.collection("users").doc(userId);
   await userRef.set({ stripeCustomerId: customerId }, { merge: true });
 };
 
 // Retrieve Stripe customer ID from Firestore
 export const getStripeCustomerId = async (userId) => {
-  const userRef = db.collection("users").doc(userId);
+  const userRef = firestore.collection("users").doc(userId);
   const userDoc = await userRef.get();
   return userDoc.exists ? userDoc.data().stripeCustomerId : null;
 };
