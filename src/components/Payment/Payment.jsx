@@ -27,8 +27,21 @@ const Payment = ({ cost }) => {
     // Reference to the user's document in Firestore
     const userRef = doc(db, "users", userId);
 
-    // Update the user's subscription status in Firestore
-    await setDoc(userRef, { isSubscriber: true }, { merge: true });
+    // Define the renewal date as one month from now
+    const renewalDate = new Date();
+    renewalDate.setMonth(renewalDate.getMonth() + 1);
+
+    // Update the user's data in Firestore
+    await setDoc(
+      userRef,
+      {
+        isSubscriber: true,
+        stripePaymentMethodId: paymentMethod.id,
+        renewalDate: renewalDate,
+      },
+      { merge: true }
+    );
+
     navigate("/payment-successful");
   };
 

@@ -12,7 +12,7 @@ const firebaseConfig = {
   storageBucket: "greenquest-0.appspot.com",
   messagingSenderId: "1045310162804",
   appId: "1:1045310162804:web:79e862eccd16cf39248e21",
-  measurementId: "G-PY1VCW7VVK"
+  measurementId: "G-PY1VCW7VVK",
 };
 
 // Initialize Firebase
@@ -29,3 +29,6 @@ export const db = getFirestore(app);
 
 // Export Storage instance
 export const storage = getStorage(app);
+
+//accessing secret key Stripe
+const stripe = new Stripe(functions.config().stripe.secret);
