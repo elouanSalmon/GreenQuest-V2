@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { registerWithEmail } from "../../services/firebase";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ function SignUp() {
   const [lastName, setLastName] = useState("");
   const [allowExtraEmails, setAllowExtraEmails] = useState(false);
   const [rgpdConsent, setRgpdConsent] = useState(false);
+  const { currentUser } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,7 +39,7 @@ function SignUp() {
         allowExtraEmails,
         rgpdConsent
       );
-      navigate("/");
+      navigate("./");
     } catch (error) {
       console.error("Error signing up with email and password:", error);
     }
