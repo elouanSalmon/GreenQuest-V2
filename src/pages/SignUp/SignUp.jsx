@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Container, Typography, TextField, Button, Box } from "@mui/material";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { registerWithEmail } from "../../services/firebase";
 
@@ -21,10 +29,33 @@ function SignUp() {
   return (
     <Container maxWidth="xs">
       <Box my={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Sign Up
+        <Typography variant="h4" component="h1" gutterBottom>
+          Rejoignez GreenQuest
+        </Typography>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Inscrivez-vous et commencez votre aventure écologique.
+        </Typography>
+        <Typography variant="h6" component="h3" gutterBottom>
+          Création de compte
         </Typography>
         <form onSubmit={handleSubmit}>
+          <TextField
+            autoComplete="given-name"
+            name="firstName"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            autoFocus
+          />
+          <TextField
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoComplete="family-name"
+          />
           <TextField
             label="Email"
             type="email"
@@ -42,6 +73,10 @@ function SignUp() {
             variant="outlined"
             margin="normal"
             fullWidth
+          />
+          <FormControlLabel
+            control={<Checkbox value="allowExtraEmails" color="primary" />}
+            label="I want to receive inspiration, marketing promotions and updates via email."
           />
           <Button type="submit" variant="contained" color="primary">
             Sign Up

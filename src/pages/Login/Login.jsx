@@ -8,12 +8,9 @@ import {
   Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../services/firebase";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -48,7 +45,6 @@ function Login() {
         <Typography variant="h6" component="h2" gutterBottom>
           Faites une différence aujourd'hui.
         </Typography>
-
         <Typography variant="h6" component="h3" gutterBottom>
           Connexion
         </Typography>
@@ -75,11 +71,12 @@ function Login() {
             Connexion
           </Button>
         </form>
-
         <Divider variant="middle" sx={{ my: 2 }} />
-
         <Box mt={2}>
           <Button onClick={handleGoogleSignIn}>Se connecter avec Google</Button>
+        </Box>
+        <Box mt={2}>
+          <Link to="/signup">Pas encore de compte? Inscrivez-vous</Link>
         </Box>
       </Box>
     </Container>
