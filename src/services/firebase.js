@@ -27,14 +27,29 @@ export const auth = getAuth();
 export const googleProvider = new GoogleAuthProvider();
 export const firestore = getFirestore(app);
 
-export const registerWithEmail = async (email, password) => {
+export const registerWithEmail = async (
+  email,
+  password,
+  firstName,
+  lastName
+) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    return userCredential.user;
+    const user = userCredential.user;
+
+    // Stocker les informations supplémentaires dans Firestore
+    const userRef = firestore.collection("users").doc(user.uid);
+    await userRef.set({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+    });
+
+    return user;
   } catch (error) {
     throw error;
   }
