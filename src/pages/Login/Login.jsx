@@ -14,8 +14,10 @@ import { auth, googleProvider } from "../../services/firebase";
 import { Link } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Login() {
+  const { hasCompletedOnboarding } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -24,7 +26,11 @@ function Login() {
     event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      if (hasCompletedOnboarding) {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error signing in with email and password:", error);
     }

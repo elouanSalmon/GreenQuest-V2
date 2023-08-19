@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Container, Typography, Box } from '@mui/material';
-import CarbonFootprintForm from '../../components/CarbonFootprintForm/CarbonFootprintForm';
-import ReductionTips from '../../components/ReductionTips/ReductionTips';
-import Dashboard from '../../pages/Dashboard/Dashboard';
+import React, { useState } from "react";
+import { Container, Typography, Box } from "@mui/material";
+import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
+import ReductionTips from "../../components/ReductionTips/ReductionTips";
+import Dashboard from "../../pages/Dashboard/Dashboard";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Home() {
+  const { hasCompletedOnboarding } = useAuth();
   const [formData, setFormData] = useState(null);
 
   const handleFormSubmit = (data) => {
@@ -18,9 +20,11 @@ function Home() {
           Welcome to My Carbon Footprint App
         </Typography>
         <Typography variant="body1" paragraph>
-          Use our Carbon Footprint Calculator to assess your carbon footprint, discover Reduction Tips to lower your impact, and subscribe to offset your emissions through our Subscription service.
+          Use our Carbon Footprint Calculator to assess your carbon footprint,
+          discover Reduction Tips to lower your impact, and subscribe to offset
+          your emissions through our Subscription service.
         </Typography>
-        {formData ? (
+        {hasCompletedOnboarding ? (
           <Dashboard data={formData} />
         ) : (
           <>
