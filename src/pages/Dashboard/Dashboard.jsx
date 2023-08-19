@@ -78,7 +78,7 @@ function Dashboard() {
   const colors = ["#2bd977", "#42e38a", "#58ed9c", "#6ef7ae", "#85ffc1"];
 
   const handleOffsettingClick = () => {
-    navigate("/offsetting");
+    navigate("/offset");
   };
 
   return (

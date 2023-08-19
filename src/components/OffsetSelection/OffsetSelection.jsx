@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -9,68 +9,63 @@ import {
   Grid,
   IconButton,
   Typography,
-} from '@mui/material';
-import InfoIcon from '@mui/icons-material/Info';
-import { styled } from '@mui/system';
-import { auth, firestore } from '../../services/firebase';
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
-import treePlanting from '../../assets/images/OffsetSelection/tree_planting.jpg';
-import solarPower from '../../assets/images/OffsetSelection/solar_power.jpg';
-import directAirCapture from '../../assets/images/OffsetSelection/direct_air_capture.jpg';
-import hydroPower from '../../assets/images/OffsetSelection/hydro_power.jpg';
-import cleanCookStoves from '../../assets/images/OffsetSelection/clean_cook_stoves.jpg';
-import deforestationPrevention from '../../assets/images/OffsetSelection/deforestation_prevention.jpg';
-
+} from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import { styled } from "@mui/system";
+import { auth, firestore } from "../../services/firebase";
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import treePlanting from "../../assets/images/OffsetSelection/tree_planting.jpg";
+import solarPower from "../../assets/images/OffsetSelection/solar_power.jpg";
+import directAirCapture from "../../assets/images/OffsetSelection/direct_air_capture.jpg";
+import hydroPower from "../../assets/images/OffsetSelection/hydro_power.jpg";
+import cleanCookStoves from "../../assets/images/OffsetSelection/clean_cook_stoves.jpg";
+import deforestationPrevention from "../../assets/images/OffsetSelection/deforestation_prevention.jpg";
 
 const projects = [
   {
-    title: 'Tree planting projects',
+    title: "Tree planting projects",
     image: treePlanting,
   },
   {
-    title: 'Solar power projects',
+    title: "Solar power projects",
     image: solarPower,
   },
   {
-    title: 'Direct air capture',
+    title: "Direct air capture",
     image: directAirCapture,
   },
   {
-    title: 'Hydro power projects',
+    title: "Hydro power projects",
     image: hydroPower,
   },
   {
-    title: 'Clean cook stoves',
+    title: "Clean cook stoves",
     image: cleanCookStoves,
   },
   {
-    title: 'Deforestation prevention',
+    title: "Deforestation prevention",
     image: deforestationPrevention,
   },
 ];
 
-
-
 const StyledCardActionArea = styled(CardActionArea)(({ theme }) => ({
-  '&:hover': {
-    transform: 'scale(1.05)',
-    transition: 'transform 0.3s ease',
-    '& .MuiCardMedia-root': {
-      filter: 'grayscale(100%)',
-    },
+  "&:hover": {
+    transform: "scale(1.05)",
+    transition: "transform 0.3s ease",
   },
 }));
 
 const OffsetSelection = ({ onContinue }) => {
-
   const handleContinue = async () => {
-    const selectedProjects = projects.filter((_, index) => selected.includes(index)).map(project => project.title);
+    const selectedProjects = projects
+      .filter((_, index) => selected.includes(index))
+      .map((project) => project.title);
 
     // Get the current user's unique ID (assuming the user is already authenticated)
     const userId = auth.currentUser.uid;
 
     // Create a reference to the user's document in the "offset-selection" collection
-    const userDocRef = doc(firestore, 'offset-selection', userId);
+    const userDocRef = doc(firestore, "offset-selection", userId);
 
     // Check if the document exists
     const docSnap = await getDoc(userDocRef);
@@ -104,10 +99,12 @@ const OffsetSelection = ({ onContinue }) => {
         <Card
           onClick={() => handleSelect(index)}
           sx={{
-            position: 'relative',
-            borderColor: selected.includes(index) ? 'primary.main' : 'transparent',
+            position: "relative",
+            borderColor: selected.includes(index)
+              ? "primary.main"
+              : "transparent",
             borderWidth: 2,
-            borderStyle: 'solid',
+            borderStyle: "solid",
             borderRadius: 2,
             boxShadow: selected.includes(index) ? 6 : 1,
           }}
@@ -128,7 +125,7 @@ const OffsetSelection = ({ onContinue }) => {
           <IconButton
             aria-label="info"
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: 8,
               right: 8,
             }}
@@ -163,4 +160,4 @@ const OffsetSelection = ({ onContinue }) => {
   );
 };
 
-export default OffsetSelection;             
+export default OffsetSelection;

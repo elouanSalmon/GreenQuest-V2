@@ -50,13 +50,13 @@ function SignUp() {
     <Container maxWidth="xs">
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Rejoignez GreenQuest
+          Join GreenQuest
         </Typography>
         <Typography variant="h6" component="h2" gutterBottom>
-          Commencez votre aventure écologique.
+          Your ecological adventure.
         </Typography>
         <Typography variant="h6" component="h3" gutterBottom>
-          Création de compte
+          Create an account
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -128,7 +128,7 @@ function SignUp() {
                     color="primary"
                   />
                 }
-                label="J'accepte les termes et conditions d'utilisation."
+                label="I accept the terms and conditions of use."
               />
             </Grid>
           </Grid>
@@ -138,6 +138,9 @@ function SignUp() {
         </form>
         <Box mt={2}>
           <Link to="/login">Already have an account? Log in</Link>
+        </Box>
+        <Box mt={2}>
+          <Link to="/reset-password">Reset password</Link>
         </Box>
       </Box>
     </Container>
