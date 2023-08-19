@@ -80,9 +80,10 @@ export const getStripeCustomerId = async (userId) => {
 
 // Save onboarding completion status to Firestore
 export const saveOnboardingCompletion = async (userId, hasCompleted) => {
-  const userRef = db.collection("users").doc(userId); // Use db instead of firestore
+  const userRef = doc(db, "users", userId); // This is the correct way to get a reference to a document
   try {
-    await userRef.set(
+    await setDoc(
+      userRef,
       { hasCompletedOnboarding: hasCompleted },
       { merge: true }
     );
