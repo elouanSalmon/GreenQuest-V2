@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import Home from "../../pages/Home/Home";
 import Profile from "../../pages/Profile/Profile";
@@ -14,8 +14,11 @@ import PaymentSuccess from "../../pages/PaymentSuccess/PaymentSuccess";
 import "./App.css";
 import SignUp from "../../pages/SignUp/SignUp";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
+import Onboarding from "../../pages/Onboarding/Onboarding";
 
 function App() {
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+
   return (
     <div className="App">
       <Navbar />
@@ -25,7 +28,16 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/" element={<PrivateRoute />}>
-            <Route index element={<Home />} />
+            <Route
+              index
+              element={
+                hasCompletedOnboarding ? (
+                  <Home />
+                ) : (
+                  <Navigate to="/onboarding" />
+                )
+              }
+            />
             <Route path="/profile" element={<Profile />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -33,6 +45,7 @@ function App() {
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
+            <Route path="/onboarding" element={<Onboarding />} />
           </Route>
         </Routes>
       </div>
