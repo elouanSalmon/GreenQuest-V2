@@ -46,10 +46,10 @@ function Login() {
           GreenQuest
         </Typography>
         <Typography variant="h6" component="h2" gutterBottom>
-          Votre aventure écologique.
+          Your ecological adventure.
         </Typography>
         <Typography variant="h6" component="h3" gutterBottom>
-          Connexion
+          Log in
         </Typography>
         <form onSubmit={handleLogin}>
           <TextField
@@ -70,8 +70,8 @@ function Login() {
             margin="normal"
             fullWidth
           />
-          <Button type="submit" variant="contained" color="primary">
-            Connexion
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Log in
           </Button>
         </form>
         <Divider variant="middle" sx={{ my: 2 }} />
@@ -89,7 +89,10 @@ function Login() {
           </IconButton>
         </Box>
         <Box mt={2}>
-          <Link to="/signup">Pas encore de compte? Inscrivez-vous</Link>
+          <Link to="/signup">Don't have an account? Sign up now</Link>
+        </Box>
+        <Box mt={2}>
+          <Link to="/reset-password">Réinitialiser le mot de passe</Link>
         </Box>
       </Box>
     </Container>

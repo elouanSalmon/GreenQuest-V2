@@ -13,6 +13,7 @@ import CreateQuest from "../../pages/CreateQuest/CreateQuest";
 import PaymentSuccess from "../../pages/PaymentSuccess/PaymentSuccess";
 import "./App.css";
 import SignUp from "../../pages/SignUp/SignUp";
+import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </div>

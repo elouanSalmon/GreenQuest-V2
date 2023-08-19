@@ -1,5 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { registerWithEmail } from "../../services/firebase";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import {
+  Grid,
   Container,
   Typography,
   TextField,
@@ -8,10 +13,6 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { registerWithEmail } from "../../services/firebase";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -58,68 +59,80 @@ function SignUp() {
           Création de compte
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
-            autoComplete="given-name"
-            name="firstName"
-            required
-            fullWidth
-            id="firstName"
-            label="First Name"
-            autoFocus
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <TextField
-            required
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            autoComplete="family-name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={allowExtraEmails}
-                onChange={(e) => setAllowExtraEmails(e.target.checked)}
-                color="primary"
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="given-name"
+                name="firstName"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
-            }
-            label="I want to receive inspiration, marketing promotions and updates via email."
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={rgpdConsent}
-                onChange={(e) => setRgpdConsent(e.target.checked)}
-                color="primary"
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="family-name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
-            }
-            label="J'accepte les termes et conditions d'utilisation."
-          />
-
-          <Button type="submit" variant="contained" color="primary">
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={allowExtraEmails}
+                    onChange={(e) => setAllowExtraEmails(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="I want to receive inspiration, marketing promotions and updates via email."
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={rgpdConsent}
+                    onChange={(e) => setRgpdConsent(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="J'accepte les termes et conditions d'utilisation."
+              />
+            </Grid>
+          </Grid>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
             Sign Up
           </Button>
         </form>
