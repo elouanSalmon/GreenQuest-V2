@@ -56,14 +56,22 @@ const Onboarding = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate("/offset")}
+            onClick={() => {
+              navigate("/offset");
+              setHasCompletedOnboarding(true);
+            }}
           >
             Subscribe to Offset
           </Button>
+
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => {
+              navigate("/dashboard");
+              // Add this line to update the state
+              setHasCompletedOnboarding(true);
+            }}
           >
             Skip for now
           </Button>

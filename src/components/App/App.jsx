@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import Home from "../../pages/Home/Home";
 import Profile from "../../pages/Profile/Profile";
@@ -18,10 +18,14 @@ import Onboarding from "../../pages/Onboarding/Onboarding";
 
 function App() {
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const location = useLocation();
+
+  // Check if the current route is onboarding
+  const isOnboarding = location.pathname === "/onboarding";
 
   return (
     <div className="App">
-      <Navbar />
+      {!isOnboarding && <Navbar />}
       <div className="container">
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -45,7 +49,14 @@ function App() {
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
-            <Route path="/onboarding" element={<Onboarding />} />
+            <Route
+              path="/onboarding"
+              element={
+                <Onboarding
+                  setHasCompletedOnboarding={setHasCompletedOnboarding}
+                />
+              }
+            />
           </Route>
         </Routes>
       </div>
