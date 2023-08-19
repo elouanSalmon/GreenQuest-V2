@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,17 @@ import { useNavigate } from "react-router-dom";
 const Onboarding = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+  const formRef = useRef(null); // Ajout d'une référence pour le formulaire
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
+  };
+
+  const handleFormSubmit = async () => {
+    if (formRef.current) {
+      await formRef.current.handleSubmit(); // Appeler la fonction handleSubmit du composant CarbonFootprintForm
+      nextStep();
+    }
   };
 
   return (
@@ -28,9 +36,12 @@ const Onboarding = () => {
 
       {step === 2 && (
         <div>
-          <CarbonFootprintForm isOnboarding={true} />
-
-          <Button variant="contained" color="primary" onClick={nextStep}>
+          <CarbonFootprintForm isOnboarding={true} ref={formRef} />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFormSubmit}
+          >
             Next
           </Button>
         </div>

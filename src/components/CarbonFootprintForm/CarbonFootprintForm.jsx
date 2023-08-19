@@ -1,6 +1,11 @@
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react"; // Ajoutez forwardRef et useImperativeHandle ici
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -13,7 +18,7 @@ import {
 import { db, auth } from "../../services/firebase";
 import { calculateCarbonFootprint } from "../../components/CarbonFootprintCalculation/CarbonFootprintCalculation";
 
-function CarbonFootprintCalculator({ isOnboarding }) {
+function CarbonFootprintCalculator({ isOnboarding }, ref) {
   const [formData, setFormData] = useState({
     flyingHabits: "",
     carUsage: "",
@@ -49,7 +54,7 @@ function CarbonFootprintCalculator({ isOnboarding }) {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event && event.preventDefault(); // Ajout d'une vérification pour l'événement
     const calculatedFootprint = calculateCarbonFootprint(formData);
     const userId = auth.currentUser.uid;
     const data = {
@@ -66,10 +71,13 @@ function CarbonFootprintCalculator({ isOnboarding }) {
     }
     if (!isOnboarding) {
       navigate("/dashboard");
-    } else {
-      // Si vous souhaitez effectuer une action supplémentaire lors de l'intégration, ajoutez-la ici.
     }
   };
+
+  // Exposer la fonction handleSubmit pour qu'elle puisse être appelée depuis l'extérieur
+  useImperativeHandle(ref, () => ({
+    handleSubmit,
+  }));
 
   return (
     <Box my={4}>
@@ -240,4 +248,4 @@ function CarbonFootprintCalculator({ isOnboarding }) {
   );
 }
 
-export default CarbonFootprintCalculator;
+export default forwardRef(CarbonFootprintCalculator);
