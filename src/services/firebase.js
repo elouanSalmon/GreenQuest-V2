@@ -80,7 +80,7 @@ export const getStripeCustomerId = async (userId) => {
 
 // Save onboarding completion status to Firestore
 export const saveOnboardingCompletion = async (userId, hasCompleted) => {
-  const userRef = firestore.collection("users").doc(userId);
+  const userRef = db.collection("users").doc(userId); // Use db instead of firestore
   try {
     await userRef.set(
       { hasCompletedOnboarding: hasCompleted },
