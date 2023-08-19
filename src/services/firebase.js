@@ -77,3 +77,11 @@ export const getStripeCustomerId = async (userId) => {
   const userDoc = await userRef.get();
   return userDoc.exists ? userDoc.data().stripeCustomerId : null;
 };
+
+// Save onboarding completion status to Firestore
+export const saveOnboardingCompletion = async (userId, hasCompleted) => {
+  const userRef = firestore.collection("users").doc(userId);
+  await userRef.set({ hasCompletedOnboarding: hasCompleted }, { merge: true });
+};
+
+export { doc, getDoc, setDoc } from "firebase/firestore";

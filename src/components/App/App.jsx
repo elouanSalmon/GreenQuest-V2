@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import Home from "../../pages/Home/Home";
@@ -15,9 +15,10 @@ import "./App.css";
 import SignUp from "../../pages/SignUp/SignUp";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Onboarding from "../../pages/Onboarding/Onboarding";
+import { useAuth } from "../../contexts/AuthContext";
 
 function App() {
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const { hasCompletedOnboarding } = useAuth();
   const location = useLocation();
 
   // Check if the current route is onboarding
@@ -49,14 +50,7 @@ function App() {
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
-            <Route
-              path="/onboarding"
-              element={
-                <Onboarding
-                  setHasCompletedOnboarding={setHasCompletedOnboarding}
-                />
-              }
-            />
+            <Route path="/onboarding" element={<Onboarding />} />
           </Route>
         </Routes>
       </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { saveOnboardingCompletion } from "../../services/firebase";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
@@ -58,7 +59,7 @@ const Onboarding = () => {
             color="primary"
             onClick={() => {
               navigate("/offset");
-              setHasCompletedOnboarding(true);
+              saveOnboardingCompletion(currentUser.uid, true);
             }}
           >
             Subscribe to Offset
@@ -70,7 +71,7 @@ const Onboarding = () => {
             onClick={() => {
               navigate("/dashboard");
               // Add this line to update the state
-              setHasCompletedOnboarding(true);
+              saveOnboardingCompletion(currentUser.uid, true);
             }}
           >
             Skip for now
