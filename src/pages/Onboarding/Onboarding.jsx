@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -40,10 +42,18 @@ const Onboarding = () => {
             Consider offsetting your carbon footprint with a subscription before
             accessing the results.
           </p>
-          <Button variant="contained" color="primary" onClick={"/offset"}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate("/offset")}
+          >
             Subscribe to Offset
           </Button>
-          <Button variant="contained" color="secondary" onClick={"/dashboard"}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => navigate("/dashboard")}
+          >
             Skip for now
           </Button>
         </div>

@@ -66,6 +66,8 @@ function CarbonFootprintCalculator({ isOnboarding }) {
     }
     if (!isOnboarding) {
       navigate("/dashboard");
+    } else {
+      // Si vous souhaitez effectuer une action supplémentaire lors de l'intégration, ajoutez-la ici.
     }
   };
 
