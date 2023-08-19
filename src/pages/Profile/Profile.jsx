@@ -47,22 +47,7 @@ const Profile = () => {
         justifyContent: "center",
         marginTop: "2rem",
       }}
-    >
-      <Typography variant="h4">Edit Profile</Typography>
-      <TextField
-        label="Display Name"
-        margin="normal"
-        {...register("displayName", { required: true })}
-      />
-      <TextField
-        label="Email"
-        margin="normal"
-        {...register("email", { required: true })}
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Save Changes
-      </Button>
-    </Box>
+    ></Box>
   );
 };
 
