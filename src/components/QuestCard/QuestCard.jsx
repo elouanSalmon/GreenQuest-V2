@@ -67,7 +67,14 @@ const QuestCard = ({
         </Box>
       </CardContent>
       <CardActions>
-        <Button onClick={() => handleComplete(quest)}>Complete</Button>
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={() => handleComplete(quest)}
+        >
+          Complete
+        </Button>
         <Button size="small" color="primary" onClick={() => handleOpen(quest)}>
           Learn More
         </Button>

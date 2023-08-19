@@ -32,22 +32,7 @@ function Login() {
 
   const handleGoogleSignIn = async () => {
     try {
-      const userCredential = await signInWithPopup(auth, googleProvider);
-      const user = userCredential.user;
-
-      // Vérifiez si l'utilisateur existe déjà dans Firestore
-      const userRef = doc(firestore, "users", user.uid);
-      const userDoc = await getDoc(userRef);
-      if (!userDoc.exists()) {
-        // Si l'utilisateur n'existe pas, créez un nouvel enregistrement pour lui
-        await setDoc(userRef, {
-          firstName: user.displayName.split(" ")[0], // Extrait le prénom à partir du nom complet
-          lastName: user.displayName.split(" ").slice(1).join(" "), // Extrait le nom de famille à partir du nom complet
-          email: user.email,
-          // Ajoutez d'autres champs si nécessaire
-        });
-      }
-
+      await signInWithPopup(auth, googleProvider);
       navigate("/");
     } catch (error) {
       console.error("Error signing in with Google:", error);
