@@ -13,7 +13,7 @@ import {
 import { db, auth } from "../../services/firebase";
 import { calculateCarbonFootprint } from "../../components/CarbonFootprintCalculation/CarbonFootprintCalculation";
 
-function CarbonFootprintCalculator() {
+function CarbonFootprintCalculator({ isOnboarding }) {
   const [formData, setFormData] = useState({
     flyingHabits: "",
     carUsage: "",
@@ -64,7 +64,9 @@ function CarbonFootprintCalculator() {
     } catch (e) {
       console.error("Error adding/updating document: ", e);
     }
-    navigate("/dashboard");
+    if (!isOnboarding) {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -220,15 +222,17 @@ function CarbonFootprintCalculator() {
             <MenuItem value="eatEverything">I eat everything</MenuItem>
           </Select>
         </FormControl>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          size="large"
-          style={{ marginTop: 16 }}
-        >
-          Calculate Carbon Footprint
-        </Button>
+        {!isOnboarding && (
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="large"
+            style={{ marginTop: 16 }}
+          >
+            Calculate Carbon Footprint
+          </Button>
+        )}
       </form>
     </Box>
   );

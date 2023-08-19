@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
-import OffsetSelection from "../../components/OffsetSelection/OffsetSelection";
 import { Button } from "@mui/material";
 
 const Onboarding = () => {
@@ -14,30 +13,39 @@ const Onboarding = () => {
     <div>
       {step === 1 && (
         <div>
-          <h1>Félicitations pour rejoindre l'aventure!</h1>
+          <h1>Welcome to GreenQuest!</h1>
           <p>
-            Bienvenue à GreenQuest! Ici, vous découvrirez comment réduire votre
-            empreinte carbone et contribuer à un monde plus vert.
+            Congratulations on joining the adventure! Here's a brief overview of
+            what awaits you in our app.
           </p>
           <Button variant="contained" color="primary" onClick={nextStep}>
-            Suivant
+            Next
           </Button>
         </div>
       )}
 
       {step === 2 && (
         <div>
-          <CarbonFootprintForm />
+          <CarbonFootprintForm isOnboarding={true} />
+
           <Button variant="contained" color="primary" onClick={nextStep}>
-            Suivant
+            Next
           </Button>
         </div>
       )}
 
       {step === 3 && (
         <div>
-          <OffsetSelection />
-          {/* Vous pouvez ajouter des boutons pour la sélection de l'abonnement et le renvoi vers le tableau de bord ici. */}
+          <p>
+            Consider offsetting your carbon footprint with a subscription before
+            accessing the results.
+          </p>
+          <Button variant="contained" color="primary" onClick={"/offset"}>
+            Subscribe to Offset
+          </Button>
+          <Button variant="contained" color="secondary" onClick={"/dashboard"}>
+            Skip for now
+          </Button>
         </div>
       )}
     </div>
