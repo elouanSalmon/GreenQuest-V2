@@ -92,7 +92,7 @@ function Login() {
           <Link to="/signup">Don't have an account? Sign up now</Link>
         </Box>
         <Box mt={2}>
-          <Link to="/reset-password">Réinitialiser le mot de passe</Link>
+          <Link to="/reset-password">Reset password</Link>
         </Box>
       </Box>
     </Container>

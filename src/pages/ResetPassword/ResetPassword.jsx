@@ -32,10 +32,10 @@ function ResetPassword() {
           GreenQuest
         </Typography>
         <Typography variant="h6" component="h2" gutterBottom>
-          Votre aventure écologique.
+          Your ecological adventure.
         </Typography>
         <Typography variant="h6" component="h3" gutterBottom>
-          Réinitialisation du mot de passe
+          Password reset
         </Typography>
         <form onSubmit={handleResetPassword}>
           <TextField
@@ -48,11 +48,11 @@ function ResetPassword() {
             fullWidth
           />
           <Button type="submit" variant="contained" color="primary">
-            Envoyer l'e-mail de réinitialisation
+            Send reset e-mail
           </Button>
         </form>
         <Box mt={2}>
-          <Link to="/login">Retour à la connexion</Link>
+          <Link to="/login">Back to login</Link>
         </Box>
       </Box>
     </Container>

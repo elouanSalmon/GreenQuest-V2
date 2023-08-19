@@ -23,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/" element={<PrivateRoute />}>
             <Route index element={<Home />} />
             <Route path="/profile" element={<Profile />} />
@@ -32,7 +33,6 @@ function App() {
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </div>
