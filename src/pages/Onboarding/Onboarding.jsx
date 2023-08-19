@@ -3,11 +3,13 @@ import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFoot
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { saveOnboardingCompletion } from "../../services/firebase";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const formRef = useRef(null); // Ajout d'une référence pour le formulaire
+  const formRef = useRef(null);
+  const { currentUser } = useAuth();
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -70,7 +72,6 @@ const Onboarding = () => {
             color="secondary"
             onClick={() => {
               navigate("/dashboard");
-              // Add this line to update the state
               saveOnboardingCompletion(currentUser.uid, true);
             }}
           >
