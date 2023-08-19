@@ -81,7 +81,15 @@ export const getStripeCustomerId = async (userId) => {
 // Save onboarding completion status to Firestore
 export const saveOnboardingCompletion = async (userId, hasCompleted) => {
   const userRef = firestore.collection("users").doc(userId);
-  await userRef.set({ hasCompletedOnboarding: hasCompleted }, { merge: true });
+  try {
+    await userRef.set(
+      { hasCompletedOnboarding: hasCompleted },
+      { merge: true }
+    );
+    console.log(`Onboarding completion status saved for user ID: ${userId}`);
+  } catch (error) {
+    console.error("Error saving onboarding completion status: ", error);
+  }
 };
 
 export { doc, getDoc, setDoc } from "firebase/firestore";
