@@ -7,7 +7,10 @@ import {
   Box,
   Divider,
   IconButton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../services/firebase";
@@ -20,7 +23,21 @@ function Login() {
   const { hasCompletedOnboarding } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const handleError = (message) => {
+    setErrorMessage(message);
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -32,7 +49,31 @@ function Login() {
         navigate("/");
       }
     } catch (error) {
-      console.error("Error signing in with email and password:", error);
+      switch (error.code) {
+        case "auth/user-not-found":
+          handleError(
+            "Oops! We couldn't find an account with that email. Please double-check and try again."
+          );
+          break;
+        case "auth/wrong-password":
+          handleError(
+            "Hmm, that password doesn't seem right. Please try again."
+          );
+          break;
+        case "auth/invalid-email":
+          handleError("Please enter a valid email address.");
+          break;
+        case "auth/user-has-no-password":
+          handleError(
+            "It looks like you've previously signed in with Google. Please continue with Google sign-in or set up a password for your account."
+          );
+          break;
+        default:
+          handleError(
+            "Something went wrong while trying to sign you in. Please try again later."
+          );
+          break;
+      }
     }
   };
 
@@ -41,7 +82,7 @@ function Login() {
       await signInWithPopup(auth, googleProvider);
       navigate("/");
     } catch (error) {
-      console.error("Error signing in with Google:", error);
+      handleError("Error signing in with Google.");
     }
   };
 
@@ -101,6 +142,11 @@ function Login() {
           <Link to="/reset-password">Reset password</Link>
         </Box>
       </Box>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" variant="filled">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

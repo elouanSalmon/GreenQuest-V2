@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { registerWithEmail } from "../../services/firebase";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import {
   Grid,
   Container,
@@ -12,22 +8,45 @@ import {
   Box,
   FormControlLabel,
   Checkbox,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { registerWithEmail } from "../../services/firebase";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [allowExtraEmails, setAllowExtraEmails] = useState(false);
   const [rgpdConsent, setRgpdConsent] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleError = (message) => {
+    setErrorMessage(message);
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!rgpdConsent) {
+      handleError("Please accept the terms and conditions to proceed.");
+      return;
+    }
     if (currentUser) {
-      // Si l'utilisateur est déjà connecté, redirigez-le vers la page d'accueil
       navigate("/");
       return;
     }
@@ -40,9 +59,28 @@ function SignUp() {
         allowExtraEmails,
         rgpdConsent
       );
-      navigate("/"); // <-- Change made here
+      navigate("/");
     } catch (error) {
-      console.error("Error signing up with email and password:", error);
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          handleError(
+            "This email is already in use. Please use a different email or log in."
+          );
+          break;
+        case "auth/invalid-email":
+          handleError("Please enter a valid email address.");
+          break;
+        case "auth/weak-password":
+          handleError(
+            "Your password is too weak. Please choose a stronger password."
+          );
+          break;
+        default:
+          handleError(
+            "Something went wrong during sign-up. Please try again later."
+          );
+          break;
+      }
     }
   };
 
@@ -143,6 +181,11 @@ function SignUp() {
           <Link to="/reset-password">Reset password</Link>
         </Box>
       </Box>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" variant="filled">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
