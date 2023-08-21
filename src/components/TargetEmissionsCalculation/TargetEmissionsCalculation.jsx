@@ -59,10 +59,6 @@ export const getTargetEmissionsValue = (
     frCitizenshipEmissions: 4000,
   };
 
-  console.log("Category:", category);
-  console.log("SubCategory:", subCategory);
-  console.log("Objective:", objective);
-
   // Si la catégorie ou l'objectif sont absents, on renvoie 0.
   if (!category || !objective) return 0;
 

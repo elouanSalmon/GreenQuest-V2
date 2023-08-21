@@ -56,7 +56,12 @@ const QuestCard = ({
   );
 
   const questData = startedQuests.find((q) => q.questId === quest.id);
-  const startedAtDate = questData?.startedAt?.toDate();
+  const startedAtDate = new Date(questData?.startedAt);
+
+  console.log("Started Quests:", startedQuests);
+  console.log("Is Quest Started:", isQuestStarted);
+  console.log("Started At Date:", startedAtDate);
+  console.log("Quest Data:", questData);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
