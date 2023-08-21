@@ -79,14 +79,26 @@ const QuestCard = ({
             Start
           </Button>
         )}
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          onClick={() => handleComplete(quest)}
-        >
-          Complete
-        </Button>
+        {startedQuests.includes(quest.id) && (
+          <>
+            <Button
+              size="small"
+              color="primary"
+              variant="contained"
+              onClick={() => handleComplete(quest)}
+            >
+              Complete
+            </Button>
+            <Button
+              size="small"
+              color="secondary"
+              variant="outlined"
+              onClick={() => handleCancel(quest)}
+            >
+              Cancel
+            </Button>
+          </>
+        )}
         <Button size="small" color="primary" onClick={() => handleOpen(quest)}>
           Learn More
         </Button>

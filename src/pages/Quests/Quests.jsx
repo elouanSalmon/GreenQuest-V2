@@ -7,6 +7,7 @@ import {
   updateDoc,
   addDoc,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 import { db, auth } from "../../services/firebase";
@@ -104,6 +105,19 @@ const Quests = () => {
     }
   };
 
+  const handleCancel = async (quest) => {
+    const userId = auth.currentUser.uid;
+    const startedQuestsCollection = collection(db, "startedQuests");
+    const questRef = doc(startedQuestsCollection, `${userId}_${quest.id}`);
+
+    try {
+      await deleteDoc(questRef); // Supprime la quête commencée
+      console.log(`Quest ${quest.id} cancelled for user ID: ${userId}`);
+    } catch (error) {
+      console.error("Error cancelling quest: ", error);
+    }
+  };
+
   const getTargetEmissions = (quest) => {
     if (!quest) return 0;
 
@@ -129,7 +143,8 @@ const Quests = () => {
                 handleOpen={handleOpen}
                 handleComplete={handleComplete}
                 handleStart={handleStart}
-                startedQuests={startedQuests} // Passer la prop startedQuests
+                handleCancel={handleCancel}
+                startedQuests={startedQuests}
               />
             </Grid>
           );
