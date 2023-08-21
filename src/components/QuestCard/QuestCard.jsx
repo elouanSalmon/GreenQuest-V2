@@ -38,6 +38,7 @@ const QuestCard = ({
   handleComplete,
   handleStart,
   startedQuests = [],
+  handleCancel,
 }) => {
   const currentEmissions = userCarbonFootprint[quest.category] || 0;
   return (

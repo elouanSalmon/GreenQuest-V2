@@ -23,6 +23,12 @@ const Quests = () => {
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [selectedQuest, setSelectedQuest] = useState(null);
   const [startedQuests, setStartedQuests] = useState([]);
+  const unstartedQuests = quests.filter(
+    (quest) => !startedQuests.includes(quest.id)
+  );
+  const activeQuests = quests.filter((quest) =>
+    startedQuests.includes(quest.id)
+  );
 
   useEffect(() => {
     const fetchStartedQuests = async () => {
@@ -131,8 +137,9 @@ const Quests = () => {
 
   return (
     <div>
+      <h2>Quests in progress</h2>
       <Grid container spacing={3}>
-        {quests.map((quest) => {
+        {activeQuests.map((quest) => {
           const targetEmissions = getTargetEmissions(quest);
           return (
             <Grid item xs={12} sm={6} md={4} key={quest.id}>
@@ -150,6 +157,28 @@ const Quests = () => {
           );
         })}
       </Grid>
+
+      <h2>Available quests</h2>
+      <Grid container spacing={3}>
+        {unstartedQuests.map((quest) => {
+          const targetEmissions = getTargetEmissions(quest);
+          return (
+            <Grid item xs={12} sm={6} md={4} key={quest.id}>
+              <QuestCard
+                quest={quest}
+                userCarbonFootprint={userCarbonFootprint}
+                targetEmissions={targetEmissions}
+                handleOpen={handleOpen}
+                handleComplete={handleComplete}
+                handleStart={handleStart}
+                handleCancel={handleCancel}
+                startedQuests={startedQuests}
+              />
+            </Grid>
+          );
+        })}
+      </Grid>
+
       <div
         className={`sliding-page ${isPageVisible ? "visible" : ""}`}
         onClick={(e) => e.stopPropagation()}
@@ -169,5 +198,4 @@ const Quests = () => {
     </div>
   );
 };
-
 export default Quests;
