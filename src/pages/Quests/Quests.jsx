@@ -78,12 +78,12 @@ const Quests = () => {
 
   const fetchStartedQuests = async () => {
     const userId = auth.currentUser.uid;
-    const startedQuestsCollection = collection(db, "startedQuests");
-    const startedQuestsSnapshot = await getDocs(startedQuestsCollection);
-    const fetchedStartedQuests = startedQuestsSnapshot.docs
+    const userQuestsCollection = collection(db, "userQuests");
+    const userQuestsSnapshot = await getDocs(userQuestsCollection);
+    const fetchedUserQuests = userQuestsSnapshot.docs
       .filter((doc) => doc.data().userId === userId)
       .map((doc) => doc.data().questId);
-    setStartedQuests(fetchedStartedQuests);
+    setStartedQuests(fetchedUserQuests);
   };
 
   useEffect(() => {
@@ -96,8 +96,8 @@ const Quests = () => {
 
   const handleStart = async (quest) => {
     const userId = auth.currentUser.uid;
-    const startedQuestsCollection = collection(db, "startedQuests");
-    const questRef = doc(startedQuestsCollection, `${userId}_${quest.id}`);
+    const userQuestsCollection = collection(db, "userQuests");
+    const questRef = doc(userQuestsCollection, `${userId}_${quest.id}`);
 
     // Vérifiez si l'utilisateur a déjà démarré cette quête
     const questSnap = await getDoc(questRef);
@@ -120,8 +120,8 @@ const Quests = () => {
 
   const handleCancel = async (quest) => {
     const userId = auth.currentUser.uid;
-    const startedQuestsCollection = collection(db, "startedQuests");
-    const questRef = doc(startedQuestsCollection, `${userId}_${quest.id}`);
+    const userQuestsCollection = collection(db, "userQuests");
+    const questRef = doc(userQuestsCollection, `${userId}_${quest.id}`);
 
     try {
       await deleteDoc(questRef); // Supprime la quête commencée
