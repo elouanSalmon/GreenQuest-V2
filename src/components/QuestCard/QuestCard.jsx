@@ -40,7 +40,11 @@ const QuestCard = ({
   startedQuests = [],
   handleCancel,
 }) => {
-  const currentEmissions = userCarbonFootprint[quest.category] || 0;
+  const currentEmissions =
+    userCarbonFootprint && userCarbonFootprint[quest.category]
+      ? userCarbonFootprint[quest.category]
+      : 0;
+
   const isQuestStarted = startedQuests.some(
     (q) => q.questId === quest.id && q.status === "started"
   );

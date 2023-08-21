@@ -81,6 +81,10 @@ function Dashboard() {
     navigate("/offset");
   };
 
+  const handleCarbonFootprintFormClick = () => {
+    navigate("/form");
+  };
+
   return (
     <Box my={4}>
       <Typography variant="h5" component="h2" gutterBottom>
@@ -189,6 +193,14 @@ function Dashboard() {
               </CardContent>
             </Card>
           </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCarbonFootprintFormClick}
+            sx={{ mt: 2 }}
+          >
+            Retake Carbon Footprint Form
+          </Button>
         </>
       )}
     </Box>

@@ -16,6 +16,7 @@ import SignUp from "../../pages/SignUp/SignUp";
 import ResetPassword from "../../pages/ResetPassword/ResetPassword";
 import Onboarding from "../../pages/Onboarding/Onboarding";
 import { useAuth } from "../../contexts/AuthContext";
+import Form from "../../pages/Form/Form";
 
 function App() {
   const { hasCompletedOnboarding } = useAuth();
@@ -51,6 +52,7 @@ function App() {
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/form" element={<Form />} />
           </Route>
         </Routes>
       </div>
