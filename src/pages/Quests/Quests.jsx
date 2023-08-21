@@ -104,7 +104,9 @@ const Quests = () => {
       .map((doc) => ({
         questId: doc.data().questId,
         status: doc.data().status,
+        startedAt: doc.data().startedAt, // Add this line
       }));
+
     setStartedQuests(fetchedUserQuests);
   };
 
