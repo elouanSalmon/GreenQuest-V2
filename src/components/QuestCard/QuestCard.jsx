@@ -41,6 +41,10 @@ const QuestCard = ({
   handleCancel,
 }) => {
   const currentEmissions = userCarbonFootprint[quest.category] || 0;
+  const isQuestStarted = startedQuests.some(
+    (q) => q.questId === quest.id && q.status === "started"
+  );
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       {quest.image && (
@@ -70,7 +74,7 @@ const QuestCard = ({
         </Box>
       </CardContent>
       <CardActions>
-        {!startedQuests.includes(quest.id) && (
+        {!isQuestStarted && (
           <Button
             size="small"
             color="primary"
@@ -80,7 +84,7 @@ const QuestCard = ({
             Start
           </Button>
         )}
-        {startedQuests.includes(quest.id) && (
+        {isQuestStarted && (
           <>
             <Button
               size="small"

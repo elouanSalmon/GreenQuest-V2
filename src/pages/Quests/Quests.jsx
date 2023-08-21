@@ -23,16 +23,22 @@ const Quests = () => {
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [selectedQuest, setSelectedQuest] = useState(null);
   const [startedQuests, setStartedQuests] = useState([]);
-  const unstartedQuests = quests.filter(
-    (quest) => !startedQuests.includes(quest.id)
-  );
-  const activeQuests = quests.filter((quest) =>
-    startedQuests.includes(quest.id)
-  );
+  const [unstartedQuests, setUnstartedQuests] = useState([]);
+  const [activeQuests, setActiveQuests] = useState([]);
+  const [completedQuests, setCompletedQuests] = useState([]);
+
+  useEffect(() => {
+    fetchAllQuestData();
+  }, []);
+
   const fetchAllQuestData = async () => {
     await fetchQuests();
     await fetchStartedQuests();
   };
+
+  useEffect(() => {
+    fetchQuests();
+  }, []);
 
   useEffect(() => {
     const fetchUserCarbonFootprint = async () => {
@@ -64,6 +70,17 @@ const Quests = () => {
       userCarbonFootprint,
       setUserCarbonFootprint
     );
+
+    // Update the quest status in the database
+    const userId = auth.currentUser.uid;
+    const userQuestsCollection = collection(db, "userQuests");
+    const questRef = doc(userQuestsCollection, `${userId}_${quest.id}`);
+    await updateDoc(questRef, {
+      status: "completed",
+    });
+
+    // Refresh the quest lists
+    await fetchAllQuestData();
   };
 
   const fetchQuests = async () => {
@@ -82,13 +99,12 @@ const Quests = () => {
     const userQuestsSnapshot = await getDocs(userQuestsCollection);
     const fetchedUserQuests = userQuestsSnapshot.docs
       .filter((doc) => doc.data().userId === userId)
-      .map((doc) => doc.data().questId);
+      .map((doc) => ({
+        questId: doc.data().questId,
+        status: doc.data().status,
+      }));
     setStartedQuests(fetchedUserQuests);
   };
-
-  useEffect(() => {
-    fetchStartedQuests();
-  }, []);
 
   useEffect(() => {
     fetchQuests();
@@ -99,22 +115,22 @@ const Quests = () => {
     const userQuestsCollection = collection(db, "userQuests");
     const questRef = doc(userQuestsCollection, `${userId}_${quest.id}`);
 
-    // Vérifiez si l'utilisateur a déjà démarré cette quête
     const questSnap = await getDoc(questRef);
     if (questSnap.exists()) {
-      // Informez l'utilisateur qu'il a déjà démarré cette quête
       alert("Vous avez déjà commencé cette quête !");
     } else {
-      // Si l'utilisateur n'a pas démarré la quête, ajoutez-la
       await setDoc(questRef, {
         userId: userId,
         questId: quest.id,
-        startedAt: new Date(), // Timestamp of when the quest was started
+        startedAt: new Date(),
       });
       console.log(`Quest ${quest.id} started for user ID: ${userId}`);
 
-      // Rechargez les listes de quêtes
-      await fetchAllQuestData();
+      // Update the local state
+      setStartedQuests((prev) => [
+        ...prev,
+        { questId: quest.id, status: "started" },
+      ]);
     }
   };
 
@@ -124,11 +140,11 @@ const Quests = () => {
     const questRef = doc(userQuestsCollection, `${userId}_${quest.id}`);
 
     try {
-      await deleteDoc(questRef); // Supprime la quête commencée
+      await deleteDoc(questRef);
       console.log(`Quest ${quest.id} cancelled for user ID: ${userId}`);
 
-      // Rechargez les listes de quêtes
-      await fetchAllQuestData();
+      // Update the local state
+      setStartedQuests((prev) => prev.filter((q) => q.questId !== quest.id));
     } catch (error) {
       console.error("Error cancelling quest: ", error);
     }
@@ -145,48 +161,108 @@ const Quests = () => {
     );
   };
 
+  // Re-evaluate the lists every time the startedQuests state changes
+  useEffect(() => {
+    const unstarted = quests.filter(
+      (quest) => !startedQuests.some((q) => q.questId === quest.id)
+    );
+    const active = quests.filter((quest) =>
+      startedQuests.some(
+        (q) => q.questId === quest.id && q.status === "started"
+      )
+    );
+    const completed = quests.filter((quest) =>
+      startedQuests.some(
+        (q) => q.questId === quest.id && q.status === "completed"
+      )
+    );
+
+    setUnstartedQuests(unstarted);
+    setActiveQuests(active);
+    setCompletedQuests(completed);
+  }, [quests, startedQuests]);
+
   return (
     <div>
       <h2>Quests in progress</h2>
       <Grid container spacing={3}>
-        {activeQuests.map((quest) => {
-          const targetEmissions = getTargetEmissions(quest);
-          return (
-            <Grid item xs={12} sm={6} md={4} key={quest.id}>
-              <QuestCard
-                quest={quest}
-                userCarbonFootprint={userCarbonFootprint}
-                targetEmissions={targetEmissions}
-                handleOpen={handleOpen}
-                handleComplete={handleComplete}
-                handleStart={handleStart}
-                handleCancel={handleCancel}
-                startedQuests={startedQuests}
-              />
-            </Grid>
-          );
-        })}
+        {activeQuests.length > 0 ? (
+          activeQuests.map((quest) => {
+            const targetEmissions = getTargetEmissions(quest);
+            return (
+              <Grid item xs={12} sm={6} md={4} key={quest.id}>
+                <QuestCard
+                  quest={quest}
+                  userCarbonFootprint={userCarbonFootprint}
+                  targetEmissions={targetEmissions}
+                  handleOpen={handleOpen}
+                  handleComplete={handleComplete}
+                  handleStart={handleStart}
+                  handleCancel={handleCancel}
+                  startedQuests={startedQuests}
+                />
+              </Grid>
+            );
+          })
+        ) : (
+          <p>
+            You haven't started any quests yet. Please select one from the
+            available quests below!
+          </p>
+        )}
+      </Grid>
+
+      <h2>Completed Quests</h2>
+      <Grid container spacing={3}>
+        {completedQuests.length > 0 ? (
+          completedQuests.map((quest) => {
+            const targetEmissions = getTargetEmissions(quest);
+            return (
+              <Grid item xs={12} sm={6} md={4} key={quest.id}>
+                <QuestCard
+                  quest={quest}
+                  userCarbonFootprint={userCarbonFootprint}
+                  targetEmissions={targetEmissions}
+                  handleOpen={handleOpen}
+                  handleComplete={handleComplete}
+                  handleStart={handleStart}
+                  handleCancel={handleCancel}
+                  startedQuests={startedQuests}
+                />
+              </Grid>
+            );
+          })
+        ) : (
+          <p>
+            You haven't completed any quests yet. Keep going, you're on the
+            right track!
+          </p>
+        )}
       </Grid>
 
       <h2>Available quests</h2>
       <Grid container spacing={3}>
-        {unstartedQuests.map((quest) => {
-          const targetEmissions = getTargetEmissions(quest);
-          return (
-            <Grid item xs={12} sm={6} md={4} key={quest.id}>
-              <QuestCard
-                quest={quest}
-                userCarbonFootprint={userCarbonFootprint}
-                targetEmissions={targetEmissions}
-                handleOpen={handleOpen}
-                handleComplete={handleComplete}
-                handleStart={handleStart}
-                handleCancel={handleCancel}
-                startedQuests={startedQuests}
-              />
-            </Grid>
-          );
-        })}
+        {unstartedQuests.length > 0 ? (
+          unstartedQuests.map((quest) => {
+            const targetEmissions = getTargetEmissions(quest);
+            return (
+              <Grid item xs={12} sm={6} md={4} key={quest.id}>
+                <QuestCard
+                  quest={quest}
+                  userCarbonFootprint={userCarbonFootprint}
+                  targetEmissions={targetEmissions}
+                  handleOpen={handleOpen}
+                  handleComplete={handleComplete}
+                  handleStart={handleStart}
+                  handleCancel={handleCancel}
+                  startedQuests={startedQuests}
+                />
+              </Grid>
+            );
+          })
+        ) : (
+          <p>All quests have been started or completed. Great job!</p>
+        )}
       </Grid>
 
       <div
