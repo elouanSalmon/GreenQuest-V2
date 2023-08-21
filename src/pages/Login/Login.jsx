@@ -44,7 +44,7 @@ function Login() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       if (hasCompletedOnboarding) {
-        navigate("/dashboard");
+        navigate("/");
       } else {
         navigate("/");
       }

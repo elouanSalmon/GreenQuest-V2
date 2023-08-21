@@ -36,6 +36,7 @@ const QuestCard = ({
   targetEmissions,
   handleOpen,
   handleComplete,
+  handleStart,
 }) => {
   const currentEmissions = userCarbonFootprint[quest.category] || 0;
   return (
@@ -67,6 +68,15 @@ const QuestCard = ({
         </Box>
       </CardContent>
       <CardActions>
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={() => handleStart(quest)}
+        >
+          Start
+        </Button>
+
         <Button
           size="small"
           color="primary"

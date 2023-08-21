@@ -71,13 +71,11 @@ function Navbar() {
                   <Button color="inherit">Dashboard</Button>
                 </StyledLink>
                 <StyledLink to="/quests">
-                  <Button color="inherit"> Quests</Button>
+                  <Button color="inherit">Quests</Button>
                 </StyledLink>
-                <MenuItem onClick={handleMenuClose}>
-                  <StyledLink to="/create-quest" onClick={handleMenuClose}>
-                    CREATE QUEST
-                  </StyledLink>
-                </MenuItem>
+                <StyledLink to="/create-quest">
+                  <Button color="inherit">Create quest</Button>
+                </StyledLink>
               </Hidden>
               <StyledLink to="/offset">
                 <Button variant="contained">Offset Now</Button>

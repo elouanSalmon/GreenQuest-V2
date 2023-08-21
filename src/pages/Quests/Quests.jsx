@@ -5,6 +5,8 @@ import {
   doc,
   getDoc,
   updateDoc,
+  addDoc,
+  setDoc,
 } from "firebase/firestore";
 
 import { db, auth } from "../../services/firebase";
@@ -66,7 +68,26 @@ const Quests = () => {
     );
   };
 
-  if (userCarbonFootprint === null) return <div>Loading...</div>;
+  const handleStart = async (quest) => {
+    const userId = auth.currentUser.uid;
+    const startedQuestsCollection = collection(db, "startedQuests");
+    const questRef = doc(startedQuestsCollection, `${userId}_${quest.id}`);
+
+    // Vérifiez si l'utilisateur a déjà démarré cette quête
+    const questSnap = await getDoc(questRef);
+    if (questSnap.exists()) {
+      // Informez l'utilisateur qu'il a déjà démarré cette quête
+      alert("Vous avez déjà commencé cette quête !");
+    } else {
+      // Si l'utilisateur n'a pas démarré la quête, ajoutez-la
+      await setDoc(questRef, {
+        userId: userId,
+        questId: quest.id,
+        startedAt: new Date(), // Timestamp of when the quest was started
+      });
+      console.log(`Quest ${quest.id} started for user ID: ${userId}`);
+    }
+  };
 
   const getTargetEmissions = (quest) => {
     if (!quest) return 0;
@@ -92,6 +113,7 @@ const Quests = () => {
                 targetEmissions={targetEmissions}
                 handleOpen={handleOpen}
                 handleComplete={handleComplete}
+                handleStart={handleStart}
               />
             </Grid>
           );
