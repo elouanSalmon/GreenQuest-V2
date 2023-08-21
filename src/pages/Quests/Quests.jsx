@@ -21,19 +21,20 @@ const Quests = () => {
   const [userCarbonFootprint, setUserCarbonFootprint] = useState(null);
   const [isPageVisible, setIsPageVisible] = useState(false);
   const [selectedQuest, setSelectedQuest] = useState(null);
+  const [startedQuests, setStartedQuests] = useState([]);
 
   useEffect(() => {
-    const fetchQuests = async () => {
-      const questCollection = collection(db, "quests");
-      const questSnapshot = await getDocs(questCollection);
-      const fetchedQuests = questSnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setQuests(fetchedQuests);
+    const fetchStartedQuests = async () => {
+      const userId = auth.currentUser.uid;
+      const startedQuestsCollection = collection(db, "startedQuests");
+      const startedQuestsSnapshot = await getDocs(startedQuestsCollection);
+      const fetchedStartedQuests = startedQuestsSnapshot.docs
+        .filter((doc) => doc.data().userId === userId)
+        .map((doc) => doc.data().questId);
+      setStartedQuests(fetchedStartedQuests);
     };
 
-    fetchQuests();
+    fetchStartedQuests();
   }, []);
 
   useEffect(() => {
@@ -49,6 +50,20 @@ const Quests = () => {
     };
 
     fetchUserCarbonFootprint();
+  }, []);
+
+  useEffect(() => {
+    const fetchQuests = async () => {
+      const questsCollection = collection(db, "quests");
+      const questsSnapshot = await getDocs(questsCollection);
+      const fetchedQuests = questsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setQuests(fetchedQuests);
+    };
+
+    fetchQuests();
   }, []);
 
   const handleOpen = (quest) => {
@@ -114,6 +129,7 @@ const Quests = () => {
                 handleOpen={handleOpen}
                 handleComplete={handleComplete}
                 handleStart={handleStart}
+                startedQuests={startedQuests} // Passer la prop startedQuests
               />
             </Grid>
           );
