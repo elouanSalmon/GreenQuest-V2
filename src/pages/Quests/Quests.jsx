@@ -34,6 +34,7 @@ const Quests = () => {
   const fetchAllQuestData = async () => {
     await fetchQuests();
     await fetchStartedQuests();
+    categorizeQuests(); // Add this line
   };
 
   useEffect(() => {
@@ -77,6 +78,7 @@ const Quests = () => {
     const questRef = doc(userQuestsCollection, `${userId}_${quest.id}`);
     await updateDoc(questRef, {
       status: "completed",
+      completedAt: new Date(), // Ajout de la date de complétion
     });
 
     // Refresh the quest lists
@@ -180,6 +182,31 @@ const Quests = () => {
     setUnstartedQuests(unstarted);
     setActiveQuests(active);
     setCompletedQuests(completed);
+  }, [quests, startedQuests]);
+
+  const categorizeQuests = () => {
+    const unstarted = quests.filter(
+      (quest) => !startedQuests.some((q) => q.questId === quest.id)
+    );
+    const active = quests.filter((quest) =>
+      startedQuests.some(
+        (q) => q.questId === quest.id && q.status === "started"
+      )
+    );
+    const completed = quests.filter((quest) =>
+      startedQuests.some(
+        (q) => q.questId === quest.id && q.status === "completed"
+      )
+    );
+
+    setUnstartedQuests(unstarted);
+    setActiveQuests(active);
+    setCompletedQuests(completed);
+  };
+
+  // Update the useEffect that re-evaluates the lists every time the startedQuests state changes
+  useEffect(() => {
+    categorizeQuests();
   }, [quests, startedQuests]);
 
   return (

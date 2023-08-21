@@ -10,6 +10,8 @@ import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { Box } from "@mui/system";
+import Chip from "@mui/material/Chip";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 
 export const getSmileyIcon = (currentEmissions, targetEmissions) => {
   if (currentEmissions > targetEmissions) {
@@ -49,6 +51,13 @@ const QuestCard = ({
     (q) => q.questId === quest.id && q.status === "started"
   );
 
+  const isQuestCompleted = startedQuests.some(
+    (q) => q.questId === quest.id && q.status === "completed"
+  );
+
+  const questData = startedQuests.find((q) => q.questId === quest.id);
+  const startedAtDate = questData?.startedAt?.toDate();
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       {quest.image && (
@@ -75,10 +84,19 @@ const QuestCard = ({
             Target Emissions: {targetEmissions ? targetEmissions.toFixed(1) : 0}{" "}
             t CO2e/year
           </Typography>
+          {isQuestStarted && startedAtDate && (
+            <Chip
+              icon={<EventNoteIcon />}
+              label={`Started on: ${startedAtDate.toLocaleDateString()}`}
+              variant="outlined"
+              size="small"
+              sx={{ mt: 1 }}
+            />
+          )}
         </Box>
       </CardContent>
       <CardActions>
-        {!isQuestStarted && (
+        {!isQuestStarted && !isQuestCompleted && (
           <Button
             size="small"
             color="primary"
@@ -88,6 +106,7 @@ const QuestCard = ({
             Start
           </Button>
         )}
+
         {isQuestStarted && (
           <>
             <Button
