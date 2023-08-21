@@ -29,20 +29,10 @@ const Quests = () => {
   const activeQuests = quests.filter((quest) =>
     startedQuests.includes(quest.id)
   );
-
-  useEffect(() => {
-    const fetchStartedQuests = async () => {
-      const userId = auth.currentUser.uid;
-      const startedQuestsCollection = collection(db, "startedQuests");
-      const startedQuestsSnapshot = await getDocs(startedQuestsCollection);
-      const fetchedStartedQuests = startedQuestsSnapshot.docs
-        .filter((doc) => doc.data().userId === userId)
-        .map((doc) => doc.data().questId);
-      setStartedQuests(fetchedStartedQuests);
-    };
-
-    fetchStartedQuests();
-  }, []);
+  const fetchAllQuestData = async () => {
+    await fetchQuests();
+    await fetchStartedQuests();
+  };
 
   useEffect(() => {
     const fetchUserCarbonFootprint = async () => {
@@ -57,20 +47,6 @@ const Quests = () => {
     };
 
     fetchUserCarbonFootprint();
-  }, []);
-
-  useEffect(() => {
-    const fetchQuests = async () => {
-      const questsCollection = collection(db, "quests");
-      const questsSnapshot = await getDocs(questsCollection);
-      const fetchedQuests = questsSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setQuests(fetchedQuests);
-    };
-
-    fetchQuests();
   }, []);
 
   const handleOpen = (quest) => {
@@ -90,6 +66,34 @@ const Quests = () => {
     );
   };
 
+  const fetchQuests = async () => {
+    const questsCollection = collection(db, "quests");
+    const questsSnapshot = await getDocs(questsCollection);
+    const fetchedQuests = questsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setQuests(fetchedQuests);
+  };
+
+  const fetchStartedQuests = async () => {
+    const userId = auth.currentUser.uid;
+    const startedQuestsCollection = collection(db, "startedQuests");
+    const startedQuestsSnapshot = await getDocs(startedQuestsCollection);
+    const fetchedStartedQuests = startedQuestsSnapshot.docs
+      .filter((doc) => doc.data().userId === userId)
+      .map((doc) => doc.data().questId);
+    setStartedQuests(fetchedStartedQuests);
+  };
+
+  useEffect(() => {
+    fetchStartedQuests();
+  }, []);
+
+  useEffect(() => {
+    fetchQuests();
+  }, []);
+
   const handleStart = async (quest) => {
     const userId = auth.currentUser.uid;
     const startedQuestsCollection = collection(db, "startedQuests");
@@ -108,6 +112,9 @@ const Quests = () => {
         startedAt: new Date(), // Timestamp of when the quest was started
       });
       console.log(`Quest ${quest.id} started for user ID: ${userId}`);
+
+      // Rechargez les listes de quêtes
+      await fetchAllQuestData();
     }
   };
 
@@ -119,6 +126,9 @@ const Quests = () => {
     try {
       await deleteDoc(questRef); // Supprime la quête commencée
       console.log(`Quest ${quest.id} cancelled for user ID: ${userId}`);
+
+      // Rechargez les listes de quêtes
+      await fetchAllQuestData();
     } catch (error) {
       console.error("Error cancelling quest: ", error);
     }
