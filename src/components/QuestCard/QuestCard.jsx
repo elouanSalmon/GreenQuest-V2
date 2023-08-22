@@ -59,6 +59,7 @@ const QuestCard = ({
 
   const questData = startedQuests.find((q) => q.questId === quest.id);
   const startedAtDate = questData?.startedAt?.toDate();
+  const completedAtDate = questData?.completedAt?.toDate();
 
   return (
     <Card sx={{ maxWidth: 345, position: "relative" }}>
@@ -105,6 +106,15 @@ const QuestCard = ({
               {targetEmissions ? targetEmissions.toFixed(1) : 0} t CO2e/year
             </Typography>
           </Box>
+          {isQuestCompleted && completedAtDate && (
+            <Chip
+              icon={<EventNoteIcon />}
+              label={`Completed on: ${completedAtDate.toLocaleDateString()}`}
+              variant="outlined"
+              size="small"
+              sx={{ mt: 1 }}
+            />
+          )}
           {isQuestStarted && startedAtDate && (
             <Chip
               icon={<EventNoteIcon />}
