@@ -127,6 +127,7 @@ const Quests = () => {
         userId: userId,
         questId: quest.id,
         startedAt: new Date(),
+        status: "started", // Assurez-vous que le statut est défini sur "started"
       });
       console.log(`Quest ${quest.id} started for user ID: ${userId}`);
 
