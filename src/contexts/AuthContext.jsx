@@ -10,21 +10,27 @@ function AuthProvider({ children }) {
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      setLoading(false);
-
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
+    const fetchUserOnboardingStatus = async () => {
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists && userDoc.data().hasCompletedOnboarding) {
           setHasCompletedOnboarding(true);
+        } else {
+          setHasCompletedOnboarding(false);
         }
       }
+    };
+
+    fetchUserOnboardingStatus();
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
     });
 
     return unsubscribe;
-  }, []);
+  }, [currentUser]);
 
   return (
     <AuthContext.Provider value={{ currentUser, hasCompletedOnboarding }}>
