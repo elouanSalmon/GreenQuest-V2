@@ -47,7 +47,7 @@ function SignUp() {
       return;
     }
     if (currentUser) {
-      navigate("/");
+      navigate("/onboarding");
       return;
     }
     try {
