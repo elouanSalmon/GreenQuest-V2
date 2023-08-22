@@ -41,7 +41,7 @@ function App() {
                   hasCompletedOnboarding ? (
                     <Home />
                   ) : (
-                    <Navigate to="/onboarding" />
+                    <Navigate to="/onboarding" replace />
                   )
                 ) : null // Render nothing until the onboarding status is fetched
               }

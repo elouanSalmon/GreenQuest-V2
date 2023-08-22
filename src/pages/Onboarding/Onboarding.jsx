@@ -17,7 +17,7 @@ const Onboarding = () => {
 
   const handleFormSubmit = async () => {
     if (formRef.current) {
-      await formRef.current.handleSubmit(); // Appeler la fonction handleSubmit du composant CarbonFootprintForm
+      await formRef.current.handleSubmit();
       nextStep();
     }
   };
