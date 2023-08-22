@@ -22,9 +22,9 @@ function AuthProvider({ children }) {
       } else {
         setHasCompletedOnboarding(false);
       }
-      // Set hasFetchedOnboardingStatus to true after fetching the status
-      setHasFetchedOnboardingStatus(true);
     }
+    // Move this line outside the currentUser check
+    setHasFetchedOnboardingStatus(true);
   };
 
   return (
