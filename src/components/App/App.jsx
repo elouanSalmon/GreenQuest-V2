@@ -19,7 +19,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import Form from "../../pages/Form/Form";
 
 function App() {
-  const { hasCompletedOnboarding, hasFetchedOnboardingStatus } = useAuth();
+  const { hasCompletedOnboarding, hasFetchedOnboardingStatus, loading } =
+    useAuth();
+
   const location = useLocation();
 
   // Check if the current route is onboarding
@@ -37,15 +39,18 @@ function App() {
             <Route
               index
               element={
-                hasFetchedOnboardingStatus ? (
+                loading ? (
+                  <div>Loading...</div> // Show a loading message or spinner
+                ) : hasFetchedOnboardingStatus ? (
                   hasCompletedOnboarding ? (
                     <Home />
                   ) : (
                     <Navigate to="/onboarding" replace />
                   )
-                ) : null // Render nothing until the onboarding status is fetched
+                ) : null
               }
             />
+
             <Route path="/profile" element={<Profile />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />

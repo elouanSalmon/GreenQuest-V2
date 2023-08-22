@@ -6,12 +6,13 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Declare the loading state here
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [hasFetchedOnboardingStatus, setHasFetchedOnboardingStatus] =
     useState(false);
-
   const fetchUserOnboardingStatus = async () => {
+    setLoading(true); // Set loading to true at the start
+
     if (currentUser) {
       const userRef = doc(db, "users", currentUser.uid);
       const userDoc = await getDoc(userRef);
@@ -22,6 +23,8 @@ function AuthProvider({ children }) {
       }
     }
     setHasFetchedOnboardingStatus(true);
+
+    setLoading(false); // Set loading to false at the end
   };
 
   useEffect(() => {
@@ -42,6 +45,7 @@ function AuthProvider({ children }) {
         currentUser,
         hasCompletedOnboarding,
         hasFetchedOnboardingStatus,
+        loading,
       }}
     >
       {!loading && children}

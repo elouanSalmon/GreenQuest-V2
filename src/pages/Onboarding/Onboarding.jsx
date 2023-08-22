@@ -59,9 +59,10 @@ const Onboarding = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => {
+            onClick={async () => {
               navigate("/offset");
-              saveOnboardingCompletion(currentUser.uid, true);
+              await saveOnboardingCompletion(currentUser.uid, true);
+              await fetchUserOnboardingStatus(); // Refetch the onboarding status
             }}
           >
             Subscribe to Offset
@@ -70,9 +71,10 @@ const Onboarding = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => {
+            onClick={async () => {
               navigate("/dashboard");
-              saveOnboardingCompletion(currentUser.uid, true);
+              await saveOnboardingCompletion(currentUser.uid, true);
+              await fetchUserOnboardingStatus(); // Refetch the onboarding status
             }}
           >
             Skip for now
