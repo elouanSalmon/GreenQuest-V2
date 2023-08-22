@@ -59,7 +59,7 @@ function SignUp() {
         allowExtraEmails,
         rgpdConsent
       );
-      navigate("/");
+      navigate("/onboarding");
     } catch (error) {
       switch (error.code) {
         case "auth/email-already-in-use":
