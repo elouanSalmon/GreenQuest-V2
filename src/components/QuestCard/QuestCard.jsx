@@ -56,7 +56,7 @@ const QuestCard = ({
   );
 
   const questData = startedQuests.find((q) => q.questId === quest.id);
-  const startedAtDate = new Date(questData?.startedAt);
+  const startedAtDate = questData?.startedAt?.toDate();
 
   console.log("Started Quests:", startedQuests);
   console.log("Is Quest Started:", isQuestStarted);
