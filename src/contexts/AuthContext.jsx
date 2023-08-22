@@ -22,10 +22,15 @@ function AuthProvider({ children }) {
       }
     };
 
-    fetchUserOnboardingStatus();
+    if (currentUser) {
+      fetchUserOnboardingStatus();
+    }
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      if (user) {
+        fetchUserOnboardingStatus();
+      }
       setLoading(false);
     });
 
