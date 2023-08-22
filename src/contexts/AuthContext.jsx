@@ -8,11 +8,9 @@ function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
-  // Add a new state
   const [hasFetchedOnboardingStatus, setHasFetchedOnboardingStatus] =
     useState(false);
 
-  // Update the fetchUserOnboardingStatus function
   const fetchUserOnboardingStatus = async () => {
     if (currentUser) {
       const userRef = doc(db, "users", currentUser.uid);
@@ -23,9 +21,20 @@ function AuthProvider({ children }) {
         setHasCompletedOnboarding(false);
       }
     }
-    // Move this line outside the currentUser check
     setHasFetchedOnboardingStatus(true);
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false); // Set loading to false once the auth state is determined
+      if (user) {
+        fetchUserOnboardingStatus();
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <AuthContext.Provider
