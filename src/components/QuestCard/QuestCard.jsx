@@ -4,6 +4,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
+import { IconButton } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
@@ -12,6 +13,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { Box } from "@mui/system";
 import Chip from "@mui/material/Chip";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import InfoIcon from "@mui/icons-material/Info";
 
 export const getSmileyIcon = (currentEmissions, targetEmissions) => {
   if (currentEmissions > targetEmissions) {
@@ -58,13 +60,8 @@ const QuestCard = ({
   const questData = startedQuests.find((q) => q.questId === quest.id);
   const startedAtDate = questData?.startedAt?.toDate();
 
-  console.log("Started Quests:", startedQuests);
-  console.log("Is Quest Started:", isQuestStarted);
-  console.log("Started At Date:", startedAtDate);
-  console.log("Quest Data:", questData);
-
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, position: "relative" }}>
       {quest.image && (
         <CardMedia
           sx={{ height: 140 }}
@@ -72,6 +69,23 @@ const QuestCard = ({
           title={quest.title}
         />
       )}
+      <IconButton
+        sx={{
+          position: "absolute",
+          top: 8, // petite marge du haut
+          right: 8, // petite marge de droite
+          color: "secondary.main", // couleur de l'icône
+          backgroundColor: "white", // fond blanc pour le bouton
+          zIndex: 1, // pour s'assurer qu'il apparaît au-dessus des autres éléments
+          padding: 0.5, // réduire le padding pour diminuer l'espace blanc autour de l'icône
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.7)", // effet de transparence au survol
+          },
+        }}
+        onClick={() => handleOpen(quest)}
+      >
+        <InfoIcon />
+      </IconButton>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {quest.title}
@@ -83,12 +97,14 @@ const QuestCard = ({
             {currentEmissions ? currentEmissions.toFixed(1) : 0} t CO2e/year
           </Typography>
         </Box>
-        <Box display="flex" alignItems="center">
-          {getReductionArrow(currentEmissions, targetEmissions)}
-          <Typography variant="body2" color="text.secondary">
-            Target Emissions: {targetEmissions ? targetEmissions.toFixed(1) : 0}{" "}
-            t CO2e/year
-          </Typography>
+        <Box display="flex" flexDirection="column" alignItems="start">
+          <Box display="flex" alignItems="center">
+            {getReductionArrow(currentEmissions, targetEmissions)}
+            <Typography variant="body2" color="text.secondary">
+              Target Emissions:{" "}
+              {targetEmissions ? targetEmissions.toFixed(1) : 0} t CO2e/year
+            </Typography>
+          </Box>
           {isQuestStarted && startedAtDate && (
             <Chip
               icon={<EventNoteIcon />}
@@ -132,9 +148,6 @@ const QuestCard = ({
             </Button>
           </>
         )}
-        <Button size="small" color="primary" onClick={() => handleOpen(quest)}>
-          Learn More
-        </Button>
       </CardActions>
     </Card>
   );
