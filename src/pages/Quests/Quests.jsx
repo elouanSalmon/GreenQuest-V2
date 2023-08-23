@@ -277,7 +277,7 @@ const Quests = () => {
           unstartedQuests.map((quest) => {
             const targetEmissions = getTargetEmissions(quest);
             return (
-              <Grid item xs={12} sm={6} md={6} key={quest.id}>
+              <Grid item xs={12} sm={6} md={4} key={quest.id}>
                 <QuestCard
                   quest={quest}
                   userCarbonFootprint={userCarbonFootprint}

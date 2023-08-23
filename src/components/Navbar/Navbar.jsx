@@ -9,11 +9,14 @@ import {
   MenuItem,
   IconButton,
   Hidden,
+  Chip,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { auth } from "../../services/firebase";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Logo from "../../assets/images/Logo/Logo.svg";
+
+import { db, auth } from "../../services/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -55,6 +58,20 @@ function Navbar() {
     setAnchorEl(null);
   };
 
+  const [carbonFootprint, setCarbonFootprint] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userId = auth.currentUser.uid;
+      const docRef = doc(db, "carbon-footprint", userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setCarbonFootprint(docSnap.data());
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       {isAuthenticated && (
@@ -62,7 +79,7 @@ function Navbar() {
           <StyledToolbar>
             <img
               src={Logo}
-              alt="GreenQuest Logo"
+              alt="CarbonQuest Logo"
               style={{ height: "30px", width: "auto" }}
             />
 
@@ -81,6 +98,24 @@ function Navbar() {
                   <Button color="inherit">Create quest</Button>
                 </StyledLink>
               </Hidden>
+
+              {carbonFootprint && (
+                <Chip
+                  label={`Footprint: ${carbonFootprint.totalEmissions.toFixed(
+                    2
+                  )} Tons CO2e`}
+                  color="primary"
+                  variant="outlined"
+                  size="medium"
+                  style={{
+                    marginLeft: "10px",
+                    height: "36px",
+                    border: "1px solid",
+                    alignItems: "center",
+                  }}
+                  sx={{ marginRight: 2 }}
+                />
+              )}
               <StyledLink to="/offset">
                 <Button variant="contained">Offset Now</Button>
               </StyledLink>

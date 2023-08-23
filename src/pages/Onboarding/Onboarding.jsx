@@ -26,7 +26,7 @@ const Onboarding = () => {
     <Container>
       {step === 1 && (
         <div>
-          <h1>Welcome to GreenQuest!</h1>
+          <h1>Welcome to CarbonQuest!</h1>
           <p>
             Congratulations on joining the adventure! Here's a brief overview of
             what awaits you in our app.
