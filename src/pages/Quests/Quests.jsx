@@ -1,3 +1,5 @@
+//Quests.jsx:
+
 import React, { useState, useEffect } from "react";
 import {
   collection,
@@ -11,11 +13,17 @@ import {
 } from "firebase/firestore";
 
 import { db, auth } from "../../services/firebase";
-import QuestCard from "../../components/QuestCard/QuestCard";
+
+import QuestCard from "../../components/Quests/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
-import { Grid, Container } from "@mui/material/";
+
+import UnstartedQuests from "../../components/Quests/UnstartedQuests/UnstartedQuests";
+import CompletedQuests from "../../components/Quests/CompletedQuests/CompletedQuests";
+
 import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
 import handleQuestCompletion from "../../components/QuestCompletionHandler/QuestCompletionHandler";
+
+import { Grid, Container } from "@mui/material/";
 import ReactConfetti from "react-confetti";
 
 const Quests = () => {
@@ -144,11 +152,6 @@ const Quests = () => {
         { questId: quest.id, status: "started" },
       ]);
     }
-    // Affichez les confettis
-    setShowConfetti(true);
-    setTimeout(() => {
-      setShowConfetti(false);
-    }, 5000);
   };
 
   const handleCancel = async (quest) => {
@@ -258,58 +261,27 @@ const Quests = () => {
         )}
       </Grid>
 
-      <h2>Completed Quests</h2>
-      <Grid container>
-        {completedQuests.length > 0 ? (
-          completedQuests.map((quest) => {
-            const targetEmissions = getTargetEmissions(quest);
-            return (
-              <Grid item xs={12} sm={6} md={4} key={quest.id}>
-                <QuestCard
-                  quest={quest}
-                  userCarbonFootprint={userCarbonFootprint}
-                  targetEmissions={targetEmissions}
-                  handleOpen={handleOpen}
-                  handleComplete={handleComplete}
-                  handleStart={handleStart}
-                  handleCancel={handleCancel}
-                  startedQuests={startedQuests}
-                />
-              </Grid>
-            );
-          })
-        ) : (
-          <p>
-            You haven't completed any quests yet. Keep going, you're on the
-            right track!
-          </p>
-        )}
-      </Grid>
+      <CompletedQuests
+        completedQuests={completedQuests}
+        userCarbonFootprint={userCarbonFootprint}
+        getTargetEmissions={getTargetEmissions}
+        handleOpen={handleOpen}
+        handleComplete={handleComplete}
+        handleStart={handleStart}
+        handleCancel={handleCancel}
+        startedQuests={startedQuests}
+      />
 
-      <h2>Available quests</h2>
-      <Grid container>
-        {unstartedQuests.length > 0 ? (
-          unstartedQuests.map((quest) => {
-            const targetEmissions = getTargetEmissions(quest);
-            return (
-              <Grid item xs={12} sm={6} md={4} key={quest.id}>
-                <QuestCard
-                  quest={quest}
-                  userCarbonFootprint={userCarbonFootprint}
-                  targetEmissions={targetEmissions}
-                  handleOpen={handleOpen}
-                  handleComplete={handleComplete}
-                  handleStart={handleStart}
-                  handleCancel={handleCancel}
-                  startedQuests={startedQuests}
-                />
-              </Grid>
-            );
-          })
-        ) : (
-          <p>All quests have been started or completed. Great job!</p>
-        )}
-      </Grid>
+      <UnstartedQuests
+        unstartedQuests={unstartedQuests}
+        userCarbonFootprint={userCarbonFootprint}
+        getTargetEmissions={getTargetEmissions}
+        handleOpen={handleOpen}
+        handleComplete={handleComplete}
+        handleStart={handleStart}
+        handleCancel={handleCancel}
+        startedQuests={startedQuests}
+      />
 
       <div
         className={`sliding-page ${isPageVisible ? "visible" : ""}`}

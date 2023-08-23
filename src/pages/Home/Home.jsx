@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
-import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
+import CarbonFootprintForm from "../../components/Form/CarbonFootprintCalculation/CarbonFootprintForm/CarbonFootprintForm";
 import ReductionTips from "../../components/ReductionTips/ReductionTips";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import { useAuth } from "../../contexts/AuthContext";

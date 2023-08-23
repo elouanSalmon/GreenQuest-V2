@@ -1,5 +1,5 @@
 import React from "react";
-import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm.jsx";
+import CarbonFootprintForm from "../../components/Form/CarbonFootprintCalculation/CarbonFootprintForm/CarbonFootprintForm.jsx";
 import { Container } from "@mui/system";
 function Form() {
   return (

@@ -1,14 +1,22 @@
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, FormControl, InputLabel, MenuItem, Select, Button } from '@mui/material';
-import { db, auth } from '../../services/firebase';
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Button,
+} from "@mui/material";
+import { db, auth } from "../../../../services/firebase";
 
 function CarbonFootprintForm() {
   const [formData, setFormData] = useState({
-    flyingHabits: '',
-    carUsage: '',
-    carFuel: '',
+    flyingHabits: "",
+    carUsage: "",
+    carFuel: "",
   });
   const [existingData, setExistingData] = useState(null);
   const navigate = useNavigate();
@@ -45,7 +53,7 @@ function CarbonFootprintForm() {
     } catch (e) {
       console.error("Error adding/updating document: ", e);
     }
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   return (
@@ -88,28 +96,32 @@ function CarbonFootprintForm() {
         </FormControl>
 
         <FormControl fullWidth variant="outlined" margin="normal">
-          <InputLabel id="car-fuel-label">What kind of fuel does your car use?</InputLabel>
-<Select
-         labelId="car-fuel-label"
-         label="What kind of fuel does your car use?"
-         name="carFuel"
-         value={formData.carFuel}
-         onChange={handleChange}
-       >
-<MenuItem value="electricGreen">Electric (green energy)</MenuItem>
-<MenuItem value="electric">Electric</MenuItem>
-<MenuItem value="naturalGas">Natural gas</MenuItem>
-<MenuItem value="gasolineDieselHybrid">Gasoline, diesel, or hybrid</MenuItem>
-<MenuItem value="dontKnow">I don't know</MenuItem>
-</Select>
-</FormControl>
+          <InputLabel id="car-fuel-label">
+            What kind of fuel does your car use?
+          </InputLabel>
+          <Select
+            labelId="car-fuel-label"
+            label="What kind of fuel does your car use?"
+            name="carFuel"
+            value={formData.carFuel}
+            onChange={handleChange}
+          >
+            <MenuItem value="electricGreen">Electric (green energy)</MenuItem>
+            <MenuItem value="electric">Electric</MenuItem>
+            <MenuItem value="naturalGas">Natural gas</MenuItem>
+            <MenuItem value="gasolineDieselHybrid">
+              Gasoline, diesel, or hybrid
+            </MenuItem>
+            <MenuItem value="dontKnow">I don't know</MenuItem>
+          </Select>
+        </FormControl>
 
-            <Button type="submit" variant="contained" color="primary">
-      Calculate
-    </Button>
-  </form>
-</Box>
-);
+        <Button type="submit" variant="contained" color="primary">
+          Calculate
+        </Button>
+      </form>
+    </Box>
+  );
 }
 
 export default CarbonFootprintForm;
