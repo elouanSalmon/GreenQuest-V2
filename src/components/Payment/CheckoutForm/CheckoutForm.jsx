@@ -4,8 +4,8 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import {
   createStripeCustomer,
   createSubscription,
-} from "../../services/stripe";
-import { auth, saveStripeCustomerId } from "../../services/firebase";
+} from "../../../services/stripe";
+import { auth, saveStripeCustomerId } from "../../../services/firebase";
 
 const CheckoutForm = ({ handlePaymentSuccess }) => {
   const [error, setError] = useState(null);

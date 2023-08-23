@@ -1,7 +1,7 @@
-//UnstartedQuest.jsx:
+// UnstartedQuest.jsx:
 
-import React from "react";
-import { Grid } from "@mui/material/";
+import React, { useState } from "react";
+import { Grid, Pagination } from "@mui/material/";
 import QuestCard from "../QuestCard/QuestCard";
 
 const UnstartedQuests = ({
@@ -14,12 +14,22 @@ const UnstartedQuests = ({
   handleCancel,
   startedQuests,
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const questsPerPage = 9;
+
+  const indexOfLastQuest = currentPage * questsPerPage;
+  const indexOfFirstQuest = indexOfLastQuest - questsPerPage;
+  const currentQuests = unstartedQuests.slice(
+    indexOfFirstQuest,
+    indexOfLastQuest
+  );
+
   return (
     <>
       <h2>Available quests</h2>
       <Grid container>
-        {unstartedQuests.length > 0 ? (
-          unstartedQuests.map((quest) => {
+        {currentQuests.length > 0 ? (
+          currentQuests.map((quest) => {
             const targetEmissions = getTargetEmissions(quest);
             return (
               <Grid item xs={12} sm={6} md={4} key={quest.id}>
@@ -40,6 +50,12 @@ const UnstartedQuests = ({
           <p>All quests have been started or completed. Great job!</p>
         )}
       </Grid>
+      <Pagination
+        count={Math.ceil(unstartedQuests.length / questsPerPage)}
+        page={currentPage}
+        onChange={(event, value) => setCurrentPage(value)}
+        sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+      />
     </>
   );
 };

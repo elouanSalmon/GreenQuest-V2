@@ -15,7 +15,7 @@ import {
 import { db, auth } from "../../services/firebase";
 
 import QuestCard from "../../components/Quests/QuestCard/QuestCard";
-import QuestModal from "../../components/QuestModal/QuestModal";
+import QuestModal from "../../components/Quests/QuestModal/QuestModal";
 
 import UnstartedQuests from "../../components/Quests/UnstartedQuests/UnstartedQuests";
 import CompletedQuests from "../../components/Quests/CompletedQuests/CompletedQuests";
