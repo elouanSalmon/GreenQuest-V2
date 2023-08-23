@@ -89,9 +89,6 @@ function Dashboard() {
   return (
     <Container>
       <Box my={4}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Dashboard
-        </Typography>
         {carbonFootprint && (
           <>
             <Card>
@@ -99,7 +96,12 @@ function Dashboard() {
                 <Typography variant="subtitle1" align="center" gutterBottom>
                   Your Annual Carbon Footprint
                 </Typography>
-                <Typography variant="h3" align="center" gutterBottom>
+                <Typography
+                  variant="h3"
+                  align="center"
+                  gutterBottom
+                  color="customBlue"
+                >
                   {carbonFootprint.totalEmissions.toFixed(2)}
                 </Typography>
                 <Typography variant="subtitle1" align="center" gutterBottom>

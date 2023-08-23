@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material/";
+import { Grid, Typography } from "@mui/material/";
 import QuestCard from "../QuestCard/QuestCard";
 
 const CompletedQuests = ({
@@ -14,7 +14,9 @@ const CompletedQuests = ({
 }) => {
   return (
     <>
-      <h2>Completed Quests</h2>
+      <Typography color="customBlue" variant="h4">
+        Completed
+      </Typography>
       <Grid container>
         {completedQuests.length > 0 ? (
           completedQuests.map((quest) => {

@@ -19,6 +19,7 @@ import QuestModal from "../../components/Quests/QuestModal/QuestModal";
 
 import UnstartedQuests from "../../components/Quests/UnstartedQuests/UnstartedQuests";
 import CompletedQuests from "../../components/Quests/CompletedQuests/CompletedQuests";
+import ActiveQuests from "../../components/Quests/ActiveQuests/ActiveQuests";
 
 import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
 import handleQuestCompletion from "../../components/Quests/QuestCompletionHandler/QuestCompletionHandler";
@@ -233,33 +234,16 @@ const Quests = () => {
   return (
     <Container>
       {showConfetti && <ReactConfetti />}
-      <h2>Quests in progress</h2>
-      <Grid container>
-        {activeQuests.length > 0 ? (
-          activeQuests.map((quest) => {
-            const targetEmissions = getTargetEmissions(quest);
-            return (
-              <Grid item xs={12} sm={6} md={4} key={quest.id}>
-                <QuestCard
-                  quest={quest}
-                  userCarbonFootprint={userCarbonFootprint}
-                  targetEmissions={targetEmissions}
-                  handleOpen={handleOpen}
-                  handleComplete={handleComplete}
-                  handleStart={handleStart}
-                  handleCancel={handleCancel}
-                  startedQuests={startedQuests}
-                />
-              </Grid>
-            );
-          })
-        ) : (
-          <p>
-            You haven't started any quests yet. Please select one from the
-            available quests below!
-          </p>
-        )}
-      </Grid>
+      <ActiveQuests
+        activeQuests={activeQuests}
+        userCarbonFootprint={userCarbonFootprint}
+        getTargetEmissions={getTargetEmissions}
+        handleOpen={handleOpen}
+        handleComplete={handleComplete}
+        handleStart={handleStart}
+        handleCancel={handleCancel}
+        startedQuests={startedQuests}
+      />
 
       <CompletedQuests
         completedQuests={completedQuests}

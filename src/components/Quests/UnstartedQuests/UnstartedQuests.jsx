@@ -1,7 +1,7 @@
 // UnstartedQuest.jsx:
 
 import React, { useState } from "react";
-import { Grid, Pagination } from "@mui/material/";
+import { Grid, Pagination, Typography } from "@mui/material/";
 import QuestCard from "../QuestCard/QuestCard";
 
 const UnstartedQuests = ({
@@ -26,7 +26,9 @@ const UnstartedQuests = ({
 
   return (
     <>
-      <h2>Available quests</h2>
+      <Typography color="customBlue" variant="h4">
+        Next quests
+      </Typography>
       <Grid container>
         {currentQuests.length > 0 ? (
           currentQuests.map((quest) => {

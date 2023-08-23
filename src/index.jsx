@@ -8,6 +8,7 @@ import App from "./App/App";
 import "./index.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import { deepmerge } from "@mui/utils";
 
 const ThemeWrapper = () => {
   const [themeMode, setThemeMode] = React.useState("light");
@@ -19,6 +20,9 @@ const ThemeWrapper = () => {
     },
     secondary: {
       main: "#04324d",
+    },
+    customBlue: {
+      main: "#025AE6",
     },
     error: {
       main: "#e63946",
@@ -41,6 +45,9 @@ const ThemeWrapper = () => {
     },
     secondary: {
       main: "#04324d",
+    },
+    customBlue: {
+      main: "#025AE6",
     },
     error: {
       main: "#e63946",
@@ -81,6 +88,21 @@ const ThemeWrapper = () => {
           },
         },
       },
+    },
+  });
+
+  theme.palette = deepmerge(theme.palette, {
+    customBlue: theme.palette.customBlue,
+  });
+
+  theme.components = deepmerge(theme.components, {
+    MuiTypography: {
+      variants: [
+        {
+          props: { color: "customBlue" },
+          style: { color: theme.palette.customBlue.main },
+        },
+      ],
     },
   });
 
