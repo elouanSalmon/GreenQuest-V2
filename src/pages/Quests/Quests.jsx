@@ -13,7 +13,7 @@ import {
 import { db, auth } from "../../services/firebase";
 import QuestCard from "../../components/QuestCard/QuestCard";
 import QuestModal from "../../components/QuestModal/QuestModal";
-import Grid from "@mui/material/Grid";
+import { Grid, Container } from "@mui/material/";
 import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
 import handleQuestCompletion from "../../components/QuestCompletionHandler/QuestCompletionHandler";
 
@@ -34,7 +34,7 @@ const Quests = () => {
   const fetchAllQuestData = async () => {
     await fetchQuests();
     await fetchStartedQuests();
-    categorizeQuests(); // Add this line
+    categorizeQuests();
   };
 
   useEffect(() => {
@@ -214,9 +214,9 @@ const Quests = () => {
   }, [quests, startedQuests]);
 
   return (
-    <div>
+    <Container>
       <h2>Quests in progress</h2>
-      <Grid container spacing={3}>
+      <Grid container>
         {activeQuests.length > 0 ? (
           activeQuests.map((quest) => {
             const targetEmissions = getTargetEmissions(quest);
@@ -244,7 +244,7 @@ const Quests = () => {
       </Grid>
 
       <h2>Completed Quests</h2>
-      <Grid container spacing={3}>
+      <Grid container>
         {completedQuests.length > 0 ? (
           completedQuests.map((quest) => {
             const targetEmissions = getTargetEmissions(quest);
@@ -272,12 +272,12 @@ const Quests = () => {
       </Grid>
 
       <h2>Available quests</h2>
-      <Grid container spacing={3}>
+      <Grid container>
         {unstartedQuests.length > 0 ? (
           unstartedQuests.map((quest) => {
             const targetEmissions = getTargetEmissions(quest);
             return (
-              <Grid item xs={12} sm={6} md={4} key={quest.id}>
+              <Grid item xs={12} sm={6} md={6} key={quest.id}>
                 <QuestCard
                   quest={quest}
                   userCarbonFootprint={userCarbonFootprint}
@@ -312,7 +312,7 @@ const Quests = () => {
           }
         />
       </div>
-    </div>
+    </Container>
   );
 };
 export default Quests;

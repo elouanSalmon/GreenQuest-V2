@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import CarbonFootprintForm from "../../components/CarbonFootprintForm/CarbonFootprintForm";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { saveOnboardingCompletion } from "../../services/firebase";
 import { useAuth } from "../../contexts/AuthContext";
@@ -23,7 +23,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div>
+    <Container>
       {step === 1 && (
         <div>
           <h1>Welcome to GreenQuest!</h1>
@@ -81,7 +81,7 @@ const Onboarding = () => {
           </Button>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 

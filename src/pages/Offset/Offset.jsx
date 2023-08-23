@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import OffsetSelection from "../../components/OffsetSelection/OffsetSelection";
 import OffsetPlan from "../../components/OffsetPlan/OffsetPlan";
 import Payment from "../../components/Payment/Payment";
+import { Container } from "@mui/system";
 
 function Offset() {
   const [selectedProjects, setSelectedProjects] = useState([]);
@@ -22,7 +23,7 @@ function Offset() {
   };
 
   return (
-    <>
+    <Container>
       {showOffsetPlan ? (
         <OffsetPlan
           selectedProjects={selectedProjects}
@@ -33,7 +34,7 @@ function Offset() {
       ) : (
         <OffsetSelection onContinue={handleContinue} />
       )}
-    </>
+    </Container>
   );
 }
 

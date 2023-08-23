@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Container,
 } from "@mui/material";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
@@ -154,91 +155,93 @@ const QuestForm = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} padding={3}>
-      <TextField
-        label="Title"
-        name="title"
-        value={questData.title}
-        onChange={handleChange}
-        fullWidth
-        required
-      />
-      <TextField
-        label="Description"
-        name="description"
-        value={questData.description}
-        onChange={handleChange}
-        fullWidth
-        multiline
-        required
-      />
-      <InputLabel id="category-label">Category</InputLabel>
-      <Select
-        labelId="category-label"
-        name="category"
-        value={questData.category}
-        onChange={handleChange}
-        fullWidth
-        required
-      >
-        {categories.map((category) => (
-          <MenuItem key={category} value={category}>
-            {category}
-          </MenuItem>
-        ))}
-      </Select>
+    <Container>
+      <Box component="form" onSubmit={handleSubmit} padding={3}>
+        <TextField
+          label="Title"
+          name="title"
+          value={questData.title}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Description"
+          name="description"
+          value={questData.description}
+          onChange={handleChange}
+          fullWidth
+          multiline
+          required
+        />
+        <InputLabel id="category-label">Category</InputLabel>
+        <Select
+          labelId="category-label"
+          name="category"
+          value={questData.category}
+          onChange={handleChange}
+          fullWidth
+          required
+        >
+          {categories.map((category) => (
+            <MenuItem key={category} value={category}>
+              {category}
+            </MenuItem>
+          ))}
+        </Select>
 
-      {subCategories[questData.category] && (
-        <>
-          <InputLabel id="sub-category-label">Sub-Category</InputLabel>
-          <Select
-            labelId="sub-category-label"
-            name="subCategory"
-            value={questData.subCategory}
-            onChange={handleChange}
-            fullWidth
-            required
-          >
-            {subCategories[questData.category].map((sub) => (
-              <MenuItem key={sub} value={sub}>
-                {sub}
-              </MenuItem>
-            ))}
-          </Select>
-        </>
-      )}
+        {subCategories[questData.category] && (
+          <>
+            <InputLabel id="sub-category-label">Sub-Category</InputLabel>
+            <Select
+              labelId="sub-category-label"
+              name="subCategory"
+              value={questData.subCategory}
+              onChange={handleChange}
+              fullWidth
+              required
+            >
+              {subCategories[questData.category].map((sub) => (
+                <MenuItem key={sub} value={sub}>
+                  {sub}
+                </MenuItem>
+              ))}
+            </Select>
+          </>
+        )}
 
-      <InputLabel id="target-carbon-consumption-label">
-        Target Carbon Consumption
-      </InputLabel>
-      <Select
-        labelId="target-carbon-consumption-label"
-        name="target_carbon_consumption"
-        value={questData.target_carbon_consumption}
-        onChange={handleChange}
-        fullWidth
-        required
-      >
-        {targetOptions.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
+        <InputLabel id="target-carbon-consumption-label">
+          Target Carbon Consumption
+        </InputLabel>
+        <Select
+          labelId="target-carbon-consumption-label"
+          name="target_carbon_consumption"
+          value={questData.target_carbon_consumption}
+          onChange={handleChange}
+          fullWidth
+          required
+        >
+          {targetOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Select>
 
-      <TextField
-        label="Image"
-        name="image"
-        value={questData.image}
-        onChange={handleChange}
-        fullWidth
-        required
-      />
+        <TextField
+          label="Image"
+          name="image"
+          value={questData.image}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
 
-      <Button type="submit" color="primary" variant="contained">
-        Create Quest
-      </Button>
-    </Box>
+        <Button type="submit" color="primary" variant="contained">
+          Create Quest
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

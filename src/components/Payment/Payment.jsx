@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { Elements } from "@stripe/react-stripe-js";
 import { getStripeInstance } from "../../services/stripe";
 import CheckoutForm from "../CheckoutForm/CheckoutForm";
@@ -46,7 +46,7 @@ const Payment = ({ cost }) => {
   };
 
   return (
-    <Box>
+    <Container maxWidth="xs">
       <Typography variant="h3" align="center" mb={2}>
         Payment
       </Typography>
@@ -66,7 +66,7 @@ const Payment = ({ cost }) => {
           <Typography>Loading Stripe...</Typography>
         )}
       </Elements>
-    </Box>
+    </Container>
   );
 };
 

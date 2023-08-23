@@ -9,6 +9,7 @@ import {
   FormControl,
   TextField,
   Switch,
+  Container,
 } from "@mui/material";
 import { db, auth } from "../../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -73,11 +74,11 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
   };
 
   return (
-    <Box>
-      <Typography variant="h3" align="center" mb={2}>
+    <Container>
+      <Typography variant="h3" mb={2}>
         Thanks for taking climate action
       </Typography>
-      <Typography variant="h5" align="center" mb={4}>
+      <Typography variant="h5" mb={4}>
         Choose your impact
       </Typography>
       <FormControl component="fieldset">
@@ -145,13 +146,11 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
             {isAnnual ? "Paying annually" : "Paying monthly"}
           </Typography>
         </Box>
-        <Box mt={4} display="flex" justifyContent="center">
-          <Button variant="contained" color="primary" onClick={handleSelect}>
-            Select
-          </Button>
-        </Box>
+        <Button variant="contained" color="primary" onClick={handleSelect}>
+          Select
+        </Button>
       </Box>
-    </Box>
+    </Container>
   );
 };
 

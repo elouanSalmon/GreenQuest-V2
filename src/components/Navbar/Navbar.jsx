@@ -13,6 +13,7 @@ import {
 import { styled } from "@mui/system";
 import { auth } from "../../services/firebase";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Logo from "../../assets/images/Logo/Logo.svg";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -59,9 +60,12 @@ function Navbar() {
       {isAuthenticated && (
         <StyledAppBar position="static">
           <StyledToolbar>
-            <Typography variant="h6" color="primary">
-              GreenQuest
-            </Typography>
+            <img
+              src={Logo}
+              alt="GreenQuest Logo"
+              style={{ height: "30px", width: "auto" }}
+            />
+
             <StyledNavLinks>
               <Hidden mdDown>
                 <StyledLink to="/">
