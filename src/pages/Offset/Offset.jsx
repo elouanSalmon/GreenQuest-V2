@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import OffsetSelection from "../../components/OffsetSelection/OffsetSelection";
-import OffsetPlan from "../../components/OffsetPlan/OffsetPlan";
+import OffsetSelection from "../../components/Offset/OffsetSelection/OffsetSelection";
+import OffsetPlan from "../../components/Offset/OffsetPlan/OffsetPlan";
 import Payment from "../../components/Payment/Payment";
 import { Container } from "@mui/system";
 

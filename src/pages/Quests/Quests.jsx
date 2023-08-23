@@ -21,7 +21,7 @@ import UnstartedQuests from "../../components/Quests/UnstartedQuests/UnstartedQu
 import CompletedQuests from "../../components/Quests/CompletedQuests/CompletedQuests";
 
 import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
-import handleQuestCompletion from "../../components/QuestCompletionHandler/QuestCompletionHandler";
+import handleQuestCompletion from "../../components/Quests/QuestCompletionHandler/QuestCompletionHandler";
 
 import { Grid, Container } from "@mui/material/";
 import ReactConfetti from "react-confetti";

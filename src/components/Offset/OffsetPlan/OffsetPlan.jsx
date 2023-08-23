@@ -11,7 +11,7 @@ import {
   Switch,
   Container,
 } from "@mui/material";
-import { db, auth } from "../../services/firebase";
+import { db, auth } from "../../../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {

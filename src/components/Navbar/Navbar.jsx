@@ -97,6 +97,9 @@ function Navbar() {
                 <StyledLink to="/create-quest">
                   <Button color="inherit">Create quest</Button>
                 </StyledLink>
+                <StyledLink to="/offset-settings">
+                  <Button color="inherit">Offset Settings</Button>
+                </StyledLink>
               </Hidden>
 
               {carbonFootprint && (

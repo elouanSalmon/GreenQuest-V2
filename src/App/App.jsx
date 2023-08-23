@@ -17,6 +17,7 @@ import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import Onboarding from "../pages/Onboarding/Onboarding";
 import { useAuth } from "../contexts/AuthContext";
 import Form from "../pages/Form/Form";
+import OffsetSettings from "../pages/OffsetSettings/OffsetSettings";
 
 function App() {
   const { hasCompletedOnboarding, hasFetchedOnboardingStatus, loading } =
@@ -55,6 +56,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/offset" element={<Offset />} />
+            <Route path="/offset-settings" element={<OffsetSettings />} />
             <Route path="/quests" element={<Quests />} />
             <Route path="/create-quest" element={<CreateQuest />} />
             <Route path="/payment-successful" element={<PaymentSuccess />} />

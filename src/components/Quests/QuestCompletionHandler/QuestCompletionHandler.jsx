@@ -1,6 +1,6 @@
 import { updateDoc, doc } from "firebase/firestore";
-import { db, auth } from "../../services/firebase";
-import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
+import { db, auth } from "../../../services/firebase";
+import { getTargetEmissionsValue } from "../../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
 
 export const handleQuestCompletion = async (
   quest,

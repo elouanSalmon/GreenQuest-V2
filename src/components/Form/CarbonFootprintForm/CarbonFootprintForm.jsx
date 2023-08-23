@@ -15,8 +15,8 @@ import {
   Select,
   Button,
 } from "@mui/material";
-import { db, auth } from "../../../../services/firebase";
-import { calculateCarbonFootprint } from "../CarbonFootprintCalculation";
+import { db, auth } from "../../../services/firebase";
+import { calculateCarbonFootprint } from "../../Form/CarbonFootprintCalculation/CarbonFootprintCalculation";
 
 function CarbonFootprintCalculator({ isOnboarding }, ref) {
   const [formData, setFormData] = useState({
