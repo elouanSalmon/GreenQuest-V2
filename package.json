@@ -23,6 +23,7 @@
     "firebase": "^9.21.0",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",
+    "react-confetti": "^6.1.0",
     "react-emoji-render": "^2.0.1",
     "react-hook-form": "^7.43.9",
     "react-refresh": "^0.14.0",

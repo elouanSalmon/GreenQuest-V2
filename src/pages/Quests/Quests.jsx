@@ -16,6 +16,7 @@ import QuestModal from "../../components/QuestModal/QuestModal";
 import { Grid, Container } from "@mui/material/";
 import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
 import handleQuestCompletion from "../../components/QuestCompletionHandler/QuestCompletionHandler";
+import ReactConfetti from "react-confetti";
 
 const Quests = () => {
   const [quests, setQuests] = useState([]);
@@ -83,6 +84,11 @@ const Quests = () => {
 
     // Refresh the quest lists
     await fetchAllQuestData();
+    // Affichez les confettis
+    setShowConfetti(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 5000);
   };
 
   const fetchQuests = async () => {
@@ -138,6 +144,11 @@ const Quests = () => {
         { questId: quest.id, status: "started" },
       ]);
     }
+    // Affichez les confettis
+    setShowConfetti(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 5000);
   };
 
   const handleCancel = async (quest) => {
@@ -213,8 +224,12 @@ const Quests = () => {
     categorizeQuests();
   }, [quests, startedQuests]);
 
+  // État pour gérer l'affichage des confettis
+  const [showConfetti, setShowConfetti] = useState(false);
+
   return (
     <Container>
+      {showConfetti && <ReactConfetti />}
       <h2>Quests in progress</h2>
       <Grid container>
         {activeQuests.length > 0 ? (
