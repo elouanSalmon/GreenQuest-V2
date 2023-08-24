@@ -12,7 +12,7 @@ import {
   Container,
 } from "@mui/material";
 import { db, auth } from "../../../services/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
   const [selectedPlan, setSelectedPlan] = useState("100");
@@ -63,14 +63,33 @@ const OffsetPlan = ({ selectedProjects, onSelectPlan }) => {
     setIsAnnual(!isAnnual);
   };
 
-  const handleSelect = () => {
+  const handleSelect = async () => {
     const selectedPlanObj =
       plans.find((plan) => plan.percentage.toString() === selectedPlan) || {};
     const cost =
       (selectedPlan === "custom"
         ? (totalEmissions * customValue) / 100
         : selectedPlanObj.monthlyPrice) / (isAnnual ? 1 : 12);
+
+    // Stocker le plan choisi dans Firebase
+    await storeSelectedPlanInFirebase(selectedPlan, cost);
+
     onSelectPlan(cost); // Passez le coût comme argument
+  };
+
+  const storeSelectedPlanInFirebase = async (plan, cost) => {
+    const userId = auth.currentUser.uid;
+    const userRef = doc(db, "users", userId);
+
+    await setDoc(
+      userRef,
+      {
+        selectedPlan: plan,
+        planCost: cost,
+        paymentFrequency: isAnnual ? "annual" : "monthly",
+      },
+      { merge: true }
+    );
   };
 
   return (

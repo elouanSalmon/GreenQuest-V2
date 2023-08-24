@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, Typography } from "@mui/material";
 import { Elements } from "@stripe/react-stripe-js";
-import { getStripeInstance } from "../../services/stripe";
-import CheckoutForm from "./CheckoutForm/CheckoutForm";
-import { auth, db } from "../../services/firebase"; // Import auth and db
+import { getStripeInstance } from "../../../services/stripe";
+import CheckoutForm from "../CheckoutForm/CheckoutForm";
+import { auth, db } from "../../../services/firebase"; // Import auth and db
 import { doc, setDoc } from "firebase/firestore"; // Import Firestore methods
 import { useNavigate } from "react-router-dom";
 
