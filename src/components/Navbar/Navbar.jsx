@@ -8,41 +8,40 @@ import {
   MenuItem,
   IconButton,
   Hidden,
-  Chip,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Logo from "../../assets/images/Logo/Logo.svg";
-
 import { db, auth } from "../../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-const StyledToolbar = styled(Toolbar)({
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-});
+}));
 
 const StyledNavLinks = styled("nav")({
   display: "flex",
 });
 
-const StyledLink = styled(Link)({
+const StyledLink = styled(Link)(({ theme }) => ({
   textDecoration: "none",
-  color: "inherit",
-});
+  color: theme.palette.primary.main,
+}));
 
-const StyledAppBar = styled(AppBar)({
-  backgroundColor: "secondary.main",
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
   marginBottom: "20px",
-});
+}));
 
 function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [carbonFootprint, setCarbonFootprint] = useState(null);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      setIsAuthenticated(!!user);
+      setIsAuthenticated(user !== null);
     });
   }, []);
 
@@ -57,8 +56,6 @@ function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
-  const [carbonFootprint, setCarbonFootprint] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,7 +80,7 @@ function Navbar() {
               style={{ height: "30px", width: "auto" }}
             />
             <StyledNavLinks>
-              <Hidden smDown>
+              <Hidden mdDown>
                 <StyledLink to="/">
                   <Button color="inherit">Home</Button>
                 </StyledLink>
@@ -99,20 +96,17 @@ function Navbar() {
                 <StyledLink to="/offset-settings">
                   <Button color="inherit">Offset Settings</Button>
                 </StyledLink>
-              </Hidden>
-              <Hidden smDown>
                 {carbonFootprint && (
-                  <Chip
-                    label={`Footprint: ${carbonFootprint.totalEmissions.toFixed(
-                      2
-                    )} Tons CO2e`}
-                  />
+                  <Button color="primary" variant="outlined">
+                    Footprint: {carbonFootprint.totalEmissions.toFixed(2)} Tons
+                    CO2e
+                  </Button>
                 )}
                 <StyledLink to="/offset">
                   <Button variant="contained">Offset Now</Button>
                 </StyledLink>
               </Hidden>
-              <Hidden mdUp>
+              <Hidden lgUp>
                 <IconButton color="primary" onClick={handleMenuClick}>
                   <MoreVertIcon />
                 </IconButton>
@@ -122,25 +116,39 @@ function Navbar() {
                   onClose={handleMenuClose}
                 >
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/">Home</StyledLink>
+                    <StyledLink to="/" onClick={handleMenuClose}>
+                      Home
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/create-quest">CREATE QUEST</StyledLink>
+                    <StyledLink to="/create-quest" onClick={handleMenuClose}>
+                      Create quest
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/dashboard">Dashboard</StyledLink>
+                    <StyledLink to="/dashboard" onClick={handleMenuClose}>
+                      Dashboard
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/offset">Offset Now</StyledLink>
+                    <StyledLink to="/offset" onClick={handleMenuClose}>
+                      Offset Now
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/quests">Quests</StyledLink>
+                    <StyledLink to="/quests" onClick={handleMenuClose}>
+                      Quests
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/profile">Profile</StyledLink>
+                    <StyledLink to="/profile" onClick={handleMenuClose}>
+                      Profile
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
-                    <StyledLink to="/about">About</StyledLink>
+                    <StyledLink to="/about" onClick={handleMenuClose}>
+                      About
+                    </StyledLink>
                   </MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
