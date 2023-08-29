@@ -12,9 +12,9 @@ import {
   Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { registerWithEmail } from "../../services/firebase";
+import { registerWithEmail } from "../services/firebase";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function SignUp() {
   const [email, setEmail] = useState("");

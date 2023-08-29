@@ -4,28 +4,26 @@ import React from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-import "./App.css";
-
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 
-import Onboarding from "../pages/Onboarding/Onboarding";
+import Onboarding from "./Onboarding";
 
-import Home from "../pages/Home/Home";
-import Profile from "../pages/Profile/Profile";
-import About from "../pages/About/About";
-import Login from "../pages/Login/Login";
+import Home from "./Home";
+import Profile from "./Profile";
+import About from "./About";
+import Login from "./Login";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import Offset from "../pages/Offset/Offset";
-import Quests from "../pages/Quests/Quests";
-import CreateQuest from "../pages/CreateQuest/CreateQuest";
-import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
-import Form from "../pages/Form/Form";
-import OffsetSettings from "../pages/OffsetSettings/OffsetSettings";
+import Dashboard from "./Dashboard";
+import Offset from "./Offset";
+import Quests from "./Quests";
+import CreateQuest from "./CreateQuest";
+import PaymentSuccess from "./PaymentSuccess";
+import Form from "./Form";
+import OffsetSettings from "./OffsetSettings";
 
-import SignUp from "../pages/SignUp/SignUp";
-import ResetPassword from "../pages/ResetPassword/ResetPassword";
+import SignUp from "./SignUp";
+import ResetPassword from "./ResetPassword";
 
 function App() {
   const { hasCompletedOnboarding, hasFetchedOnboardingStatus, loading } =

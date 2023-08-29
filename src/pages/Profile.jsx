@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { auth, db } from "../../services/firebase";
+import { auth, db } from "../services/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const Profile = () => {

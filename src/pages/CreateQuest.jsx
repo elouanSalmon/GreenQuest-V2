@@ -9,7 +9,7 @@ import {
   Container,
 } from "@mui/material";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../services/firebase";
 
 const QuestForm = () => {
   const [questData, setQuestData] = useState({

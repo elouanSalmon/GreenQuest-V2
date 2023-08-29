@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
-import CarbonFootprintForm from "../../components/Form/CarbonFootprintForm/CarbonFootprintForm";
-import ReductionTips from "../../components/ReductionTips/ReductionTips";
-import Dashboard from "../../pages/Dashboard/Dashboard";
-import { useAuth } from "../../contexts/AuthContext";
+import CarbonFootprintForm from "../components/Form/CarbonFootprintForm/CarbonFootprintForm";
+import ReductionTips from "../components/ReductionTips/ReductionTips";
+import Dashboard from "./Dashboard";
+import { useAuth } from "../contexts/AuthContext";
 
 function Home() {
   const { hasCompletedOnboarding } = useAuth();

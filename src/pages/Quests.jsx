@@ -12,17 +12,17 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-import { db, auth } from "../../services/firebase";
+import { db, auth } from "../services/firebase";
 
-import QuestCard from "../../components/Quests/QuestCard/QuestCard";
-import QuestModal from "../../components/Quests/QuestModal/QuestModal";
+import QuestCard from "../components/Quests/QuestCard/QuestCard";
+import QuestModal from "../components/Quests/QuestModal/QuestModal";
 
-import UnstartedQuests from "../../components/Quests/UnstartedQuests/UnstartedQuests";
-import CompletedQuests from "../../components/Quests/CompletedQuests/CompletedQuests";
-import ActiveQuests from "../../components/Quests/ActiveQuests/ActiveQuests";
+import UnstartedQuests from "../components/Quests/UnstartedQuests/UnstartedQuests";
+import CompletedQuests from "../components/Quests/CompletedQuests/CompletedQuests";
+import ActiveQuests from "../components/Quests/ActiveQuests/ActiveQuests";
 
-import { getTargetEmissionsValue } from "../../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
-import handleQuestCompletion from "../../components/Quests/QuestCompletionHandler/QuestCompletionHandler";
+import { getTargetEmissionsValue } from "../components/TargetEmissionsCalculation/TargetEmissionsCalculation";
+import handleQuestCompletion from "../components/Quests/QuestCompletionHandler/QuestCompletionHandler";
 
 import { Grid, Container } from "@mui/material/";
 import ReactConfetti from "react-confetti";

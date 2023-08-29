@@ -13,11 +13,11 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../../services/firebase";
+import { auth, googleProvider } from "../services/firebase";
 import { Link } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
   const { hasCompletedOnboarding } = useAuth();

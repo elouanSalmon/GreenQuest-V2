@@ -8,6 +8,7 @@ import {
   MenuItem,
   IconButton,
   Hidden,
+  Chip,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -97,10 +98,21 @@ function Navbar() {
                   <Button color="inherit">Offset Settings</Button>
                 </StyledLink>
                 {carbonFootprint && (
-                  <Button color="primary" variant="outlined">
-                    Footprint: {carbonFootprint.totalEmissions.toFixed(2)} Tons
-                    CO2e
-                  </Button>
+                  <Chip
+                    label={`Footprint: ${carbonFootprint.totalEmissions.toFixed(
+                      2
+                    )} Tons CO2e`}
+                    color="primary"
+                    variant="outlined"
+                    size="medium"
+                    style={{
+                      marginLeft: "10px",
+                      height: "36px",
+                      border: "1px solid",
+                      alignItems: "center",
+                    }}
+                    sx={{ marginRight: 2 }}
+                  />
                 )}
                 <StyledLink to="/offset">
                   <Button variant="contained">Offset Now</Button>
@@ -140,6 +152,28 @@ function Navbar() {
                       Quests
                     </StyledLink>
                   </MenuItem>
+                  <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/profile" onClick={handleMenuClose}>
+                      Profile
+                    </StyledLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleMenuClose}>
+                    <StyledLink to="/about" onClick={handleMenuClose}>
+                      About
+                    </StyledLink>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </Hidden>
+              <Hidden mdDown>
+                <IconButton color="primary" onClick={handleMenuClick}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
                   <MenuItem onClick={handleMenuClose}>
                     <StyledLink to="/profile" onClick={handleMenuClose}>
                       Profile

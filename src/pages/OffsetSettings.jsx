@@ -21,15 +21,15 @@ import {
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import InfoIcon from "@mui/icons-material/Info";
-import { auth, firestore } from "../../services/firebase";
+import { auth, firestore } from "../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-import treePlanting from "../../assets/images/OffsetSelection/tree_planting.jpg";
-import solarPower from "../../assets/images/OffsetSelection/solar_power.jpg";
-import directAirCapture from "../../assets/images/OffsetSelection/direct_air_capture.jpg";
-import hydroPower from "../../assets/images/OffsetSelection/hydro_power.jpg";
-import cleanCookStoves from "../../assets/images/OffsetSelection/clean_cook_stoves.jpg";
-import deforestationPrevention from "../../assets/images/OffsetSelection/deforestation_prevention.jpg";
+import treePlanting from "../assets/images/OffsetSelection/tree_planting.jpg";
+import solarPower from "../assets/images/OffsetSelection/solar_power.jpg";
+import directAirCapture from "../assets/images/OffsetSelection/direct_air_capture.jpg";
+import hydroPower from "../assets/images/OffsetSelection/hydro_power.jpg";
+import cleanCookStoves from "../assets/images/OffsetSelection/clean_cook_stoves.jpg";
+import deforestationPrevention from "../assets/images/OffsetSelection/deforestation_prevention.jpg";
 
 const projects = [
   {

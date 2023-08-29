@@ -11,7 +11,7 @@ import {
   Button,
   Container,
 } from "@mui/material";
-import { db, auth } from "../../services/firebase";
+import { db, auth } from "../services/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import {
   BarChart,

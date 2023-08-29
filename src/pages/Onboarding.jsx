@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import CarbonFootprintForm from "../../components/Form/CarbonFootprintForm/CarbonFootprintForm";
+import CarbonFootprintForm from "../components/Form/CarbonFootprintForm/CarbonFootprintForm";
 import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { saveOnboardingCompletion } from "../../services/firebase";
-import { useAuth } from "../../contexts/AuthContext";
+import { saveOnboardingCompletion } from "../services/firebase";
+import { useAuth } from "../contexts/AuthContext";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
