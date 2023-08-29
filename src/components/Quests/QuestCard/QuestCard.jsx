@@ -75,7 +75,6 @@ const QuestCard = ({
           position: "absolute",
           top: 8, // petite marge du haut
           right: 8, // petite marge de droite
-          color: "secondary.main", // couleur de l'icône
           backgroundColor: "white", // fond blanc pour le bouton
           zIndex: 1, // pour s'assurer qu'il apparaît au-dessus des autres éléments
           padding: 0.5, // réduire le padding pour diminuer l'espace blanc autour de l'icône

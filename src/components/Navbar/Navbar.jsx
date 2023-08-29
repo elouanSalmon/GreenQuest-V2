@@ -34,6 +34,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.secondary.main,
+  marginBottom: "20px",
 }));
 
 function Navbar() {

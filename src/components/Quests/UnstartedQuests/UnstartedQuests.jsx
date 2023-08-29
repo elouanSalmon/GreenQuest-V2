@@ -26,9 +26,7 @@ const UnstartedQuests = ({
 
   return (
     <>
-      <Typography color="customBlue" variant="h4">
-        Next quests
-      </Typography>
+      <Typography variant="h4">Next quests</Typography>
       <Grid container>
         {currentQuests.length > 0 ? (
           currentQuests.map((quest) => {

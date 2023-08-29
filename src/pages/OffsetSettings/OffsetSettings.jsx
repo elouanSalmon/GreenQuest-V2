@@ -146,8 +146,8 @@ const OffsetSettings = () => {
             <Typography variant="h6">
               Monthly Cost: <strong>${cost}</strong>
             </Typography>
-            <Box mt={4}>
-              <Button variant="outlined" color="customBlue" size="large">
+            <Box mt={2}>
+              <Button variant="outlined" color="customBlue" size="medium">
                 Modify Subscription
               </Button>
             </Box>
@@ -242,7 +242,6 @@ const OffsetSettings = () => {
             count={Math.ceil(selectedOffsets.length / 3)}
             page={page}
             onChange={handlePageChange}
-            color="primary"
           />
         </Box>
       </Paper>

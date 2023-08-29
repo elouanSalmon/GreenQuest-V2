@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material/";
+import { Grid, Typography, Divider } from "@mui/material/";
 import QuestCard from "../QuestCard/QuestCard";
 
 const CompletedQuests = ({
@@ -14,9 +14,7 @@ const CompletedQuests = ({
 }) => {
   return (
     <>
-      <Typography color="customBlue" variant="h4">
-        Completed
-      </Typography>
+      <Typography variant="h4">Completed</Typography>
       <Grid container>
         {completedQuests.length > 0 ? (
           completedQuests.map((quest) => {
@@ -43,6 +41,7 @@ const CompletedQuests = ({
           </p>
         )}
       </Grid>
+      <Divider style={{ marginBottom: "15px" }} />
     </>
   );
 };

@@ -198,8 +198,8 @@ function Dashboard() {
               </Card>
             </Box>
             <Button
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="customBlue"
               onClick={handleCarbonFootprintFormClick}
               sx={{ mt: 2 }}
             >
