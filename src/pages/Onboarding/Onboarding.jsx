@@ -9,7 +9,8 @@ const Onboarding = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const formRef = useRef(null);
-  const { currentUser } = useAuth();
+  const { currentUser, fetchUserOnboardingStatus, setHasCompletedOnboarding } =
+    useAuth();
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -20,6 +21,12 @@ const Onboarding = () => {
       await formRef.current.handleSubmit();
       nextStep();
     }
+  };
+
+  const finalizeOnboarding = async () => {
+    await saveOnboardingCompletion(currentUser.uid, true);
+    await fetchUserOnboardingStatus();
+    setHasCompletedOnboarding(true); // <-- Make sure this function is available in your AuthContext
   };
 
   return (
@@ -61,8 +68,7 @@ const Onboarding = () => {
             color="primary"
             onClick={async () => {
               navigate("/offset");
-              await saveOnboardingCompletion(currentUser.uid, true);
-              await fetchUserOnboardingStatus(); // Refetch the onboarding status
+              await finalizeOnboarding();
             }}
           >
             Subscribe to Offset
@@ -73,8 +79,7 @@ const Onboarding = () => {
             color="secondary"
             onClick={async () => {
               navigate("/dashboard");
-              await saveOnboardingCompletion(currentUser.uid, true);
-              await fetchUserOnboardingStatus(); // Refetch the onboarding status
+              await finalizeOnboarding();
             }}
           >
             Skip for now

@@ -1,4 +1,4 @@
-//React.jsx
+//App.jsx
 
 import React from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
@@ -49,7 +49,7 @@ function App() {
               index
               element={
                 loading ? (
-                  <div>Loading...</div> // Show a loading message or spinner
+                  <div>Loading...</div>
                 ) : hasFetchedOnboardingStatus ? (
                   hasCompletedOnboarding ? (
                     <Home />

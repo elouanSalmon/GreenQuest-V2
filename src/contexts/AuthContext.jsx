@@ -2,17 +2,17 @@ import React, { createContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db, doc, getDoc } from "../services/firebase";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true); // Declare the loading state here
+  const [loading, setLoading] = useState(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [hasFetchedOnboardingStatus, setHasFetchedOnboardingStatus] =
     useState(false);
-  const fetchUserOnboardingStatus = async () => {
-    setLoading(true); // Set loading to true at the start
 
+  const fetchUserOnboardingStatus = async () => {
+    setLoading(true);
     if (currentUser) {
       const userRef = doc(db, "users", currentUser.uid);
       const userDoc = await getDoc(userRef);
@@ -23,31 +23,33 @@ function AuthProvider({ children }) {
       }
     }
     setHasFetchedOnboardingStatus(true);
-
-    setLoading(false); // Set loading to false at the end
+    setLoading(false);
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
-      setLoading(false); // Set loading to false once the auth state is determined
+      setLoading(false);
       if (user) {
-        fetchUserOnboardingStatus();
+        const onboardingStatus = await fetchUserOnboardingStatus(user.uid);
+        setHasCompletedOnboarding(onboardingStatus);
+        setHasFetchedOnboardingStatus(true);
       }
     });
-
     return unsubscribe;
   }, []);
 
+  const value = {
+    currentUser,
+    hasCompletedOnboarding,
+    hasFetchedOnboardingStatus,
+    loading,
+    fetchUserOnboardingStatus,
+    setHasCompletedOnboarding,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        currentUser,
-        hasCompletedOnboarding,
-        hasFetchedOnboardingStatus,
-        loading,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
   );
