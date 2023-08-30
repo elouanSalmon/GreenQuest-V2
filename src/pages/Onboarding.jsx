@@ -4,6 +4,7 @@ import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { saveOnboardingCompletion } from "../services/firebase";
 import { useAuth } from "../contexts/AuthContext";
+import Logo from "../assets/images/Logo/Logo.svg";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
@@ -31,6 +32,7 @@ const Onboarding = () => {
 
   return (
     <Container>
+      <img src={Logo} alt="App Logo" style={{ height: '30px', width: 'auto', margin: '30px auto' }} />
       {step === 1 && (
         <div>
           <h1>Welcome to CarbonQuest!</h1>
